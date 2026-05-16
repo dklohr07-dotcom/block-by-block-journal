@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="../shared/bbb-realms.css">
+  <title>Campfire Reflection</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { height: 100%; overflow: hidden; }
+
+    .scene {
+      position: fixed; inset: 0; overflow: hidden;
+      /* Deep night sky */
+      background:
+        linear-gradient(0deg, rgba(15,5,2,.98) 0%, transparent 35%),
+        radial-gradient(ellipse 80% 50% at 50% 100%, rgba(80,30,5,.45) 0%, transparent 60%),
+        linear-gradient(180deg, #020508 0%, #05080f 25%, #07101a 55%, #040810 100%);
+    }
+
+    /* Stars */
+    .stars {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background-image:
+        radial-gradient(1px 1px at 7% 6%, #fffce0cc, transparent),
+        radial-gradient(1px 1px at 18% 3%, #fffce099, transparent),
+        radial-gradient(1.5px 1.5px at 31% 9%, #fffce077, transparent),
+        radial-gradient(1px 1px at 44% 4%, #fffce0bb, transparent),
+        radial-gradient(1px 1px at 58% 7%, #fffce088, transparent),
+        radial-gradient(1px 1px at 70% 3%, #fffce0aa, transparent),
+        radial-gradient(1px 1px at 83% 8%, #fffce066, transparent),
+        radial-gradient(1px 1px at 93% 5%, #fffce099, transparent),
+        radial-gradient(1px 1px at 12% 18%, #fffce055, transparent),
+        radial-gradient(1px 1px at 26% 22%, #fffce044, transparent),
+        radial-gradient(1.5px 1.5px at 48% 15%, #fffce033, transparent),
+        radial-gradient(1px 1px at 62% 20%, #fffce055, transparent),
+        radial-gradient(1px 1px at 76% 16%, #fffce044, transparent),
+        radial-gradient(1px 1px at 88% 24%, #fffce033, transparent),
+        radial-gradient(1px 1px at 5% 32%, #fffce033, transparent),
+        radial-gradient(1px 1px at 37% 28%, #fffce044, transparent),
+        radial-gradient(1px 1px at 54% 35%, #fffce022, transparent),
+        radial-gradient(1px 1px at 79% 30%, #fffce033, transparent);
+      animation: starTwinkle 5s ease-in-out infinite alternate;
+    }
+    @keyframes starTwinkle { 0%{opacity:.6}100%{opacity:1} }
+
+    /* Background stone cave/cavern walls */
+    .cave-wall {
+      position: absolute; inset: 0; z-index: 2; pointer-events: none;
+      background:
+        /* Left wall shadow */
+        linear-gradient(90deg, rgba(0,0,0,.7) 0%, transparent 18%),
+        /* Right wall shadow */
+        linear-gradient(270deg, rgba(0,0,0,.7) 0%, transparent 18%),
+        /* Arch top shadow */
+        radial-gradient(ellipse 90% 40% at 50% -10%, rgba(0,0,0,.8) 0%, transparent 70%);
+    }
+
+    /* Rocky ground */
+    .ground {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 25%; z-index: 3; pointer-events: none;
+      background:
+        /* Gravel/dirt texture */
+        repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(0,0,0,.15) 40px, rgba(0,0,0,.15) 41px),
+        repeating-linear-gradient(0deg, transparent, transparent 18px, rgba(0,0,0,.1) 18px, rgba(0,0,0,.1) 19px),
+        linear-gradient(180deg, #2a1a0a 0%, #1a0e05 40%, #0f0803 100%);
+    }
+
+    /* Stone bricks left/right walls */
+    .wall-l, .wall-r {
+      position: absolute; top: 0; bottom: 0; width: 12%; z-index: 3; pointer-events: none;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(0,0,0,.3) 28px, rgba(0,0,0,.3) 30px),
+        repeating-linear-gradient(90deg, transparent, transparent 32px, rgba(0,0,0,.2) 32px, rgba(0,0,0,.2) 34px),
+        linear-gradient(90deg, #1a1410 0%, #221a14 50%, #1a1410 100%);
+    }
+    .wall-l { left: 0; box-shadow: inset -20px 0 40px rgba(0,0,0,.6); }
+    .wall-r { right: 0; box-shadow: inset 20px 0 40px rgba(0,0,0,.6); }
+
+    /* Campfire glow on ground */
+    .fire-ground-glow {
+      position: absolute; bottom: 18%; left: 50%; transform: translateX(-50%);
+      width: 400px; height: 200px; z-index: 4; pointer-events: none;
+      background: radial-gradient(ellipse, rgba(255,120,20,.35) 0%, rgba(255,80,5,.1) 40%, transparent 70%);
+      animation: glowPulse 1.8s ease-in-out infinite alternate;
+    }
+    @keyframes glowPulse { 0%{opacity:.7;transform:translateX(-50%) scaleX(1)} 100%{opacity:1;transform:translateX(-50%) scaleX(1.08)} }
+
+    /* Campfire */
+    .campfire {
+      position: absolute; bottom: 20%; left: 50%; transform: translateX(-50%);
+      z-index: 6; width: 200px;
+    }
+
+    /* Log stack */
+    .log-a, .log-b {
+      position: absolute; bottom: 0; height: 22px; border-radius: 3px;
+    }
+    .log-a { width: 140px; left: 50%; transform: translateX(-50%) rotate(25deg); background: linear-gradient(180deg, #7a4018, #4a2208); box-shadow: 0 4px 8px rgba(0,0,0,.6); }
+    .log-b { width: 140px; left: 50%; transform: translateX(-50%) rotate(-25deg); background: linear-gradient(180deg, #6a3814, #3a1c06); box-shadow: 0 4px 8px rgba(0,0,0,.6); }
+
+    /* Flame layers */
+    .flame-outer {
+      position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+      width: 90px; height: 130px;
+      background: radial-gradient(ellipse at 50% 80%, #ff4400 0%, #ff7700 30%, #ffaa00 55%, transparent 72%);
+      border-radius: 50% 50% 30% 30%;
+      filter: blur(3px);
+      animation: flameOuter .22s ease-in-out infinite alternate;
+    }
+    .flame-mid {
+      position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+      width: 60px; height: 105px;
+      background: radial-gradient(ellipse at 50% 75%, #fff39a 0%, #ffcc00 25%, #ff8800 55%, transparent 70%);
+      border-radius: 50% 50% 30% 30%;
+      animation: flameMid .18s ease-in-out infinite alternate;
+    }
+    .flame-core {
+      position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
+      width: 30px; height: 70px;
+      background: radial-gradient(ellipse at 50% 70%, #ffffff 0%, #fff8cc 30%, transparent 70%);
+      border-radius: 50%;
+      animation: flameCore .15s ease-in-out infinite alternate;
+    }
+    @keyframes flameOuter { 0%{transform:translateX(-50%) scaleX(1) scaleY(1)} 100%{transform:translateX(-50%) scaleX(.9) scaleY(1.05)} }
+    @keyframes flameMid   { 0%{transform:translateX(-50%) scaleX(1)} 100%{transform:translateX(-50%) scaleX(.85) scaleY(1.08)} }
+    @keyframes flameCore  { 0%{transform:translateX(-50%)} 100%{transform:translateX(-50%) scaleY(1.12)} }
+
+    /* Embers */
+    .ember { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #ff8800; bottom: 30px; animation: emberRise linear infinite; }
+    @keyframes emberRise { 0%{opacity:1;transform:translateY(0) translateX(0)} 100%{opacity:0;transform:translateY(-160px) translateX(var(--dx))} }
+
+    /* Paper toss */
+    #paper {
+      position: absolute; left: 60%; bottom: 40px;
+      background: #d8b47d; color: #4d2a12; padding: 10px;
+      width: 100px; min-height: 70px; border-radius: 3px;
+      font-size: 10px; line-height: 1.4; opacity: 0;
+      font-family: ui-monospace, monospace;
+      box-shadow: 2px 2px 8px rgba(0,0,0,.4);
+    }
+    #paper.toss { animation: tossPaper 1.1s forwards; }
+    @keyframes tossPaper {
+      0%{opacity:1;transform:translate(0,0) rotate(0)}
+      80%{opacity:1;transform:translate(-140px,50px) rotate(-30deg) scale(.5)}
+      100%{opacity:0;transform:translate(-160px,70px) scale(.1)}
+    }
+
+    /* Villager — left side, sitting */
+    .villager-wrap {
+      position: absolute; bottom: 22%; left: 10%;
+      z-index: 7;
+    }
+    .mc-v { width: 100px; }
+    .v-head { width:100px; height:84px; background:#c8965a; border:4px solid #6b4e2a; position:relative; }
+    .v-brow-l,.v-brow-r { position:absolute; top:16px; width:16px; height:7px; background:#5a3218; }
+    .v-brow-l { left:12px; } .v-brow-r { right:12px; }
+    .v-eye-l,.v-eye-r { position:absolute; top:27px; width:18px; height:18px; background:#22aa33; border:3px solid #000; }
+    .v-eye-l { left:11px; } .v-eye-r { right:11px; }
+    .v-nose { position:absolute; top:30px; left:50%; transform:translateX(-50%); width:30px; height:36px; background:#9a6840; border:3px solid #6b4e2a; }
+    .v-body { width:80px; height:60px; background:linear-gradient(180deg,#8a5c2c,#6b4020 60%,#4a2c10); border:4px solid #4a2c10; margin:0 auto; }
+
+    /* Dialogue bubble */
+    .dialogue-bubble {
+      position: absolute; bottom: 22%; left: 18%;
+      max-width: 250px; z-index: 10;
+      background: rgba(5,8,18,.92);
+      border: 2px solid rgba(255,255,255,.22);
+      border-radius: 14px; padding: 16px 18px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.7);
+      font-family: ui-monospace, monospace; font-size: 14px; color: #fff; line-height: 1.55;
+    }
+    .speak-btn { background:none; border:none; color:#aaa; cursor:pointer; font-size:13px; margin-left:6px; }
+
+    /* Top bar */
+    .top-bar {
+      position: absolute; top: 0; left: 0; right: 0; z-index: 10;
+      display: flex; align-items: flex-start; justify-content: space-between;
+      padding: 18px 22px;
+    }
+    .top-title h1 { font-family:ui-monospace,monospace; font-size:clamp(16px,2.8vw,24px); font-weight:900; color:#fff; margin:0 0 3px; text-shadow:0 2px 8px #000; letter-spacing:.05em; }
+    .top-title p { font-family:ui-monospace,monospace; font-size:13px; color:#ccc; margin:0; text-shadow:0 1px 4px #000; }
+    .top-controls { display:flex; align-items:center; gap:10px; }
+    .ctrl-btn { width:48px; height:48px; background:rgba(0,0,0,.6); border:2px solid rgba(255,255,255,.22); border-radius:12px; color:#fff; font-size:18px; display:flex; align-items:center; justify-content:center; cursor:pointer; backdrop-filter:blur(4px); font-family:inherit; }
+    .ctrl-btn:hover { background:rgba(255,255,255,.12); }
+    .gem-count { background:rgba(0,0,0,.6); border:2px solid rgba(255,255,255,.22); border-radius:12px; color:#fff; font-family:ui-monospace,monospace; font-size:16px; padding:10px 14px; backdrop-filter:blur(4px); }
+
+    /* Bottom input panel */
+    .bottom-panel {
+      position: absolute; bottom: 68px; left: 0; right: 0; z-index: 10;
+      padding: 0 20px; display: flex; gap: 14px; align-items: flex-end;
+      max-width: 1000px; margin: 0 auto;
+    }
+    .input-col { flex: 1; }
+    .worry-input {
+      width:100%; min-height:76px;
+      background:rgba(0,0,0,.78); border:2px solid rgba(255,255,255,.2);
+      border-radius:12px; padding:14px 16px;
+      font-family:ui-monospace,monospace; font-size:15px; color:#fff; resize:none;
+      backdrop-filter:blur(4px);
+    }
+    .worry-input::placeholder { color:#666; }
+    .worry-input:focus { outline:none; border-color:#ff9a17; box-shadow:0 0 0 2px rgba(255,154,23,.25); }
+    .char-count { text-align:right; font-family:ui-monospace,monospace; font-size:11px; color:#666; margin-top:4px; }
+    .burn-btn {
+      width:100%; margin-top:10px; padding:14px; border:0; border-radius:10px;
+      background:linear-gradient(180deg,#c85d1b,#8a3208);
+      color:#fff; font-family:ui-monospace,monospace; font-size:15px; font-weight:900;
+      cursor:pointer; box-shadow:inset 0 1px #ffb06e,0 5px 0 #300e00,0 8px 20px rgba(0,0,0,.6);
+      display:flex; align-items:center; justify-content:center; gap:10px;
+    }
+    .burn-btn:hover { background:linear-gradient(180deg,#e06d2b,#a04210); }
+    .reward-panel {
+      background:rgba(0,0,0,.72); border:2px solid rgba(255,255,255,.2);
+      border-radius:14px; padding:18px 20px; text-align:center; min-width:138px;
+      box-shadow:0 8px 28px rgba(0,0,0,.7); backdrop-filter:blur(4px);
+      font-family:ui-monospace,monospace;
+    }
+    .r-label { color:#f6c65b; font-size:11px; font-weight:900; letter-spacing:.1em; margin-bottom:8px; }
+    .r-amount { font-size:32px; font-weight:900; color:#fff; }
+    .r-unit { font-size:13px; color:#aaa; margin-top:2px; }
+
+    .bottom-hint { position:absolute; bottom:44px; left:0; right:0; z-index:10; text-align:center; font-family:ui-monospace,monospace; font-size:13px; color:rgba(255,255,255,.5); text-shadow:0 1px 4px #000; }
+
+    .vignette { position:absolute; inset:0; z-index:5; pointer-events:none; background:radial-gradient(ellipse 100% 100% at 50% 50%,transparent 45%,rgba(0,0,0,.65) 100%); }
+
+    .nav { position:absolute; bottom:0; left:0; right:0; z-index:20; }
+
+    #sparks { position:absolute; inset:0; pointer-events:none; z-index:8; }
+    .spark { position:absolute; color:#ffb94a; pointer-events:none; animation:sparkUp 1.4s linear forwards; font-size:10px; }
+    @keyframes sparkUp { to { transform:translateY(-200px) translateX(var(--dx)); opacity:0; } }
+  </style>
+  <link rel="stylesheet" href="./realm-backgrounds.css">
+</head>
+<body>
+<div style="position:fixed;inset:0;overflow:hidden;">
+<div class="scene campfire-bg">
+
+  <div class="stars"></div>
+  <div class="cave-wall"></div>
+  <div class="wall-l"></div>
+  <div class="wall-r"></div>
+  <div class="ground"></div>
+  <div class="vignette"></div>
+
+  <!-- Campfire glow + fire -->
+  <div class="fire-ground-glow"></div>
+  <div class="campfire" id="campfireEl">
+    <div class="flame-outer"></div>
+    <div class="flame-mid"></div>
+    <div class="flame-core"></div>
+    <div class="log-a"></div>
+    <div class="log-b"></div>
+    <div id="paper"></div>
+  </div>
+  <div id="sparks"></div>
+
+  <!-- Villager -->
+  <div class="villager-wrap">
+    <div class="mc-v">
+      <div class="v-head">
+        <div class="v-brow-l"></div><div class="v-brow-r"></div>
+        <div class="v-eye-l"></div><div class="v-eye-r"></div>
+        <div class="v-nose"></div>
+      </div>
+      <div class="v-body"></div>
+    </div>
+  </div>
+
+  <!-- Dialogue bubble -->
+  <div class="dialogue-bubble">
+    <span id="dialogue">What is one thing you want to let go of?</span>
+    <button class="speak-btn" onclick="speakDialogue()">🔊</button>
+  </div>
+
+  <!-- Top bar -->
+  <div class="top-bar">
+    <div class="top-title">
+      <h1>🔥 CAMPFIRE REFLECTION</h1>
+      <p>Let it out. Let it burn. You're not alone.</p>
+    </div>
+    <div class="top-controls">
+      <button class="ctrl-btn" onclick="toggleFire()">🔊</button>
+      <div class="gem-count">💎 <span data-diamonds>250</span></div>
+    </div>
+  </div>
+
+  <!-- Bottom panel -->
+  <div class="bottom-panel">
+    <div class="input-col">
+      <textarea class="worry-input" id="worryInput" maxlength="200"
+        placeholder="Type your answer here..." oninput="updateCount()"></textarea>
+      <div class="char-count"><span id="charCount">0</span>/200</div>
+      <button class="burn-btn" onclick="burnWorry()">Add it to the fire 🔥</button>
+    </div>
+    <div class="reward-panel">
+      <div class="r-label">REWARD</div>
+      <div><span style="font-size:22px">💎</span> <span class="r-amount">+10</span></div>
+      <div class="r-unit">Diamonds</div>
+    </div>
+  </div>
+
+  <div class="bottom-hint">Release it. You deserve peace.</div>
+
+  <nav class="nav pixel">
+    <a href="../index.html">🏠 Home</a><a>📖 Journal</a><a>💗 Mood</a>
+    <a class="active">🌍 My World</a><a>👤 Account</a>
+  </nav>
+
+</div>
+</div>
+
+<script src="../shared/bbb-realms.js"></script>
+<script>
+  // ── SOUND PLACEHOLDERS ──────────────────────────────────────────────────────
+  // FIRE_CRACKLE  → /public/sounds/campfire-crackle.mp3
+  // PAPER_BURN    → /public/sounds/paper-burn.mp3
+  // DIAMOND_CHIME → handled by BBBRealms.addDiamonds()
+  // ──────────────────────────────────────────────────────────────────────────
+
+  // Animated embers
+  const campfireEl = document.getElementById('campfireEl');
+  function spawnEmber() {
+    const e = document.createElement('div');
+    e.className = 'ember';
+    e.style.left = (70 + Math.random()*60) + 'px';
+    e.style.setProperty('--dx', (Math.random()-0.5)*80+'px');
+    e.style.animationDuration = (1.5+Math.random()*1.5)+'s';
+    e.style.animationDelay = (Math.random()*0.5)+'s';
+    campfireEl.appendChild(e);
+    setTimeout(() => e.remove(), 3200);
+  }
+  setInterval(spawnEmber, 280);
+
+  let fireOn = false;
+  function toggleFire() {
+    fireOn = !fireOn;
+    if (fireOn) BBBRealms.sound.crackle(); // PLACEHOLDER: FIRE_CRACKLE
+    else BBBRealms.sound.stop();
+  }
+  function speakDialogue() {
+    const t = document.getElementById('dialogue').textContent;
+    if ('speechSynthesis' in window) { const u = new SpeechSynthesisUtterance(t); u.rate=.9; speechSynthesis.speak(u); }
+  }
+  function updateCount() {
+    document.getElementById('charCount').textContent = document.getElementById('worryInput').value.length;
+  }
+  function burnWorry() {
+    const inp = document.getElementById('worryInput');
+    if (!inp.value.trim()) { inp.focus(); return; }
+    const paper = document.getElementById('paper');
+    paper.textContent = inp.value.slice(0,40);
+    paper.classList.remove('toss');
+    void paper.offsetWidth;
+    paper.classList.add('toss');
+    BBBRealms.sound.crackle(); // PLACEHOLDER: PAPER_BURN
+    BBBRealms.addDiamonds(10);
+    const sparksEl = document.getElementById('sparks');
+    for (let i=0;i<20;i++) {
+      const s = document.createElement('span');
+      s.className='spark'; s.textContent='✦';
+      s.style.left=(40+Math.random()*20)+'%';
+      s.style.bottom='25%';
+      s.style.setProperty('--dx',(Math.random()-0.5)*80+'px');
+      sparksEl.appendChild(s);
+      setTimeout(()=>s.remove(),1600);
+    }
+    document.getElementById('dialogue').textContent='It is burning away. You are braver than you think. 🔥';
+    inp.value=''; updateCount();
+  }
+</script>
+</body>
+</html>

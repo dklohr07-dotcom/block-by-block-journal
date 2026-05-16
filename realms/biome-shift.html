@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="../shared/bbb-realms.css">
+  <title>Biome Shift Portal</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { height: 100%; overflow: hidden; }
+
+    .scene {
+      position: fixed; inset: 0; overflow-y: auto; overflow-x: hidden;
+      background: radial-gradient(ellipse 80% 70% at 50% 30%, #1a0840 0%, #0e0428 40%, #060214 70%, #020108 100%);
+    }
+
+    /* Stars */
+    .stars {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        radial-gradient(1px 1px at 5% 4%, #fff, transparent),
+        radial-gradient(1px 1px at 15% 8%, #ffffffcc, transparent),
+        radial-gradient(1px 1px at 28% 3%, #ffffff88, transparent),
+        radial-gradient(1.5px 1.5px at 42% 7%, #ffffffbb, transparent),
+        radial-gradient(1px 1px at 55% 2%, #ffffffaa, transparent),
+        radial-gradient(1px 1px at 68% 9%, #ffffff77, transparent),
+        radial-gradient(1px 1px at 80% 4%, #ffffffcc, transparent),
+        radial-gradient(1px 1px at 92% 6%, #ffffff99, transparent),
+        radial-gradient(1px 1px at 10% 20%, #ffffff55, transparent),
+        radial-gradient(2px 2px at 35% 16%, #c084fc33, transparent),
+        radial-gradient(1px 1px at 62% 18%, #ffffff44, transparent),
+        radial-gradient(1px 1px at 88% 22%, #ffffff33, transparent),
+        radial-gradient(1px 1px at 22% 35%, #ffffff33, transparent),
+        radial-gradient(1px 1px at 75% 30%, #a855f722, transparent);
+      animation: starTwinkle 6s ease-in-out infinite alternate;
+    }
+    @keyframes starTwinkle { 0%{opacity:.5} 100%{opacity:1} }
+
+    /* Nebula */
+    .nebula {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 40% 25% at 15% 25%, rgba(120,60,220,.1) 0%, transparent 70%),
+        radial-gradient(ellipse 30% 20% at 80% 20%, rgba(160,80,255,.08) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 18% at 50% 70%, rgba(80,40,180,.06) 0%, transparent 55%);
+    }
+
+    /* Vignette */
+    .vignette {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 45%, rgba(0,0,0,.55) 100%);
+    }
+
+    /* ── Top bar ── */
+    .top-bar {
+      position: relative; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 22px 12px;
+    }
+    .top-left { display: flex; align-items: center; gap: 14px; }
+    .portal-icon { font-size: 32px; filter: drop-shadow(0 0 10px #9333ea); }
+    .top-left h1 {
+      font-family: ui-monospace, monospace;
+      font-size: clamp(18px, 3vw, 26px); font-weight: 900; color: #fff;
+      margin: 0 0 3px; letter-spacing: .05em; text-shadow: 0 2px 8px #000;
+    }
+    .top-left p { font-family: ui-monospace, monospace; font-size: 13px; color: #ccc; margin: 0; }
+    .ctrl-btn {
+      width: 48px; height: 48px; background: rgba(0,0,0,.6);
+      border: 2px solid rgba(255,255,255,.22); border-radius: 12px;
+      color: #fff; font-size: 20px; display: flex; align-items: center;
+      justify-content: center; cursor: pointer; backdrop-filter: blur(4px); font-family: inherit;
+    }
+
+    /* ── Content wrapper ── */
+    .content {
+      position: relative; z-index: 5;
+      max-width: 860px; margin: 0 auto;
+      padding: 0 18px 110px;
+    }
+
+    /* ── Biome grid ── */
+    .biome-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    /* ── Biome card ── */
+    .biome-card {
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 3px solid rgba(255,255,255,.12);
+      background: #0a0818;
+      box-shadow: 0 8px 24px rgba(0,0,0,.7);
+      transition: transform .2s, border-color .2s, box-shadow .2s;
+      position: relative;
+    }
+    .biome-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      border-color: rgba(255,255,255,.3);
+      box-shadow: 0 14px 36px rgba(0,0,0,.8);
+    }
+    .biome-card.active {
+      border-color: #70ff5d;
+      box-shadow: 0 0 24px rgba(112,255,93,.5), 0 8px 28px rgba(0,0,0,.8);
+    }
+    .biome-card.locked { cursor: default; opacity: .75; }
+    .biome-card.locked:hover { transform: none; }
+
+    /* Active checkmark */
+    .check-badge {
+      display: none;
+      position: absolute; top: 10px; left: 10px; z-index: 5;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: #70ff5d; color: #000;
+      font-size: 16px; font-weight: 900; line-height: 28px; text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,.4);
+    }
+    .biome-card.active .check-badge { display: block; }
+
+    /* Lock badge */
+    .lock-badge {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      font-size: 36px; z-index: 5; filter: drop-shadow(0 2px 8px #000);
+    }
+    .lock-overlay {
+      position: absolute; inset: 0; background: rgba(0,0,0,.45); z-index: 4;
+    }
+
+    /* SVG illustration area */
+    .biome-art {
+      width: 100%; height: 160px;
+      display: block; overflow: hidden;
+    }
+
+    /* Card text */
+    .biome-info {
+      padding: 12px 14px 14px;
+      background: linear-gradient(180deg, rgba(0,0,0,.0) 0%, rgba(0,0,0,.0) 100%);
+    }
+    .biome-name {
+      font-family: ui-monospace, monospace;
+      font-size: 13px; font-weight: 900; color: #fff;
+      letter-spacing: .05em; margin: 0 0 5px;
+      text-shadow: 0 1px 4px #000;
+    }
+    .biome-desc {
+      font-family: ui-monospace, monospace;
+      font-size: 12px; color: #bbb; line-height: 1.5; margin: 0;
+    }
+
+    /* ── Enter button ── */
+    .enter-btn {
+      display: block; width: 100%; padding: 16px;
+      border: 0; border-radius: 12px;
+      background: linear-gradient(180deg, #58b34b 0%, #296c27 100%);
+      color: #fff; font-family: ui-monospace, monospace;
+      font-size: 18px; font-weight: 900; cursor: pointer;
+      box-shadow: inset 0 2px rgba(255,255,255,.25), 0 6px 0 #071604, 0 10px 24px rgba(0,0,0,.6);
+      letter-spacing: .03em; text-align: center; margin-bottom: 12px;
+    }
+    .enter-btn:hover { background: linear-gradient(180deg, #68c35b, #396c37); }
+    .enter-btn:active { transform: translateY(3px); box-shadow: inset 0 2px rgba(255,255,255,.25), 0 3px 0 #071604; }
+
+    .now-playing {
+      text-align: center; font-family: ui-monospace, monospace;
+      font-size: 13px; color: #70ff5d; min-height: 20px;
+      text-shadow: 0 0 10px rgba(112,255,93,.5);
+    }
+    .sound-hint {
+      text-align: center; font-family: ui-monospace, monospace;
+      font-size: 12px; color: rgba(255,255,255,.4); margin-top: 8px;
+    }
+
+    /* Nav */
+    .nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 20; }
+
+    @media (max-width: 600px) {
+      .biome-grid { grid-template-columns: repeat(2,1fr); }
+      .biome-art { height: 120px; }
+    }
+  </style>
+  <link rel="stylesheet" href="./realm-backgrounds.css">
+</head>
+<body>
+<div class="scene biome-shift-bg">
+  <div class="stars"></div>
+  <div class="nebula"></div>
+  <div class="vignette"></div>
+
+  <!-- Top bar -->
+  <div class="top-bar">
+    <div class="top-left">
+      <span class="portal-icon">🟪</span>
+      <div>
+        <h1>BIOME SHIFT PORTAL</h1>
+        <p>Choose a biome to step into and relax. Listen, breathe, and just be.</p>
+      </div>
+    </div>
+    <button class="ctrl-btn" onclick="toggleSound()">🔊</button>
+  </div>
+
+  <!-- Cards + button -->
+  <div class="content">
+    <div class="biome-grid" id="biomeGrid"></div>
+    <button class="enter-btn" id="enterBtn" onclick="enterBiome()">Enter Forest</button>
+    <div class="now-playing" id="nowPlaying"></div>
+    <div class="sound-hint">🔊 Soft ambient sounds will play in your chosen biome.</div>
+  </div>
+
+  <nav class="nav pixel">
+    <a href="../index.html">🏠 Home</a><a>📖 Journal</a><a>💗 Mood</a>
+    <a class="active">🌍 My World</a><a>👤 Account</a>
+  </nav>
+</div>
+
+<script src="../shared/bbb-realms.js"></script>
+<script>
+// ── Rich SVG illustrations for each biome ────────────────────────────────────
+const biomeArt = {
+
+  forest: `<svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="fsky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1a4a7a"/>
+        <stop offset="50%" stop-color="#2a6a9a"/>
+        <stop offset="100%" stop-color="#3a8a5a"/>
+      </linearGradient>
+      <linearGradient id="fwater" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#2a7acc"/>
+        <stop offset="100%" stop-color="#1a5a9a"/>
+      </linearGradient>
+    </defs>
+    <!-- Sky -->
+    <rect width="300" height="160" fill="url(#fsky)"/>
+    <!-- Clouds -->
+    <ellipse cx="60" cy="28" rx="28" ry="10" fill="#ffffff22"/>
+    <ellipse cx="80" cy="24" rx="20" ry="8" fill="#ffffff1a"/>
+    <ellipse cx="200" cy="20" rx="22" ry="8" fill="#ffffff1a"/>
+    <!-- Far mountains -->
+    <polygon points="0,90 40,50 80,90" fill="#1a4a30"/>
+    <polygon points="30,90 80,42 130,90" fill="#1e5535"/>
+    <polygon points="90,90 140,38 190,90" fill="#1a4a30"/>
+    <polygon points="150,90 200,44 250,90" fill="#1e5535"/>
+    <polygon points="210,90 260,40 300,90" fill="#1a4a30"/>
+    <!-- Water/river -->
+    <rect x="80" y="100" width="140" height="30" fill="url(#fwater)" rx="2"/>
+    <rect x="90" y="103" width="120" height="4" fill="#3a9aee22" rx="2"/>
+    <rect x="95" y="110" width="100" height="3" fill="#3a9aee22" rx="2"/>
+    <!-- Ground -->
+    <rect x="0" y="125" width="300" height="35" fill="#1a4a18"/>
+    <rect x="0" y="122" width="300" height="8" fill="#2a6a22"/>
+    <!-- Big trees - pixel style -->
+    <!-- Tree 1 left -->
+    <rect x="8" y="55" width="14" height="70" fill="#4a2a10"/>
+    <rect x="2" y="30" width="26" height="32" fill="#1a7a28"/>
+    <rect x="6" y="18" width="18" height="20" fill="#22aa38"/>
+    <rect x="10" y="10" width="10" height="12" fill="#2ac044"/>
+    <!-- Tree 2 -->
+    <rect x="38" y="60" width="12" height="65" fill="#3a2008"/>
+    <rect x="32" y="35" width="24" height="30" fill="#157020"/>
+    <rect x="36" y="24" width="16" height="18" fill="#1a9a2c"/>
+    <!-- Tree 3 big center-left -->
+    <rect x="100" y="40" width="16" height="85" fill="#4a2a10"/>
+    <rect x="88" y="12" width="40" height="38" fill="#1a8a2a"/>
+    <rect x="94" y="4" width="28" height="22" fill="#22b038"/>
+    <rect x="100" y="0" width="16" height="14" fill="#28cc44"/>
+    <!-- Tree 4 right -->
+    <rect x="240" y="48" width="16" height="77" fill="#4a2a10"/>
+    <rect x="228" y="18" width="40" height="38" fill="#1a7a28"/>
+    <rect x="234" y="8" width="28" height="20" fill="#22aa38"/>
+    <!-- Tree 5 far right -->
+    <rect x="272" y="58" width="12" height="67" fill="#3a2008"/>
+    <rect x="264" y="30" width="28" height="32" fill="#157020"/>
+    <rect x="268" y="18" width="20" height="18" fill="#1a9a2c"/>
+    <!-- Grass tufts -->
+    <rect x="0" y="122" width="8" height="5" fill="#3a8a28"/>
+    <rect x="15" y="120" width="6" height="7" fill="#44aa32"/>
+    <rect x="50" y="121" width="7" height="6" fill="#3a8a28"/>
+    <rect x="140" y="120" width="8" height="8" fill="#44aa32"/>
+    <rect x="200" y="121" width="6" height="6" fill="#3a8a28"/>
+    <rect x="260" y="120" width="7" height="7" fill="#44aa32"/>
+    <!-- Light rays -->
+    <rect x="110" y="0" width="2" height="60" fill="#ffffff08"/>
+    <rect x="150" y="0" width="3" height="80" fill="#ffffff06"/>
+    <rect x="180" y="0" width="2" height="50" fill="#ffffff08"/>
+  </svg>`,
+
+  beach: `<svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="bsky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1a7acc"/>
+        <stop offset="50%" stop-color="#3aaae8"/>
+        <stop offset="100%" stop-color="#70ccff"/>
+      </linearGradient>
+      <linearGradient id="bocean" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#0e6eaa"/>
+        <stop offset="60%" stop-color="#1888cc"/>
+        <stop offset="100%" stop-color="#22aaee"/>
+      </linearGradient>
+      <linearGradient id="bsand" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#e8c878"/>
+        <stop offset="100%" stop-color="#c8a848"/>
+      </linearGradient>
+    </defs>
+    <!-- Sky -->
+    <rect width="300" height="160" fill="url(#bsky)"/>
+    <!-- Sun -->
+    <circle cx="220" cy="35" r="22" fill="#ffe840" opacity=".9"/>
+    <circle cx="220" cy="35" r="16" fill="#fff060"/>
+    <!-- Sun rays -->
+    <rect x="218" y="4" width="4" height="12" fill="#ffe84066" rx="2"/>
+    <rect x="218" y="54" width="4" height="12" fill="#ffe84066" rx="2"/>
+    <rect x="189" y="33" width="12" height="4" fill="#ffe84066" rx="2"/>
+    <rect x="239" y="33" width="12" height="4" fill="#ffe84066" rx="2"/>
+    <!-- Clouds -->
+    <ellipse cx="60" cy="22" rx="30" ry="11" fill="#ffffffcc"/>
+    <ellipse cx="80" cy="18" rx="22" ry="9" fill="#ffffffdd"/>
+    <ellipse cx="50" cy="26" rx="18" ry="8" fill="#ffffffbb"/>
+    <ellipse cx="160" cy="18" rx="20" ry="8" fill="#ffffff99"/>
+    <!-- Ocean -->
+    <rect x="0" y="75" width="300" height="85" fill="url(#bocean)"/>
+    <!-- Wave lines -->
+    <path d="M0,88 Q20,82 40,88 Q60,94 80,88 Q100,82 120,88 Q140,94 160,88 Q180,82 200,88 Q220,94 240,88 Q260,82 280,88 Q300,94 300,88" stroke="#ffffff44" stroke-width="2.5" fill="none"/>
+    <path d="M0,100 Q25,94 50,100 Q75,106 100,100 Q125,94 150,100 Q175,106 200,100 Q225,94 250,100 Q275,106 300,100" stroke="#ffffff33" stroke-width="2" fill="none"/>
+    <path d="M0,112 Q30,106 60,112 Q90,118 120,112 Q150,106 180,112 Q210,118 240,112 Q270,106 300,112" stroke="#ffffff22" stroke-width="1.5" fill="none"/>
+    <!-- Ocean shimmer -->
+    <rect x="60" y="85" width="40" height="3" fill="#ffffff1a" rx="2"/>
+    <rect x="180" y="95" width="50" height="2" fill="#ffffff15" rx="2"/>
+    <!-- Beach sand -->
+    <rect x="0" y="105" width="300" height="55" fill="url(#bsand)"/>
+    <!-- Wet sand near water -->
+    <rect x="0" y="105" width="300" height="12" fill="#c8aa5888" rx="0"/>
+    <!-- Sand ripple details -->
+    <path d="M20,118 Q50,115 80,118" stroke="#b89040" stroke-width="1" fill="none" opacity=".5"/>
+    <path d="M100,122 Q140,119 180,122" stroke="#b89040" stroke-width="1" fill="none" opacity=".5"/>
+    <path d="M200,116 Q240,113 270,116" stroke="#b89040" stroke-width="1" fill="none" opacity=".5"/>
+    <!-- Rocks/shells -->
+    <ellipse cx="40" cy="120" rx="8" ry="5" fill="#a09060" opacity=".7"/>
+    <ellipse cx="200" cy="128" rx="6" ry="4" fill="#a09060" opacity=".6"/>
+    <circle cx="100" cy="125" r="3" fill="#c0a868" opacity=".8"/>
+    <!-- Palm trees -->
+    <rect x="22" y="50" width="8" height="58" fill="#7a5030" rx="2"/>
+    <!-- Palm leaves -->
+    <path d="M26,52 Q2,32 -10,20" stroke="#3a8a28" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M26,52 Q10,28 20,12" stroke="#2a7a18" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M26,52 Q36,26 50,18" stroke="#3a8a28" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M26,52 Q44,38 58,32" stroke="#2a7a18" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <!-- Coconuts -->
+    <circle cx="22" cy="57" r="4" fill="#5a3a18"/>
+    <circle cx="30" cy="55" r="4" fill="#4a2a10"/>
+  </svg>`,
+
+  snow: `<svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ssky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1a2a4a"/>
+        <stop offset="50%" stop-color="#2a4a6a"/>
+        <stop offset="100%" stop-color="#5a7a9a"/>
+      </linearGradient>
+      <linearGradient id="smtn" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#e8f4ff"/>
+        <stop offset="40%" stop-color="#c8ddf0"/>
+        <stop offset="100%" stop-color="#8aaccc"/>
+      </linearGradient>
+      <linearGradient id="smtn2" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#f0f8ff"/>
+        <stop offset="35%" stop-color="#d0e8f8"/>
+        <stop offset="100%" stop-color="#9abcdc"/>
+      </linearGradient>
+    </defs>
+    <!-- Sky -->
+    <rect width="300" height="160" fill="url(#ssky)"/>
+    <!-- Stars/snow dust in sky -->
+    <circle cx="20" cy="15" r="1" fill="#ffffff99"/>
+    <circle cx="55" cy="8" r="1.5" fill="#ffffffbb"/>
+    <circle cx="90" cy="20" r="1" fill="#ffffff77"/>
+    <circle cx="130" cy="10" r="1" fill="#ffffffaa"/>
+    <circle cx="200" cy="18" r="1.5" fill="#ffffff88"/>
+    <circle cx="250" cy="6" r="1" fill="#ffffffcc"/>
+    <circle cx="280" cy="22" r="1" fill="#ffffff77"/>
+    <!-- Far mountains (dark) -->
+    <polygon points="0,100 60,40 120,100" fill="#3a5a70"/>
+    <polygon points="40,100 110,30 180,100" fill="#4a6a80"/>
+    <polygon points="120,100 190,35 260,100" fill="#3a5a70"/>
+    <polygon points="190,100 255,38 300,100" fill="#4a6a80"/>
+    <!-- Snow caps on far mountains -->
+    <polygon points="60,40 80,55 40,55" fill="#d0e8f8"/>
+    <polygon points="110,30 135,50 85,50" fill="#e0f0ff"/>
+    <polygon points="190,35 215,55 165,55" fill="#d0e8f8"/>
+    <polygon points="255,38 275,58 235,58" fill="#e0f0ff"/>
+    <!-- Main center mountain -->
+    <polygon points="50,160 150,10 250,160" fill="url(#smtn2)"/>
+    <!-- Snow detail on main mountain -->
+    <polygon points="100,70 150,10 200,70 170,60 150,25 130,60" fill="#f8fdff"/>
+    <!-- Pine trees on slope -->
+    <!-- Left trees -->
+    <polygon points="55,140 65,110 75,140" fill="#1a4a20"/>
+    <polygon points="58,120 65,100 72,120" fill="#22602a"/>
+    <rect x="63" y="140" width="4" height="12" fill="#3a2010"/>
+    <polygon points="30,145 42,108 54,145" fill="#1a4a20"/>
+    <polygon points="33,125 42,100 51,125" fill="#22602a"/>
+    <rect x="39" y="145" width="5" height="8" fill="#3a2010"/>
+    <!-- Right trees -->
+    <polygon points="225,140 237,110 249,140" fill="#1a4a20"/>
+    <polygon points="228,120 237,100 246,120" fill="#22602a"/>
+    <rect x="234" y="140" width="4" height="12" fill="#3a2010"/>
+    <polygon points="252,145 264,108 276,145" fill="#1a4a20"/>
+    <rect x="261" y="145" width="5" height="8" fill="#3a2010"/>
+    <!-- Snow on trees -->
+    <ellipse cx="65" cy="110" rx="10" ry="4" fill="#e8f4ff" opacity=".8"/>
+    <ellipse cx="42" cy="108" rx="12" ry="4" fill="#e8f4ff" opacity=".8"/>
+    <ellipse cx="237" cy="110" rx="10" ry="4" fill="#e8f4ff" opacity=".8"/>
+    <ellipse cx="264" cy="108" rx="12" ry="4" fill="#e8f4ff" opacity=".8"/>
+    <!-- Snow ground -->
+    <rect x="0" y="148" width="300" height="12" fill="#e8f4ff"/>
+    <rect x="0" y="144" width="300" height="8" fill="#d8eeff"/>
+    <!-- Falling snowflakes -->
+    <circle cx="30" cy="40" r="2" fill="#ffffffcc"/>
+    <circle cx="80" cy="25" r="1.5" fill="#ffffffbb"/>
+    <circle cx="160" cy="60" r="2" fill="#ffffffcc"/>
+    <circle cx="220" cy="35" r="1.5" fill="#ffffffaa"/>
+    <circle cx="270" cy="55" r="2" fill="#ffffffbb"/>
+    <circle cx="120" cy="80" r="1.5" fill="#ffffffaa"/>
+    <circle cx="45" cy="75" r="2" fill="#ffffffcc"/>
+  </svg>`,
+
+  desert: `<svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="dsky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#8a2a08"/>
+        <stop offset="30%" stop-color="#c84a10"/>
+        <stop offset="60%" stop-color="#e87828"/>
+        <stop offset="100%" stop-color="#f5b050"/>
+      </linearGradient>
+      <linearGradient id="dsand" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#c87828"/>
+        <stop offset="50%" stop-color="#a85a18"/>
+        <stop offset="100%" stop-color="#7a3a08"/>
+      </linearGradient>
+      <radialGradient id="dsun" cx="50%" cy="50%">
+        <stop offset="0%" stop-color="#ffee60"/>
+        <stop offset="40%" stop-color="#ffcc20"/>
+        <stop offset="100%" stop-color="#ff8800" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <!-- Sky sunset -->
+    <rect width="300" height="160" fill="url(#dsky)"/>
+    <!-- Sun setting on horizon -->
+    <circle cx="150" cy="90" r="36" fill="url(#dsun)" opacity=".9"/>
+    <circle cx="150" cy="90" r="26" fill="#ffdd40" opacity=".8"/>
+    <!-- Horizon glow -->
+    <rect x="0" y="82" width="300" height="20" fill="#ff880022" rx="0"/>
+    <!-- Sand dunes background -->
+    <ellipse cx="50" cy="130" rx="80" ry="30" fill="#b86a20"/>
+    <ellipse cx="200" cy="125" rx="100" ry="35" fill="#a85a18"/>
+    <ellipse cx="150" cy="135" rx="160" ry="30" fill="#c07828"/>
+    <!-- Ground -->
+    <rect x="0" y="118" width="300" height="42" fill="url(#dsand)"/>
+    <!-- Sand ripples -->
+    <path d="M0,125 Q30,122 60,125 Q90,128 120,125 Q150,122 180,125 Q210,128 240,125 Q270,122 300,125" stroke="#d08830" stroke-width="1.5" fill="none" opacity=".5"/>
+    <path d="M0,135 Q40,132 80,135 Q120,138 160,135 Q200,132 240,135 Q270,138 300,135" stroke="#d08830" stroke-width="1" fill="none" opacity=".4"/>
+    <!-- Cacti - pixel style -->
+    <!-- Cactus 1 -->
+    <rect x="42" y="68" width="10" height="52" fill="#2a6a18" rx="4"/>
+    <rect x="28" y="82" width="14" height="8" fill="#2a6a18" rx="3"/>
+    <rect x="28" y="74" width="8" height="16" fill="#2a6a18" rx="3"/>
+    <rect x="52" y="86" width="14" height="8" fill="#2a6a18" rx="3"/>
+    <rect x="58" y="78" width="8" height="16" fill="#2a6a18" rx="3"/>
+    <rect x="44" y="68" width="6" height="4" fill="#3a8a28" rx="2"/>
+    <!-- Cactus 2 smaller -->
+    <rect x="95" y="82" width="8" height="38" fill="#2a6a18" rx="3"/>
+    <rect x="84" y="90" width="11" height="6" fill="#2a6a18" rx="3"/>
+    <rect x="84" y="84" width="6" height="12" fill="#2a6a18" rx="3"/>
+    <rect x="97" y="82" width="4" height="3" fill="#3a8a28" rx="2"/>
+    <!-- Cactus 3 right -->
+    <rect x="220" y="70" width="12" height="50" fill="#2a6a18" rx="4"/>
+    <rect x="206" y="84" width="14" height="8" fill="#2a6a18" rx="3"/>
+    <rect x="206" y="76" width="8" height="16" fill="#2a6a18" rx="3"/>
+    <rect x="234" y="80" width="14" height="8" fill="#2a6a18" rx="3"/>
+    <rect x="240" y="72" width="8" height="16" fill="#2a6a18" rx="3"/>
+    <!-- Cactus 4 far right small -->
+    <rect x="268" y="86" width="8" height="34" fill="#2a6a18" rx="3"/>
+    <rect x="257" y="92" width="11" height="6" fill="#2a6a18" rx="3"/>
+    <!-- Rocks -->
+    <ellipse cx="165" cy="120" rx="14" ry="8" fill="#8a5020" opacity=".7"/>
+    <ellipse cx="80" cy="122" rx="10" ry="6" fill="#7a4818" opacity=".7"/>
+    <!-- Stars coming out at sunset -->
+    <circle cx="30" cy="15" r="1.2" fill="#ffffffaa"/>
+    <circle cx="80" cy="8" r="1" fill="#ffffff88"/>
+    <circle cx="260" cy="12" r="1.2" fill="#ffffffaa"/>
+    <circle cx="290" cy="22" r="1" fill="#ffffff77"/>
+  </svg>`,
+
+  mushroom: `<svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="msky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1a0830"/>
+        <stop offset="40%" stop-color="#2a1048"/>
+        <stop offset="100%" stop-color="#3a1858"/>
+      </linearGradient>
+      <radialGradient id="mglow1" cx="50%" cy="50%">
+        <stop offset="0%" stop-color="#ff4488" stop-opacity=".6"/>
+        <stop offset="100%" stop-color="#ff4488" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="mglow2" cx="50%" cy="50%">
+        <stop offset="0%" stop-color="#aa44ff" stop-opacity=".5"/>
+        <stop offset="100%" stop-color="#aa44ff" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <!-- Sky -->
+    <rect width="300" height="160" fill="url(#msky)"/>
+    <!-- Mist -->
+    <ellipse cx="150" cy="100" rx="180" ry="40" fill="#4a1a6822" opacity=".5"/>
+    <!-- Glow spots -->
+    <ellipse cx="80" cy="110" rx="50" ry="35" fill="url(#mglow1)"/>
+    <ellipse cx="200" cy="105" rx="55" ry="38" fill="url(#mglow2)"/>
+    <ellipse cx="150" cy="130" rx="60" ry="28" fill="#ff226622"/>
+    <!-- Ground -->
+    <rect x="0" y="130" width="300" height="30" fill="#2a0a3a"/>
+    <rect x="0" y="128" width="300" height="6" fill="#3a1048"/>
+    <!-- Ground glow patches -->
+    <ellipse cx="80" cy="132" rx="30" ry="6" fill="#ff448844"/>
+    <ellipse cx="200" cy="130" rx="35" ry="5" fill="#aa44ff44"/>
+    <!-- Small mushrooms on ground -->
+    <ellipse cx="30" cy="132" rx="10" ry="5" fill="#ee2266"/>
+    <rect x="27" y="132" width="6" height="8" fill="#cc9988"/>
+    <circle cx="32" cy="131" r="2" fill="#ffffff88"/>
+    <circle cx="28" cy="129" r="1.5" fill="#ffffff66"/>
+    <ellipse cx="270" cy="133" rx="9" ry="4" fill="#cc33ff"/>
+    <rect x="267" y="133" width="6" height="7" fill="#cc9988"/>
+    <!-- BIG mushroom left -->
+    <rect x="48" y="72" width="16" height="60" fill="#ddb898"/>
+    <rect x="50" y="72" width="4" height="60" fill="#cca880"/>
+    <ellipse cx="56" cy="72" rx="38" ry="22" fill="#ee1155"/>
+    <ellipse cx="56" cy="72" rx="30" ry="16" fill="#ff2266"/>
+    <!-- Spots on big mushroom -->
+    <circle cx="44" cy="66" r="5" fill="#ffffff99"/>
+    <circle cx="60" cy="60" r="6" fill="#ffffff88"/>
+    <circle cx="72" cy="68" r="4" fill="#ffffff77"/>
+    <circle cx="50" cy="74" r="3" fill="#ffffff66"/>
+    <!-- BIG mushroom center -->
+    <rect x="136" y="55" width="20" height="77" fill="#ddb898"/>
+    <rect x="138" y="55" width="5" height="77" fill="#cca880"/>
+    <ellipse cx="146" cy="55" rx="48" ry="26" fill="#cc22ee"/>
+    <ellipse cx="146" cy="55" rx="38" ry="18" fill="#dd33ff"/>
+    <!-- Spots -->
+    <circle cx="130" cy="47" r="6" fill="#ffffff88"/>
+    <circle cx="150" cy="40" r="7" fill="#ffffff77"/>
+    <circle cx="166" cy="50" r="5" fill="#ffffff88"/>
+    <circle cx="136" cy="56" r="4" fill="#ffffff66"/>
+    <circle cx="160" cy="58" r="4" fill="#ffffff66"/>
+    <!-- BIG mushroom right -->
+    <rect x="228" y="68" width="16" height="64" fill="#ddb898"/>
+    <ellipse cx="236" cy="68" rx="40" ry="22" fill="#ee1155"/>
+    <ellipse cx="236" cy="68" rx="30" ry="16" fill="#ff3377"/>
+    <circle cx="222" cy="60" r="5" fill="#ffffff88"/>
+    <circle cx="238" cy="55" r="6" fill="#ffffff77"/>
+    <circle cx="252" cy="62" r="4" fill="#ffffff88"/>
+    <!-- Floating spores -->
+    <circle cx="100" cy="40" r="2" fill="#ff88cc88"/>
+    <circle cx="160" cy="25" r="1.5" fill="#cc88ff88"/>
+    <circle cx="210" cy="38" r="2" fill="#ff88cc77"/>
+    <circle cx="70" cy="30" r="1.5" fill="#cc88ff66"/>
+    <circle cx="240" cy="45" r="2" fill="#ff88cc88"/>
+    <circle cx="120" cy="18" r="1" fill="#cc88ff55"/>
+  </svg>`,
+
+  caves: `<svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="cglow" cx="50%" cy="50%">
+        <stop offset="0%" stop-color="#2a6888" stop-opacity=".8"/>
+        <stop offset="100%" stop-color="#2a6888" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="clamp" cx="50%" cy="50%">
+        <stop offset="0%" stop-color="#44aacc" stop-opacity=".6"/>
+        <stop offset="100%" stop-color="#44aacc" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <!-- Deep dark cave -->
+    <rect width="300" height="160" fill="#02050a"/>
+    <!-- Cave wall texture -->
+    <rect x="0" y="0" width="50" height="160" fill="#0a0e14"/>
+    <rect x="250" y="0" width="50" height="160" fill="#0a0e14"/>
+    <rect x="0" y="0" width="300" height="30" fill="#0a0e14"/>
+    <!-- Stone block texture -->
+    <rect x="0" y="0" width="50" height="160" fill="none" stroke="#1a2028" stroke-width="0"/>
+    <!-- Stalactites from ceiling -->
+    <polygon points="20,0 26,35 32,0" fill="#141c24"/>
+    <polygon points="50,0 57,28 64,0" fill="#1a2430"/>
+    <polygon points="85,0 90,22 95,0" fill="#141c24"/>
+    <polygon points="115,0 122,40 129,0" fill="#1a2430"/>
+    <polygon points="148,0 154,32 160,0" fill="#141c24"/>
+    <polygon points="175,0 182,25 189,0" fill="#1a2430"/>
+    <polygon points="205,0 211,38 217,0" fill="#141c24"/>
+    <polygon points="235,0 242,28 249,0" fill="#1a2430"/>
+    <polygon points="265,0 271,20 277,0" fill="#141c24"/>
+    <!-- Water pool glow center -->
+    <ellipse cx="150" cy="135" rx="70" ry="18" fill="#0e3a48"/>
+    <ellipse cx="150" cy="133" rx="55" ry="12" fill="#1a5a70"/>
+    <ellipse cx="150" cy="131" rx="40" ry="8" fill="#2a7a90"/>
+    <ellipse cx="150" cy="130" rx="28" ry="5" fill="#3a9aaa"/>
+    <!-- Water shimmer -->
+    <rect x="120" y="128" width="18" height="2" fill="#66ccee44" rx="1"/>
+    <rect x="155" y="130" width="14" height="2" fill="#66ccee33" rx="1"/>
+    <!-- Water glow -->
+    <ellipse cx="150" cy="130" rx="90" ry="35" fill="url(#cglow)"/>
+    <!-- Drip drops -->
+    <ellipse cx="90" cy="80" rx="2" ry="3" fill="#2a7a9044"/>
+    <ellipse cx="150" cy="65" rx="2" ry="3" fill="#2a7a9033"/>
+    <ellipse cx="210" cy="75" rx="2" ry="3" fill="#2a7a9044"/>
+    <!-- Glowing crystals left -->
+    <polygon points="30,120 38,90 46,120" fill="#1a4a60"/>
+    <polygon points="33,120 38,95 43,120" fill="#2a6a80"/>
+    <ellipse cx="38" cy="90" rx="6" ry="4" fill="url(#clamp)" opacity=".8"/>
+    <!-- Glowing crystals right -->
+    <polygon points="254,120 262,88 270,120" fill="#1a4a60"/>
+    <polygon points="257,120 262,93 267,120" fill="#2a6a80"/>
+    <ellipse cx="262" cy="88" rx="6" ry="4" fill="url(#clamp)" opacity=".8"/>
+    <!-- Small crystal clusters -->
+    <polygon points="75,145 80,125 85,145" fill="#0e3848"/>
+    <polygon points="215,148 220,130 225,148" fill="#0e3848"/>
+    <!-- Stalagmites from floor -->
+    <polygon points="10,160 16,140 22,160" fill="#141c24"/>
+    <polygon points="38,160 44,148 50,160" fill="#1a2430"/>
+    <polygon points="245,160 252,142 259,160" fill="#141c24"/>
+    <polygon points="272,160 278,150 284,160" fill="#1a2430"/>
+    <!-- Glowing moss patches -->
+    <rect x="55" y="155" width="30" height="5" fill="#1a4a2088" rx="2"/>
+    <rect x="210" y="156" width="25" height="4" fill="#1a4a2077" rx="2"/>
+    <!-- Lock icon hint (locked biome) -->
+    <rect x="136" y="55" width="28" height="22" rx="4" fill="#1a2a3a" stroke="#3a5a70" stroke-width="2"/>
+    <path d="M140,55 L140,48 Q150,40 160,48 L160,55" stroke="#3a5a70" stroke-width="2.5" fill="none"/>
+    <circle cx="150" cy="66" r="3" fill="#4a7a90"/>
+    <rect x="149" y="66" width="2" height="5" fill="#4a7a90"/>
+  </svg>`
+};
+
+// ── Biome data ────────────────────────────────────────────────────────────────
+const biomes = [
+  { name:'Forest',         key:'forest',   desc:'Birds chirping, leaves rustling.',        locked:false },
+  { name:'Beach',          key:'beach',    desc:'Waves crashing, soft ocean breeze.',       locked:false },
+  { name:'Snowy Peaks',    key:'snow',     desc:'Wind howling, snow falling.',              locked:false },
+  { name:'Desert',         key:'desert',   desc:'Warm breeze, peaceful stillness.',         locked:false },
+  { name:'Mushroom Fields',key:'mushroom', desc:'Gentle ambience, dreamy and calm.',        locked:false },
+  { name:'Deep Caves',     key:'caves',    desc:'Echoing drops, deep and quiet.',           locked:true  }
+];
+
+let selected = biomes[0], soundOn = false;
+const grid = document.getElementById('biomeGrid');
+
+biomes.forEach((b, i) => {
+  const card = document.createElement('div');
+  card.className = 'biome-card' + (i===0?' active':'') + (b.locked?' locked':'');
+
+  card.innerHTML = `
+    <div class="check-badge">✓</div>
+    ${b.locked ? '<div class="lock-overlay"></div><div class="lock-badge">🔒</div>' : ''}
+    <svg class="biome-art" viewBox="0 0 300 160" preserveAspectRatio="xMidYMid slice">
+      ${biomeArt[b.key].replace(/<svg[^>]*>|<\/svg>/g,'')}
+    </svg>
+    <div class="biome-info">
+      <div class="biome-name">${b.name.toUpperCase()}</div>
+      <div class="biome-desc">${b.desc}</div>
+    </div>`;
+
+  if (!b.locked) {
+    card.onclick = () => selectBiome(card, b);
+  }
+  grid.appendChild(card);
+});
+
+function selectBiome(card, biome) {
+  document.querySelectorAll('.biome-card').forEach(c => c.classList.remove('active'));
+  card.classList.add('active');
+  selected = biome;
+  document.getElementById('enterBtn').textContent = 'Enter ' + biome.name;
+  if (soundOn) BBBRealms.sound.ambient(biome.key);
+}
+
+function enterBiome() {
+  // PLACEHOLDER: play selected biome ambient sound
+  BBBRealms.sound.ambient(selected.key);
+  soundOn = true;
+  BBBRealms.addDiamonds(5);
+  document.getElementById('nowPlaying').textContent = '▶ Now playing: ' + selected.name + ' ambience';
+}
+
+function toggleSound() {
+  if (soundOn) {
+    BBBRealms.sound.stop(); soundOn = false;
+    document.getElementById('nowPlaying').textContent = '';
+  } else {
+    BBBRealms.sound.ambient(selected.key); soundOn = true;
+    document.getElementById('nowPlaying').textContent = '▶ Now playing: ' + selected.name + ' ambience';
+  }
+}
+</script>
+</body>
+</html>

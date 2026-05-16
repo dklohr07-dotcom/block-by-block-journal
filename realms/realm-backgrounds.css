@@ -1,0 +1,53 @@
+/* Realm background image fixes — loads AFTER inline realm styles */
+
+.scene.rain-room-realm-bg {
+  background-image:
+    linear-gradient(0deg, rgba(20,8,2,.45) 0%, transparent 35%),
+    linear-gradient(rgba(5,8,18,.12), rgba(5,8,18,.24)),
+    url("../custom-backgrounds/rain-room.jpg") !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+.scene.thought-miner-bg {
+  background-image:
+    linear-gradient(rgba(5,3,12,.18), rgba(5,3,12,.35)),
+    url("../custom-backgrounds/miner.jpg") !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+.scene.campfire-bg {
+  background-image:
+    linear-gradient(rgba(8,4,1,.12), rgba(8,4,1,.28)),
+    url("../custom-backgrounds/campfire.jpg") !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+.scene.biome-shift-bg {
+  background-image:
+    linear-gradient(rgba(10,4,24,.12), rgba(10,4,24,.28)),
+    url("../custom-backgrounds/biome.jpg") !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+.realm.hub.hub-bg {
+  background-image:
+    linear-gradient(rgba(7,7,19,.16), rgba(7,7,19,.32)),
+    url("../custom-backgrounds/hub.jpg") !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Hub card thumbnails */
+.thumb.rain { background: url("../custom-backgrounds/rain-room.jpg") center / cover no-repeat !important; }
+.thumb.miner { background: url("../custom-backgrounds/miner.jpg") center / cover no-repeat !important; }
+.thumb.camp { background: url("../custom-backgrounds/campfire.jpg") center / cover no-repeat !important; }
+.thumb.biome { background: url("../custom-backgrounds/biome.jpg") center / cover no-repeat !important; }

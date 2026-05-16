@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="../shared/bbb-realms.css">
+  <title>Rain Room Realm</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body, html { height: 100%; overflow: hidden; }
+
+    /* ── Full-screen immersive scene ── */
+    .scene {
+      position: fixed;
+      inset: 0;
+      /* Deep blue rainy night forest */
+      background:
+        /* Ground/floor warm shadow */
+        linear-gradient(0deg, rgba(20,8,2,.95) 0%, transparent 28%),
+        /* Mid atmosphere — moody blue */
+        radial-gradient(ellipse 120% 60% at 50% 100%, rgba(10,30,60,.7) 0%, transparent 65%),
+        /* Sky */
+        linear-gradient(180deg, #071828 0%, #0a1e36 35%, #0d2444 55%, #081830 80%, #040e1a 100%);
+      overflow: hidden;
+    }
+
+    /* ── Rain streaks ── */
+    .rain-layer {
+      position: absolute;
+      inset: -30% -10%;
+      background:
+        repeating-linear-gradient(
+          102deg,
+          transparent 0px,
+          transparent 6px,
+          rgba(130,190,255,.22) 7px,
+          rgba(130,190,255,.28) 8px,
+          transparent 9px,
+          transparent 14px
+        ),
+        repeating-linear-gradient(
+          100deg,
+          transparent 0px,
+          transparent 10px,
+          rgba(100,160,255,.15) 11px,
+          transparent 12px,
+          transparent 20px
+        );
+      animation: rainFall .5s linear infinite;
+      pointer-events: none;
+      z-index: 2;
+    }
+    @keyframes rainFall { to { transform: translateY(70px) translateX(-10px); } }
+
+    /* ── Background trees / forest silhouette ── */
+    .bg-trees {
+      position: absolute;
+      bottom: 28%;
+      left: 0; right: 0;
+      height: 55%;
+      z-index: 1;
+      pointer-events: none;
+      /* Dark blue-green forest mass */
+      background:
+        /* Individual tree tops */
+        radial-gradient(ellipse 8% 22% at 3% 100%, #0d2a14 0%, transparent 100%),
+        radial-gradient(ellipse 10% 28% at 9% 100%, #0a2010 0%, transparent 100%),
+        radial-gradient(ellipse 8% 24% at 16% 100%, #0d2a14 0%, transparent 100%),
+        radial-gradient(ellipse 12% 32% at 24% 100%, #091c0c 0%, transparent 100%),
+        radial-gradient(ellipse 9% 26% at 32% 100%, #0d2a14 0%, transparent 100%),
+        radial-gradient(ellipse 7% 20% at 55% 100%, #0a2010 0%, transparent 100%),
+        radial-gradient(ellipse 11% 30% at 66% 100%, #091c0c 0%, transparent 100%),
+        radial-gradient(ellipse 8% 22% at 76% 100%, #0d2a14 0%, transparent 100%),
+        radial-gradient(ellipse 10% 28% at 86% 100%, #0a2010 0%, transparent 100%),
+        radial-gradient(ellipse 8% 24% at 94% 100%, #091c0c 0%, transparent 100%),
+        /* Forest glow from ambient moonlight */
+        linear-gradient(180deg, transparent 0%, rgba(15,40,80,.4) 60%, rgba(10,25,50,.6) 100%);
+    }
+
+    /* Blue atmospheric glow mid-scene */
+    .atmo-glow {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 40% 30% at 50% 45%, rgba(30,80,160,.18) 0%, transparent 100%),
+        radial-gradient(ellipse 20% 15% at 72% 20%, rgba(80,130,255,.1) 0%, transparent 100%);
+    }
+
+    /* ── Flowers on ground (left & right) ── */
+    .flowers {
+      position: absolute;
+      bottom: 20%;
+      left: 0; right: 0;
+      height: 80px;
+      z-index: 3;
+      pointer-events: none;
+    }
+    /* Left side flowers */
+    .flower { position: absolute; font-size: 16px; animation: flowerSway 3s ease-in-out infinite alternate; }
+    @keyframes flowerSway { 0%{transform:rotate(-4deg)} 100%{transform:rotate(4deg)} }
+
+    /* ── Wooden plank floor ── */
+    .floor {
+      position: absolute;
+      bottom: 0;
+      left: 0; right: 0;
+      height: 22%;
+      z-index: 3;
+      pointer-events: none;
+      /* Dark wood planks */
+      background:
+        repeating-linear-gradient(
+          90deg,
+          rgba(0,0,0,.3) 0px, rgba(0,0,0,.3) 1px,
+          transparent 1px, transparent 80px
+        ),
+        repeating-linear-gradient(
+          0deg,
+          rgba(0,0,0,.2) 0px, rgba(0,0,0,.2) 1px,
+          transparent 1px, transparent 24px
+        ),
+        linear-gradient(180deg, #3a1e0a 0%, #2a1406 50%, #1e0e04 100%);
+      /* Shadow over floor */
+      box-shadow: inset 0 40px 60px rgba(0,0,0,.6);
+    }
+
+    /* ── Lantern top-right ── */
+    .lantern-wrap {
+      position: absolute;
+      top: 0;
+      right: 12%;
+      z-index: 5;
+      pointer-events: none;
+    }
+    /* Chain hanging from top */
+    .lantern-chain {
+      width: 4px;
+      height: 50px;
+      background: repeating-linear-gradient(180deg, #555 0px, #555 6px, #333 6px, #333 10px);
+      margin: 0 auto;
+    }
+    /* Roof of lantern */
+    .lantern-roof {
+      width: 72px;
+      height: 14px;
+      background: linear-gradient(180deg, #2a1406, #4a2010);
+      border-radius: 4px 4px 0 0;
+      margin: 0 auto;
+      box-shadow: 0 -4px 8px rgba(0,0,0,.5);
+    }
+    /* Main lantern body */
+    .lantern-body {
+      width: 64px;
+      height: 70px;
+      background:
+        radial-gradient(ellipse 60% 55% at 50% 50%, #ffdd88 0%, #ff9922 40%, #cc5500 70%, #3b1808 100%);
+      border: 3px solid #4a2010;
+      margin: 0 auto;
+      position: relative;
+      box-shadow:
+        0 0 40px #ff8822,
+        0 0 80px rgba(255,136,34,.5),
+        0 0 120px rgba(255,136,34,.25),
+        inset 0 0 20px rgba(255,220,100,.4);
+    }
+    /* Lantern frame lines */
+    .lantern-body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, transparent 49%, rgba(0,0,0,.4) 49%, rgba(0,0,0,.4) 51%, transparent 51%),
+        linear-gradient(0deg, transparent 49%, rgba(0,0,0,.3) 49%, rgba(0,0,0,.3) 51%, transparent 51%);
+    }
+    .lantern-base {
+      width: 72px;
+      height: 12px;
+      background: linear-gradient(180deg, #4a2010, #2a1406);
+      border-radius: 0 0 4px 4px;
+      margin: 0 auto;
+    }
+    /* Warm glow cast on surroundings */
+    .lantern-glow {
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 280px;
+      height: 200px;
+      background: radial-gradient(ellipse, rgba(255,140,30,.18) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    /* ── Wooden post/beam above lantern ── */
+    .beam {
+      position: absolute;
+      top: 0; right: 8%;
+      width: 60px; height: 55px;
+      z-index: 4;
+      pointer-events: none;
+      background: linear-gradient(90deg, #2a1406 0%, #3a1e0a 40%, #1e0e04 100%);
+      border-bottom: 3px solid #1a0a04;
+    }
+
+    /* ── Minecraft Villager (large, centered) ── */
+    .villager-wrap {
+      position: absolute;
+      bottom: 18%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Pixel-art villager — scaled up to be large and prominent */
+    .mc-villager {
+      width: 160px;
+      image-rendering: pixelated;
+    }
+
+    /* Head */
+    .v-head {
+      width: 160px;
+      height: 130px;
+      background: #c8965a;
+      border: 5px solid #6b4e2a;
+      position: relative;
+      image-rendering: pixelated;
+    }
+    /* Brows */
+    .v-brow-l, .v-brow-r {
+      position: absolute; top: 24px;
+      width: 24px; height: 10px;
+      background: #5a3218;
+    }
+    .v-brow-l { left: 18px; }
+    .v-brow-r { right: 18px; }
+    /* Eyes */
+    .v-eye-l, .v-eye-r {
+      position: absolute; top: 38px;
+      width: 26px; height: 26px;
+      background: #22aa33;
+      border: 3px solid #000;
+    }
+    .v-eye-l { left: 16px; }
+    .v-eye-r { right: 16px; }
+    /* Nose — large characteristic villager nose */
+    .v-nose {
+      position: absolute;
+      top: 42px;
+      left: 50%; transform: translateX(-50%);
+      width: 42px; height: 52px;
+      background: #9a6840;
+      border: 3px solid #6b4e2a;
+    }
+    /* Mouth */
+    .v-mouth {
+      position: absolute;
+      bottom: 16px;
+      left: 50%; transform: translateX(-50%);
+      width: 48px; height: 8px;
+      background: #7a4828;
+    }
+
+    /* Body */
+    .v-body {
+      width: 120px;
+      height: 80px;
+      background: linear-gradient(180deg, #8a5c2c 0%, #7a4e24 50%, #5a3818 100%);
+      border: 5px solid #4a2c10;
+      margin: 0 auto;
+      position: relative;
+    }
+    /* Robe detail */
+    .v-body::after {
+      content: "";
+      position: absolute;
+      bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 20px; height: 100%;
+      background: rgba(0,0,0,.18);
+    }
+
+    /* Arms */
+    .v-arms {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      margin-top: -5px;
+    }
+    .v-arm {
+      width: 28px; height: 72px;
+      background: linear-gradient(180deg, #7a5228, #5a3818);
+      border: 4px solid #4a2c10;
+    }
+    .v-arm.l { border-right: none; border-radius: 4px 0 0 4px; }
+    .v-arm.r { border-left: none; border-radius: 0 4px 4px 0; }
+
+    /* Stone block villager is sitting on */
+    .v-stone {
+      width: 80px; height: 40px;
+      background: linear-gradient(180deg, #5a5a5a, #3a3a3a);
+      border: 3px solid #2a2a2a;
+      margin: 4px auto 0;
+      image-rendering: pixelated;
+    }
+
+    /* ── Dialogue bubble ── */
+    .dialogue-bubble {
+      position: absolute;
+      top: 90px;
+      left: 22px;
+      max-width: 260px;
+      z-index: 10;
+      background: rgba(5, 8, 18, 0.92);
+      border: 2px solid rgba(255,255,255,.22);
+      border-radius: 14px;
+      padding: 18px 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.7);
+      font-family: ui-monospace, SFMono-Regular, monospace;
+      font-size: 15px;
+      color: #fff;
+      line-height: 1.55;
+      /* Speech bubble tail pointing right */
+    }
+    .dialogue-bubble::after {
+      content: "";
+      position: absolute;
+      right: -12px; top: 28px;
+      border: 6px solid transparent;
+      border-left-color: rgba(255,255,255,.22);
+    }
+    .speak-btn {
+      background: none; border: none; color: #aaa;
+      cursor: pointer; font-size: 14px; margin-left: 6px;
+      vertical-align: middle;
+    }
+    .speak-btn:hover { color: #fff; }
+
+    /* ── Top bar (overlaid on scene) ── */
+    .top-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 10;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 18px 22px;
+    }
+    .top-title h1 {
+      font-family: ui-monospace, monospace;
+      font-size: clamp(16px, 2.8vw, 24px);
+      font-weight: 900; color: #fff; margin: 0 0 3px;
+      text-shadow: 0 2px 8px #000, 0 0 20px rgba(0,0,0,.8);
+      letter-spacing: .05em;
+    }
+    .top-title p {
+      font-family: ui-monospace, monospace;
+      font-size: 13px; color: #ccc; margin: 0;
+      text-shadow: 0 1px 4px #000;
+    }
+    .top-controls { display: flex; align-items: center; gap: 10px; }
+    .ctrl-btn {
+      width: 48px; height: 48px;
+      background: rgba(0,0,0,.6);
+      border: 2px solid rgba(255,255,255,.22);
+      border-radius: 12px;
+      color: #fff; font-size: 18px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,.6);
+      backdrop-filter: blur(4px);
+      font-family: inherit;
+    }
+    .ctrl-btn:hover { background: rgba(255,255,255,.12); }
+
+    /* ── Bottom input panel (overlaid on scene) ── */
+    .bottom-panel {
+      position: absolute;
+      bottom: 68px;
+      left: 0; right: 0;
+      z-index: 10;
+      padding: 0 20px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-end;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .input-col { flex: 1; }
+
+    .thought-input {
+      width: 100%;
+      min-height: 76px;
+      background: rgba(0,0,0,.78);
+      border: 2px solid rgba(255,255,255,.2);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-family: ui-monospace, monospace;
+      font-size: 15px; color: #fff;
+      resize: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,.7);
+      backdrop-filter: blur(4px);
+    }
+    .thought-input::placeholder { color: #666; }
+    .thought-input:focus { outline: none; border-color: #38e7ff; box-shadow: 0 0 0 2px rgba(56,231,255,.25); }
+
+    .char-count {
+      text-align: right;
+      font-family: ui-monospace, monospace;
+      font-size: 11px; color: #666;
+      margin-top: 4px; padding-right: 2px;
+    }
+
+    .share-btn {
+      width: 100%; margin-top: 10px; padding: 14px;
+      border: 0; border-radius: 10px;
+      background: linear-gradient(180deg, #5a6ab5 0%, #2e3a72 100%);
+      color: #fff;
+      font-family: ui-monospace, monospace;
+      font-size: 15px; font-weight: 900;
+      cursor: pointer;
+      box-shadow: inset 0 1px rgba(255,255,255,.3), 0 5px 0 #131a38, 0 8px 20px rgba(0,0,0,.6);
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      letter-spacing: .02em;
+    }
+    .share-btn:hover { background: linear-gradient(180deg, #6a7ac5, #3e4a90); }
+    .share-btn:active { transform: translateY(2px); box-shadow: inset 0 1px rgba(255,255,255,.3), 0 3px 0 #131a38; }
+
+    /* Reward panel */
+    .reward-panel {
+      background: rgba(0,0,0,.72);
+      border: 2px solid rgba(255,255,255,.2);
+      border-radius: 14px;
+      padding: 18px 20px;
+      text-align: center;
+      min-width: 138px;
+      box-shadow: 0 8px 28px rgba(0,0,0,.7);
+      backdrop-filter: blur(4px);
+      font-family: ui-monospace, monospace;
+    }
+    .r-label { color: #f6c65b; font-size: 11px; font-weight: 900; letter-spacing: .1em; margin-bottom: 8px; }
+    .r-gem { font-size: 22px; vertical-align: middle; }
+    .r-amount { font-size: 32px; font-weight: 900; color: #fff; }
+    .r-unit { font-size: 13px; color: #aaa; margin-top: 2px; }
+
+    /* Bottom hint text */
+    .bottom-hint {
+      position: absolute;
+      bottom: 44px;
+      left: 0; right: 0;
+      z-index: 10;
+      text-align: center;
+      font-family: ui-monospace, monospace;
+      font-size: 13px; color: rgba(255,255,255,.55);
+      text-shadow: 0 1px 4px #000;
+    }
+
+    /* Vignette edges */
+    .vignette {
+      position: absolute;
+      inset: 0; z-index: 4;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 100% 100% at 50% 50%, transparent 50%, rgba(0,0,0,.55) 100%);
+    }
+
+    /* Thunder flash */
+    .thunder-flash { animation: tflash .28s 1; }
+    @keyframes tflash { 50% { filter: brightness(2.6); } }
+
+    /* Nav */
+    .nav { position: absolute; bottom: 0; left: 0; right: 0; z-index: 20; }
+  </style>
+  <link rel="stylesheet" href="./realm-backgrounds.css">
+</head>
+<body>
+<div style="position:fixed;inset:0;overflow:hidden;">
+
+  <!-- Full immersive scene -->
+  <div class="scene rain-room-realm-bg">
+
+    <!-- Atmosphere -->
+    <div class="atmo-glow"></div>
+
+    <!-- Rain -->
+    <div class="rain-layer"></div>
+
+    <!-- Background trees -->
+    <div class="bg-trees"></div>
+
+    <!-- Flowers (left side) -->
+    <div class="flowers">
+      <span class="flower" style="left:4%;bottom:10px;animation-delay:.2s">🌸</span>
+      <span class="flower" style="left:8%;bottom:18px;animation-delay:.8s;font-size:14px">🌼</span>
+      <span class="flower" style="left:2%;bottom:24px;animation-delay:1.4s;font-size:12px">🌺</span>
+      <span class="flower" style="left:12%;bottom:8px;animation-delay:.5s;font-size:13px">💐</span>
+      <!-- Right side -->
+      <span class="flower" style="right:4%;bottom:12px;animation-delay:1s">🌸</span>
+      <span class="flower" style="right:9%;bottom:20px;animation-delay:.3s;font-size:14px">🌼</span>
+      <span class="flower" style="right:2%;bottom:6px;animation-delay:1.6s;font-size:12px">🌺</span>
+      <span class="flower" style="right:14%;bottom:14px;animation-delay:.7s;font-size:13px">🌼</span>
+    </div>
+
+    <!-- Floor planks -->
+    <div class="floor"></div>
+
+    <!-- Top beam / ceiling corner -->
+    <div class="beam"></div>
+
+    <!-- Lantern -->
+    <div class="lantern-wrap">
+      <div class="lantern-chain"></div>
+      <div class="lantern-roof"></div>
+      <div class="lantern-body"></div>
+      <div class="lantern-base"></div>
+      <div class="lantern-glow"></div>
+    </div>
+
+    <!-- Vignette -->
+    <div class="vignette"></div>
+
+    <!-- Villager -->
+    <div class="villager-wrap">
+      <div class="mc-villager">
+        <div class="v-head">
+          <div class="v-brow-l"></div>
+          <div class="v-brow-r"></div>
+          <div class="v-eye-l"></div>
+          <div class="v-eye-r"></div>
+          <div class="v-nose"></div>
+          <div class="v-mouth"></div>
+        </div>
+        <div class="v-arms">
+          <div class="v-arm l"></div>
+          <div class="v-body"></div>
+          <div class="v-arm r"></div>
+        </div>
+        <div class="v-stone"></div>
+      </div>
+    </div>
+
+    <!-- Top bar -->
+    <div class="top-bar">
+      <div class="top-title">
+        <h1>🌧️ RAIN ROOM REALM</h1>
+        <p>Let the rain wash away what feels heavy.</p>
+      </div>
+      <div class="top-controls">
+        <!-- SOUND PLACEHOLDER: rain ambience toggle -->
+        <button class="ctrl-btn" onclick="toggleRain()" title="Rain sound">🔊</button>
+        <!-- SOUND PLACEHOLDER: thunder -->
+        <button class="ctrl-btn" onclick="doThunder()" title="Thunder">⛈️</button>
+      </div>
+    </div>
+
+    <!-- Dialogue bubble -->
+    <div class="dialogue-bubble">
+      <span id="dialogue">What thought has been following you lately?</span>
+      <!-- SOUND PLACEHOLDER: read dialogue aloud -->
+      <button class="speak-btn" onclick="speakDialogue()">🔊</button>
+    </div>
+
+    <!-- Bottom input panel -->
+    <div class="bottom-panel">
+      <div class="input-col">
+        <textarea
+          class="thought-input"
+          id="thoughtInput"
+          maxlength="200"
+          placeholder="Type your thoughts here..."
+          oninput="updateCount()"
+        ></textarea>
+        <div class="char-count"><span id="charCount">0</span>/200</div>
+        <button class="share-btn" onclick="shareThought()">☁️ Share with the rain</button>
+      </div>
+      <div class="reward-panel">
+        <div class="r-label">REWARD</div>
+        <div><span class="r-gem">💎</span> <span class="r-amount">+10</span></div>
+        <div class="r-unit">Diamonds</div>
+      </div>
+    </div>
+
+    <div class="bottom-hint">The rain can help lighten what you're carrying.</div>
+
+    <!-- Nav -->
+    <nav class="nav pixel">
+      <a href="../index.html">🏠 Home</a>
+      <a>📖 Journal</a>
+      <a>💗 Mood</a>
+      <a class="active">🌍 My World</a>
+      <a>👤 Account</a>
+    </nav>
+
+  </div><!-- /scene -->
+</div>
+
+<script src="../shared/bbb-realms.js"></script>
+<script>
+  // ── SOUND PLACEHOLDERS ──────────────────────────────────────────────────────
+  // RAIN_LOOP      → /public/sounds/rain-loop.mp3        (looping rain ambience)
+  // THUNDER_CRACK  → /public/sounds/thunder-crack.mp3    (single thunder boom)
+  // SHARE_WHOOSH   → /public/sounds/share-whoosh.mp3     (send thought sound)
+  // DIALOGUE_TTS   → speechSynthesis or pre-recorded mp3
+  // DIAMOND_CHIME  → handled by BBBRealms.addDiamonds()
+  // ──────────────────────────────────────────────────────────────────────────
+  let rainOn = false;
+
+  function toggleRain() {
+    rainOn = !rainOn;
+    if (rainOn) BBBRealms.sound.rain(); // PLACEHOLDER: RAIN_LOOP
+    else BBBRealms.sound.stop();
+  }
+
+  function doThunder() {
+    BBBRealms.sound.thunder(); // PLACEHOLDER: THUNDER_CRACK
+    document.body.classList.add('thunder-flash');
+    setTimeout(() => document.body.classList.remove('thunder-flash'), 350);
+  }
+
+  function speakDialogue() {
+    // PLACEHOLDER: DIALOGUE_TTS
+    const t = document.getElementById('dialogue').textContent;
+    if ('speechSynthesis' in window) {
+      const u = new SpeechSynthesisUtterance(t);
+      u.rate = 0.88; speechSynthesis.speak(u);
+    }
+  }
+
+  function updateCount() {
+    document.getElementById('charCount').textContent =
+      document.getElementById('thoughtInput').value.length;
+  }
+
+  function shareThought() {
+    const inp = document.getElementById('thoughtInput');
+    if (!inp.value.trim()) { inp.focus(); return; }
+    // PLACEHOLDER: SHARE_WHOOSH sound
+    BBBRealms.sound.rain();
+    BBBRealms.addDiamonds(10);
+    document.getElementById('dialogue').textContent =
+      'The rain heard you. You are lighter than this moment. 💙';
+    inp.value = '';
+    updateCount();
+  }
+</script>
+</body>
+</html>

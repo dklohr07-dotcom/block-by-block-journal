@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Block by Block — Sign Up / Log In</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --g:#5a9e2f;--g2:#7ec832;--gd:#3d6b1e;
+  --gold:#f9a825;--goldd:#e67e00;--dia:#4dd0e1;
+  --p0:#111;--p1:#1a1a1a;--p2:#222;--p3:#2a2a2a;
+  --wh:#fff;--gr:#aaa;
+  --mc:'Press Start 2P',monospace;--ui:'Nunito',sans-serif;
+  --bev:inset 2px 2px 0 rgba(255,255,255,.2),inset -2px -2px 0 rgba(0,0,0,.55);
+  --sh:3px 3px 0 rgba(0,0,0,.85);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--ui);background:var(--p1);color:var(--wh);min-height:100vh;display:flex;flex-direction:column;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(90,158,47,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(90,158,47,.025) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;}
+
+nav{background:var(--p0);border-bottom:3px solid #000;display:flex;align-items:center;padding:0 1.5rem;height:58px;gap:.8rem;flex-shrink:0;}
+.brand{display:flex;align-items:center;gap:.55rem;text-decoration:none;}
+.brand-icon{width:38px;height:38px;border:3px solid #333;background:radial-gradient(circle at 35% 35%,#4dd0e1,#005a6e);box-shadow:var(--bev),2px 2px 0 rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;font-size:1.2rem;}
+.brand-t1{font-family:var(--mc);font-size:.52rem;color:#fff;text-shadow:2px 2px 0 #000;}
+.brand-t2{font-family:var(--mc);font-size:.28rem;color:var(--g2);text-shadow:1px 1px 0 #000;margin-top:2px;}
+.nav-r{margin-left:auto;font-family:var(--mc);font-size:.3rem;color:#555;}
+
+.main{flex:1;display:flex;align-items:center;justify-content:center;padding:2rem 1rem;position:relative;z-index:1;}
+
+/* CARD */
+.card{
+  width:100%;max-width:460px;
+  background:var(--p2);border:3px solid #333;
+  box-shadow:var(--bev),6px 6px 0 rgba(0,0,0,.7);
+  animation:fu .45s ease both;
+}
+@keyframes fu{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+.card-stripe{height:8px;background:repeating-linear-gradient(90deg,var(--gd) 0px,var(--gd) 8px,var(--g) 8px,var(--g) 16px,#5a3a10 16px,#5a3a10 24px);}
+
+.card-header{padding:1.4rem 1.5rem .9rem;text-align:center;border-bottom:3px solid #2a2a2a;}
+.ch-icon{font-size:2.4rem;margin-bottom:.5rem;display:block;}
+.ch-title{font-family:var(--mc);font-size:.6rem;color:#fff;text-shadow:var(--sh);margin-bottom:.25rem;line-height:1.7;}
+.ch-sub{font-size:.84rem;color:#666;font-weight:700;}
+
+/* TABS */
+.tabs{display:grid;grid-template-columns:1fr 1fr;}
+.tab{font-family:var(--mc);font-size:.33rem;padding:.6rem;cursor:pointer;background:#1a1a1a;border:none;color:#555;text-shadow:1px 1px 0 #000;border-bottom:3px solid #111;transition:all .15s;line-height:1.8;}
+.tab.on{background:var(--p2);color:var(--g2);border-bottom-color:var(--g);}
+.tab:first-child{border-right:2px solid #111;}
+
+/* FORM */
+.form{padding:1.3rem 1.5rem 1.5rem;display:flex;flex-direction:column;gap:.85rem;}
+.field{display:flex;flex-direction:column;gap:.3rem;}
+.field label{font-family:var(--mc);font-size:.3rem;color:#777;text-shadow:1px 1px 0 #000;line-height:1.8;}
+.field input{
+  font-family:var(--ui);font-size:.93rem;font-weight:700;
+  background:#111;color:#fff;
+  border:2px solid #333;
+  box-shadow:inset 2px 2px 0 rgba(0,0,0,.5),inset -1px -1px 0 rgba(255,255,255,.05);
+  padding:.52rem .72rem;transition:border-color .15s;
+}
+.field input:focus{outline:none;border-color:var(--g2);box-shadow:inset 2px 2px 0 rgba(0,0,0,.5),0 0 0 1px var(--g2);}
+.field input::placeholder{color:#2e2e2e;}
+
+/* PLAN SELECTOR */
+.plan-sel{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+.po{border:2px solid #2a2a2a;padding:.7rem .5rem;cursor:pointer;text-align:center;background:#111;transition:all .15s;position:relative;}
+.po:hover{border-color:#444;}
+.po.sel-free{border-color:var(--g);background:rgba(90,158,47,.1);}
+.po.sel-prem{border-color:var(--gold);background:rgba(249,168,37,.08);}
+.po-icon{font-size:1.4rem;display:block;margin-bottom:.3rem;}
+.po-name{font-family:var(--mc);font-size:.28rem;color:#888;text-shadow:1px 1px 0 #000;margin-bottom:.15rem;line-height:1.6;}
+.po-price{font-size:.76rem;color:#444;font-weight:700;}
+.po.sel-free .po-name{color:var(--g2);}
+.po.sel-prem .po-name{color:var(--gold);}
+.po.sel-prem .po-price{color:var(--g2);}
+.po-badge{position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:var(--gold);color:#1a0800;font-family:var(--mc);font-size:.22rem;padding:.1rem .4rem;white-space:nowrap;line-height:1.8;}
+
+/* STRENGTH */
+.str-bar{height:4px;background:#1a1a1a;margin-top:.3rem;overflow:hidden;}
+.str-fill{height:100%;width:0;transition:width .3s,background .3s;}
+.str-lbl{font-size:.72rem;color:#444;font-weight:700;margin-top:.2rem;}
+
+/* BUTTONS */
+.submit{
+  width:100%;font-family:var(--mc);font-size:.4rem;
+  padding:.72rem;cursor:pointer;border:none;
+  line-height:1.6;text-shadow:1px 1px 0 #000;color:#fff;
+  background:var(--gd);border:2px solid var(--g);
+  box-shadow:var(--bev),3px 3px 0 rgba(0,0,0,.6);
+  transition:filter .12s,transform .1s;
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+}
+.submit:hover{filter:brightness(1.15);transform:translateY(-2px);}
+.submit:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.submit.gold{background:var(--goldd);border-color:var(--gold);}
+
+.or-row{display:flex;align-items:center;gap:.6rem;margin:.1rem 0;}
+.or-line{flex:1;height:1px;background:#222;}
+.or-txt{font-family:var(--mc);font-size:.25rem;color:#333;}
+
+.oauth{width:100%;font-family:var(--ui);font-size:.88rem;font-weight:800;padding:.58rem;cursor:pointer;border:2px solid #2a2a2a;background:#111;color:#bbb;box-shadow:inset 1px 1px 0 rgba(255,255,255,.05),2px 2px 0 rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;gap:.6rem;transition:all .15s;}
+.oauth:hover{background:#1a1a1a;border-color:#444;}
+
+.forgot{text-align:right;margin-top:-.2rem;}
+.forgot a{font-family:var(--mc);font-size:.26rem;color:#3a3a3a;text-decoration:none;line-height:1.8;}
+.forgot a:hover{color:#666;}
+
+.remember-row{display:none;align-items:center;justify-content:space-between;gap:.75rem;margin-top:-.35rem;flex-wrap:wrap;}
+.remember-label{display:flex;align-items:center;gap:.45rem;font-family:var(--mc);font-size:.27rem;color:#777;line-height:1.7;cursor:pointer;user-select:none;}
+.remember-label input{width:16px;height:16px;accent-color:var(--g2);cursor:pointer;}
+.remember-help{font-size:.72rem;color:#444;font-weight:700;}
+
+.fine{font-size:.75rem;color:#333;font-weight:700;text-align:center;line-height:1.5;}
+.fine a{color:#3a3a3a;}
+
+.msg{font-family:var(--mc);font-size:.3rem;padding:.55rem .7rem;line-height:1.8;border:2px solid;display:none;}
+.msg.err{background:rgba(211,47,47,.12);border-color:#d32f2f;color:#ff5555;}
+.msg.ok{background:rgba(90,158,47,.12);border-color:var(--g);color:var(--g2);}
+.msg.show{display:block;}
+
+.spin{display:inline-block;width:11px;height:11px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .5s linear infinite;}
+@keyframes sp{to{transform:rotate(360deg);}}
+
+/* TRUST ROW under card */
+.trust{display:flex;justify-content:center;gap:1.2rem;flex-wrap:wrap;margin-top:.9rem;padding:0 1rem;}
+.ti{font-size:.75rem;color:#333;font-weight:700;display:flex;align-items:center;gap:.3rem;}
+
+footer{background:var(--p0);border-top:2px solid #1a1a1a;padding:.6rem 1.5rem;text-align:center;font-size:.74rem;color:#2a2a2a;flex-shrink:0;}
+footer a{color:#333;text-decoration:none;}footer a:hover{color:#666;}
+
+@media(max-width:520px){
+  nav{height:auto;min-height:58px;padding:.55rem .75rem;gap:.5rem;overflow-x:auto;}
+  .brand-t1{font-size:.44rem;}
+  .brand-t2,.nav-r{display:none;}
+  .main{align-items:flex-start;padding:1rem .7rem;}
+  .card{max-width:100%;box-shadow:var(--bev),4px 4px 0 rgba(0,0,0,.7);}
+  .card-header,.form{padding:1rem;}
+  .plan-sel{grid-template-columns:1fr;}
+  .tab{font-size:.3rem;padding:.55rem .35rem;}
+  .submit,.google{font-size:.34rem;}
+  input{font-size:16px;}
+}
+
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="index.html">
+    <div class="brand-icon">💎</div>
+    <div><div class="brand-t1">BLOCK BY BLOCK</div><div class="brand-t2">ANTI ANXIETY JOURNAL</div></div>
+  </a>
+  <div class="nav-r">Have an account? <a href="#" onclick="setMode('login')" style="color:var(--g2);text-decoration:none;"> LOG IN →</a></div>
+</nav>
+
+<div class="main">
+  <div>
+    <div class="card">
+      <div class="card-stripe"></div>
+
+      <div class="card-header">
+        <span class="ch-icon" id="chIcon">👨‍👩‍👧</span>
+        <div class="ch-title" id="chTitle">CREATE ACCOUNT</div>
+        <div class="ch-sub" id="chSub">Set up your child's adventure in 60 seconds</div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab" id="tabLogin" onclick="setMode('login')">🔑 PARENT LOGIN</button>
+        <button class="tab on" id="tabSignup" onclick="setMode('signup')">🌱 GET STARTED</button>
+      </div>
+
+      <div class="form">
+        <div class="msg" id="msg"></div>
+
+        <!-- SIGNUP ONLY: Plan selector -->
+        <div id="planWrap" style="display:none;">
+          <div style="font-family:var(--mc);font-size:.28rem;color:#666;margin-bottom:.5rem;line-height:1.8;">CHOOSE YOUR PLAN:</div>
+          <div class="plan-sel">
+            <div class="po" id="poFree" onclick="pickPlan('free')">
+              <span class="po-icon">🌱</span>
+              <div class="po-name">FREE</div>
+              <div class="po-price">Always $0</div>
+            </div>
+            <div class="po" id="poPrem" onclick="pickPlan('premium')">
+              <div class="po-badge">⭐ BEST VALUE</div>
+              <span class="po-icon">💎</span>
+              <div class="po-name">PREMIUM</div>
+              <div class="po-price">$29.99/year · Save 37%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SIGNUP ONLY: Parent name -->
+        <div class="field" id="fParent" style="display:none;">
+          <label>👨‍👩‍👧 YOUR NAME (PARENT / GUARDIAN)</label>
+          <input type="text" id="parentName" placeholder="e.g. Sarah" autocomplete="given-name"/>
+        </div>
+
+        <!-- SIGNUP ONLY: Child username -->
+        <div class="field" id="fChild" style="display:none;">
+          <label>⚔️ YOUR CHILD'S ADVENTURER NAME</label>
+          <input type="text" id="childName" placeholder="e.g. DiamondMiner99" maxlength="20"/>
+        </div>
+
+        <div class="field">
+          <label>📧 EMAIL ADDRESS</label>
+          <input type="email" id="email" placeholder="parent@email.com" autocomplete="email"/>
+        </div>
+
+        <div class="field">
+          <label>🔑 PASSWORD</label>
+          <input type="password" id="password" placeholder="Min. 8 characters" autocomplete="current-password" oninput="chkStr()"/>
+          <div class="str-bar" id="strBar" style="display:none;"><div class="str-fill" id="strFill"></div></div>
+          <div class="str-lbl" id="strLbl"></div>
+        </div>
+
+        <!-- SIGNUP ONLY: Confirm password -->
+        <div class="field" id="fConfirm" style="display:none;">
+          <label>🔑 CONFIRM PASSWORD</label>
+          <input type="password" id="confirm" placeholder="Re-enter password" autocomplete="new-password"/>
+        </div>
+
+        <!-- LOGIN ONLY: Remember + Forgot -->
+        <div class="remember-row" id="rememberWrap">
+          <label class="remember-label">
+            <input type="checkbox" id="rememberMe"/>
+            <span>REMEMBER ME</span>
+          </label>
+          <span class="remember-help">Use only on a private device.</span>
+        </div>
+
+        <div class="forgot" id="forgotWrap" style="display:none;">
+          <a href="#" onclick="forgotPw()">Forgot password?</a>
+        </div>
+
+        <!-- OR + Google -->
+        <div class="or-row"><div class="or-line"></div><div class="or-txt">OR</div><div class="or-line"></div></div>
+        <button class="oauth" onclick="googleAuth()">
+          <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
+          Continue with Google
+        </button>
+
+        <button class="submit" id="submitBtn" onclick="go()">
+          <span id="submitLbl">🌱 CREATE FREE ACCOUNT</span>
+        </button>
+
+        <div class="fine" id="fineTxt">
+          By signing up you agree to our <a href="#">Terms</a> &amp; <a href="#">Privacy Policy</a>.<br>
+          Your child's journal entries are <strong>always private</strong> — never shared.
+        </div>
+      </div>
+    </div>
+
+    <!-- Trust signals under card -->
+    <div class="trust">
+      <div class="ti">🔒 256-bit encrypted</div>
+      <div class="ti">↩️ 30-day refund</div>
+      <div class="ti">🚫 No ads, ever</div>
+      <div class="ti">📵 No data selling</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  © 2024 Block By Block Journal &nbsp;·&nbsp; <a href="#">Privacy Policy</a> &nbsp;·&nbsp; <a href="#">Terms of Use</a> &nbsp;·&nbsp; <a href="mailto:hello@blockbyblockjournal.com">Contact</a>
+</footer>
+
+<script>
+const params  = new URLSearchParams(window.location.search);
+let mode      = params.get('mode') || 'signup';
+let plan      = params.get('plan') || 'free';
+
+// Init
+setMode(mode);
+if (plan === 'premium') setTimeout(() => pickPlan('premium'), 50);
+
+function setMode(m) {
+  mode = m;
+  const su = m === 'signup';
+  document.getElementById('tabLogin').classList.toggle('on', !su);
+  document.getElementById('tabSignup').classList.toggle('on', su);
+  document.getElementById('chIcon').textContent   = su ? '👨‍👩‍👧' : '⛏️';
+  document.getElementById('chTitle').textContent  = su ? 'CREATE ACCOUNT' : 'WELCOME BACK';
+  document.getElementById('chSub').textContent    = su ? 'Set up your child\'s adventure in 60 seconds' : 'Log in to your parent account';
+  ['planWrap','fParent','fChild','fConfirm'].forEach(id => show(id, su));
+  show('forgotWrap', !su);
+  show('rememberWrap', !su);
+  show('fineTxt', su);
+  document.getElementById('strBar').style.display = su ? 'block' : 'none';
+  document.getElementById('password').setAttribute('autocomplete', su ? 'new-password' : 'current-password');
+  document.getElementById('submitLbl').textContent = su
+    ? (plan === 'premium' ? '💎 CREATE ACCOUNT & UPGRADE' : '🌱 CREATE FREE ACCOUNT')
+    : '🔑 LOG IN';
+  clearMsg();
+}
+
+function show(id, on) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = on ? '' : 'none';
+}
+
+function pickPlan(p) {
+  plan = p;
+  document.getElementById('poFree').className = 'po' + (p === 'free' ? ' sel-free' : '');
+  document.getElementById('poPrem').className = 'po' + (p === 'premium' ? ' sel-prem' : '');
+  document.getElementById('submitLbl').textContent = p === 'premium'
+    ? '💎 CREATE ACCOUNT & UPGRADE'
+    : '🌱 CREATE FREE ACCOUNT';
+  document.querySelector('#submitBtn').className = 'submit' + (p === 'premium' ? ' gold' : '');
+}
+
+function chkStr() {
+  if (mode !== 'signup') return;
+  const pw = document.getElementById('password').value;
+  const fill = document.getElementById('strFill'), lbl = document.getElementById('strLbl');
+  let s = 0;
+  if (pw.length >= 8) s++; if (pw.length >= 12) s++;
+  if (/[A-Z]/.test(pw)) s++; if (/[0-9]/.test(pw)) s++; if (/[^A-Za-z0-9]/.test(pw)) s++;
+  const lvl = [
+    {w:'0%',bg:'#222',t:''},
+    {w:'20%',bg:'#d32f2f',t:'Too short'},
+    {w:'40%',bg:'#e67e00',t:'Weak'},
+    {w:'60%',bg:'#f9a825',t:'Fair'},
+    {w:'80%',bg:'#7ec832',t:'Good'},
+    {w:'100%',bg:'#00c853',t:'Strong ✓'},
+  ][Math.min(s, 5)];
+  fill.style.width = lvl.w; fill.style.background = lvl.bg;
+  lbl.textContent = lvl.t; lbl.style.color = lvl.bg;
+}
+
+function showMsg(txt, type) {
+  const el = document.getElementById('msg');
+  el.textContent = txt; el.className = 'msg ' + type + ' show';
+}
+function clearMsg() { document.getElementById('msg').className = 'msg'; }
+
+function setLoading(on) {
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = on;
+  document.getElementById('submitLbl').innerHTML = on
+    ? '<span class="spin"></span> LOADING...'
+    : (mode === 'signup'
+        ? (plan === 'premium' ? '💎 CREATE ACCOUNT & UPGRADE' : '🌱 CREATE FREE ACCOUNT')
+        : '🔑 LOG IN');
+}
+
+async function go() {
+  clearMsg();
+  const email    = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  if (!email || !password) { showMsg('Fill in email and password first!', 'err'); return; }
+  if (password.length < 8) { showMsg('Password must be at least 8 characters.', 'err'); return; }
+
+  if (mode === 'signup') {
+    const parent  = document.getElementById('parentName').value.trim();
+    const child   = document.getElementById('childName').value.trim();
+    const confirm = document.getElementById('confirm').value;
+    if (!parent)           { showMsg('Enter your name (parent / guardian).', 'err'); return; }
+    if (!child)            { showMsg('Choose an adventurer name for your child!', 'err'); return; }
+    if (password !== confirm) { showMsg('Passwords don\'t match!', 'err'); return; }
+    setLoading(true);
+    try {
+      const res  = await fetch('/auth/signup', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, parentName: parent, childUsername: child, plan }),
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl; // Stripe checkout
+      } else {
+        showMsg('Account created! Loading your world... 🌱', 'ok');
+        setTimeout(() => window.location.href = '/', 2000);
+      }
+    } catch (e) { showMsg(e.message || 'Something went wrong. Try again!', 'err'); }
+    finally { setLoading(false); }
+
+  } else {
+    setLoading(true);
+    try {
+      const res  = await fetch('/auth/login', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, rememberMe: document.getElementById('rememberMe')?.checked || false }),
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      showMsg('Welcome back! Loading your world... 🌍', 'ok');
+      setTimeout(() => window.location.href = '/', 1500);
+    } catch (e) { showMsg(e.message || 'Incorrect email or password.', 'err'); }
+    finally { setLoading(false); }
+  }
+}
+
+async function forgotPw() {
+  const email = document.getElementById('email').value.trim();
+  if (!email) { showMsg('Enter your email address first.', 'err'); return; }
+  await fetch('/auth/forgot-password', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email}) });
+  showMsg('Reset link sent — check your email! 📧', 'ok');
+}
+
+function googleAuth() { window.location.href = '/auth/google'; }
+
+document.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+</script>
+</body>
+</html>

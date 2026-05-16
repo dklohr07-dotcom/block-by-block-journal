@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="../shared/bbb-realms.css">
+  <title>Diamond Mind Reset</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { height: 100%; overflow: hidden; }
+
+    .scene {
+      position: fixed; inset: 0; overflow: hidden;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 45%, #0a2a18 0%, #061a10 35%, #030c08 65%, #010402 100%);
+    }
+
+    /* Stars */
+    .stars {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background-image:
+        radial-gradient(1px 1px at 6% 5%, #ffffffcc, transparent),
+        radial-gradient(1px 1px at 19% 3%, #ffffff99, transparent),
+        radial-gradient(1.5px 1.5px at 33% 8%, #ffffff77, transparent),
+        radial-gradient(1px 1px at 50% 4%, #ffffffbb, transparent),
+        radial-gradient(1px 1px at 66% 7%, #ffffff88, transparent),
+        radial-gradient(1px 1px at 79% 3%, #ffffffaa, transparent),
+        radial-gradient(1px 1px at 92% 9%, #ffffff66, transparent),
+        radial-gradient(1px 1px at 11% 20%, #ffffff55, transparent),
+        radial-gradient(2px 2px at 44% 16%, #5bccff33, transparent),
+        radial-gradient(1px 1px at 73% 22%, #ffffff44, transparent),
+        radial-gradient(1px 1px at 88% 18%, #ffffff33, transparent),
+        radial-gradient(1px 1px at 26% 30%, #ffffff44, transparent),
+        radial-gradient(1px 1px at 57% 28%, #6b4bff22, transparent);
+      animation: starTwinkle 6s ease-in-out infinite alternate;
+    }
+    @keyframes starTwinkle { 0%{opacity:.5}100%{opacity:1} }
+
+    /* Grass ground */
+    .ground {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 22%; z-index: 3; pointer-events: none;
+      background:
+        repeating-linear-gradient(90deg, transparent, transparent 64px, rgba(0,0,0,.12) 64px, rgba(0,0,0,.12) 66px),
+        linear-gradient(180deg, #2a5a18 0%, #1e4010 28%, #0e2008 60%, #060e04 100%);
+    }
+    /* Grass top edge */
+    .ground::before {
+      content:""; position:absolute; top:0; left:0; right:0; height:12px;
+      background: linear-gradient(180deg, #4a8a28, #3a6a1c);
+    }
+
+    /* Flowers on ground */
+    .flower { position:absolute; z-index:4; font-size:14px; pointer-events:none; animation:sway 3s ease-in-out infinite alternate; }
+    @keyframes sway { 0%{transform:rotate(-5deg)}100%{transform:rotate(5deg)} }
+
+    /* Central gem — large and glowing */
+    .gem-wrap {
+      position: absolute; top: 42%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 6; cursor: pointer;
+      animation: gemFloat 3s ease-in-out infinite;
+    }
+    @keyframes gemFloat { 0%,100%{transform:translate(-50%,-50%) translateY(0)} 50%{transform:translate(-50%,-50%) translateY(-18px)} }
+
+    .gem-aura {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(91,204,255,.18) 0%, rgba(107,75,255,.12) 40%, transparent 70%);
+      animation: auraPulse 2.5s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes auraPulse { 0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.6} 50%{transform:translate(-50%,-50%) scale(1.15);opacity:1} }
+
+    .gem-shape {
+      width: 160px; height: 160px;
+      background: linear-gradient(135deg, #5bccff 0%, #3a8fff 25%, #6b4bff 55%, #a855f7 80%, #c084fc 100%);
+      clip-path: polygon(50% 0%, 100% 38%, 80% 100%, 20% 100%, 0% 38%);
+      box-shadow:
+        0 0 40px rgba(107,75,255,.8),
+        0 0 80px rgba(58,143,255,.5),
+        0 0 120px rgba(91,204,255,.3);
+      position: relative;
+      transition: transform .15s;
+    }
+    .gem-shape::before {
+      content: "";
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,.5) 0%, transparent 45%);
+      clip-path: inherit;
+    }
+    .gem-wrap:hover .gem-shape { transform: scale(1.08); }
+    .gem-wrap:active .gem-shape { transform: scale(.93); }
+
+    .tap-hint {
+      position: absolute; top: calc(42% + 100px); left: 50%; transform: translateX(-50%);
+      z-index: 7; font-family: ui-monospace, monospace; font-size: 14px; color: rgba(255,255,255,.6);
+      text-align: center; white-space: nowrap; text-shadow: 0 2px 8px #000;
+      animation: hintPulse 2s ease-in-out infinite alternate;
+    }
+    @keyframes hintPulse { 0%{opacity:.4}100%{opacity:.9} }
+
+    /* Reset steps panel */
+    .steps-panel {
+      position: absolute; bottom: 68px; left: 50%; transform: translateX(-50%);
+      z-index: 8; width: calc(100% - 36px); max-width: 560px;
+    }
+    .step {
+      background: rgba(5,12,8,.88); border: 2px solid rgba(255,255,255,.12);
+      border-radius: 12px; padding: 14px 18px; margin-bottom: 10px;
+      font-family: ui-monospace, monospace; display: flex; align-items: center; gap: 14px;
+      backdrop-filter: blur(6px);
+      transition: border-color .4s, box-shadow .4s, opacity .4s;
+      opacity: .45;
+    }
+    .step.active { opacity: 1; border-color: #5bccff; box-shadow: 0 0 16px rgba(91,204,255,.3); }
+    .step.done   { opacity: 1; border-color: #70ff5d; box-shadow: 0 0 12px rgba(112,255,93,.2); }
+    .step-num {
+      width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+      background: rgba(255,255,255,.1); display: flex; align-items: center;
+      justify-content: center; font-size: 14px; font-weight: 900; color: #fff;
+    }
+    .step.active .step-num { background: #5bccff; color: #000; }
+    .step.done   .step-num { background: #70ff5d; color: #000; }
+    .step-text { color: #ddd; font-size: 14px; line-height: 1.45; }
+    .step.active .step-text { color: #fff; }
+
+    .complete-msg {
+      text-align: center; font-family: ui-monospace, monospace; font-size: 16px;
+      color: #70ff5d; margin-top: 4px; opacity: 0; transition: opacity .5s;
+      text-shadow: 0 0 12px rgba(112,255,93,.5);
+    }
+    .complete-msg.show { opacity: 1; }
+
+    /* Top bar */
+    .top-bar {
+      position: absolute; top: 0; left: 0; right: 0; z-index: 10;
+      display: flex; align-items: flex-start; justify-content: space-between;
+      padding: 18px 22px;
+    }
+    .top-title h1 { font-family:ui-monospace,monospace; font-size:clamp(16px,2.8vw,24px); font-weight:900; color:#fff; margin:0 0 3px; text-shadow:0 2px 8px #000; letter-spacing:.05em; }
+    .top-title p { font-family:ui-monospace,monospace; font-size:13px; color:#ccc; margin:0; text-shadow:0 1px 4px #000; }
+    .gem-count { background:rgba(0,0,0,.6); border:2px solid rgba(255,255,255,.22); border-radius:12px; color:#fff; font-family:ui-monospace,monospace; font-size:16px; padding:10px 14px; backdrop-filter:blur(4px); }
+
+    .vignette { position:absolute; inset:0; z-index:5; pointer-events:none; background:radial-gradient(ellipse 100% 100% at 50% 50%,transparent 45%,rgba(0,0,0,.65) 100%); }
+
+    .gem-particle { position:fixed; pointer-events:none; z-index:20; animation:gemBurst .9s linear forwards; }
+    @keyframes gemBurst { to{transform:translate(var(--tx),var(--ty)) scale(.1);opacity:0} }
+
+    .nav { position:absolute; bottom:0; left:0; right:0; z-index:20; }
+  </style>
+</head>
+<body>
+<div style="position:fixed;inset:0;overflow:hidden;">
+<div class="scene">
+
+  <div class="stars"></div>
+  <div class="ground" id="ground"></div>
+  <div class="vignette"></div>
+
+  <!-- Flowers -->
+  <div class="flower" style="bottom:22%;left:4%;animation-delay:.2s">🌸</div>
+  <div class="flower" style="bottom:23%;left:9%;animation-delay:.9s;font-size:12px">🌼</div>
+  <div class="flower" style="bottom:21%;left:2%;animation-delay:1.5s;font-size:11px">🌺</div>
+  <div class="flower" style="bottom:22%;right:4%;animation-delay:.6s">🌼</div>
+  <div class="flower" style="bottom:23%;right:10%;animation-delay:1.2s;font-size:12px">🌸</div>
+  <div class="flower" style="bottom:21%;right:2%;animation-delay:.4s;font-size:11px">🌺</div>
+
+  <!-- Gem -->
+  <div class="gem-wrap" onclick="tapGem(event)">
+    <div class="gem-aura"></div>
+    <div class="gem-shape"></div>
+  </div>
+  <div class="tap-hint" id="tapHint">✦ Tap the gem to begin your reset ✦</div>
+
+  <!-- Top bar -->
+  <div class="top-bar">
+    <div class="top-title">
+      <h1>💎 DIAMOND MIND RESET</h1>
+      <p>A quick reset to clear your mind.</p>
+    </div>
+    <div class="gem-count">💎 <span data-diamonds>250</span></div>
+  </div>
+
+  <!-- Steps -->
+  <div class="steps-panel">
+    <div class="step" id="step1">
+      <div class="step-num">1</div>
+      <div class="step-text">Take a slow breath in… hold for 4 counts.</div>
+    </div>
+    <div class="step" id="step2">
+      <div class="step-num">2</div>
+      <div class="step-text">Breathe out slowly… let your shoulders drop.</div>
+    </div>
+    <div class="step" id="step3">
+      <div class="step-num">3</div>
+      <div class="step-text">Name one thing you can see, hear, and feel right now.</div>
+    </div>
+    <div class="step" id="step4">
+      <div class="step-num">4</div>
+      <div class="step-text">You did it. Your mind has been reset. 💎</div>
+    </div>
+    <div class="complete-msg" id="completeMsg">✦ Reset complete! +10 Diamonds earned ✦</div>
+  </div>
+
+  <nav class="nav pixel">
+    <a href="../index.html">🏠 Home</a><a>📖 Journal</a><a>💗 Mood</a>
+    <a class="active">🌍 My World</a><a>👤 Account</a>
+  </nav>
+
+</div>
+</div>
+
+<script src="../shared/bbb-realms.js"></script>
+<script>
+  // ── SOUND PLACEHOLDERS ──────────────────────────────────────────────────────
+  // GEM_TAP        → /public/sounds/gem-tap.mp3
+  // STEP_CHIME     → /public/sounds/step-chime.mp3
+  // RESET_COMPLETE → /public/sounds/reset-complete.mp3
+  // ──────────────────────────────────────────────────────────────────────────
+  let started = false;
+  const steps = ['step1','step2','step3','step4'];
+  const delays = [0, 5000, 10000, 15000];
+
+  function tapGem(e) {
+    if (started) return;
+    started = true;
+    document.getElementById('tapHint').style.opacity = '0';
+    BBBRealms.sound.chime(); // PLACEHOLDER: GEM_TAP
+    // Burst particles
+    for (let i = 0; i < 14; i++) {
+      const p = document.createElement('span');
+      p.className = 'gem-particle';
+      p.textContent = ['💎','✦','✸','⬡'][i%4];
+      p.style.cssText = `left:${e.clientX}px;top:${e.clientY}px;font-size:${12+Math.random()*14}px;`;
+      p.style.setProperty('--tx', (Math.random()-0.5)*200+'px');
+      p.style.setProperty('--ty', -(50+Math.random()*120)+'px');
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 1000);
+    }
+    steps.forEach((id, i) => {
+      setTimeout(() => {
+        document.getElementById(id).classList.add('active');
+        if (i > 0 && document.getElementById(steps[i-1])) {
+          document.getElementById(steps[i-1]).classList.remove('active');
+          document.getElementById(steps[i-1]).classList.add('done');
+        }
+        if (i === steps.length - 1) {
+          setTimeout(() => {
+            document.getElementById(id).classList.add('done');
+            document.getElementById('completeMsg').classList.add('show');
+            BBBRealms.addDiamonds(10); // PLACEHOLDER: RESET_COMPLETE sound fires here
+            started = false;
+            setTimeout(() => { document.getElementById('tapHint').style.opacity='1'; }, 3000);
+          }, 4000);
+        }
+      }, delays[i]);
+    });
+  }
+</script>
+</body>
+</html>
