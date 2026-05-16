@@ -1826,96 +1826,118 @@ select option{background:#222;}
 
 
 
+
+
 /* =========================================================
-   CUSTOM BACKGROUND OVERRIDES FOR INDEX.HTML MIND RESET HUB
-   These must live at the END of the main <style> block so
-   they beat the older inline SVG/gradient realm backgrounds.
+   FINAL MIND RESET HUB CLEAN BACKGROUND PATCH
+   Purpose: completely stop the old built-in pixel/SVG scene art
+   from sitting on top of the uploaded custom backgrounds.
+   Keep this as the LAST CSS before </style>.
    ========================================================= */
-#resetHub .reset-card.premium,
-.realm-stage {
+
+/* Premium hub cards: use ONLY the uploaded custom images */
+#resetHub .reset-card.premium {
+  position: relative !important;
+  overflow: hidden !important;
   background-size: cover !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
 }
 
-/* Premium cards inside the Mind Reset Hub grid */
-#resetHub .reset-hub-grid .reset-card.premium:nth-of-type(1) {
-  background-image: linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.68)), url('./custom-backgrounds/rain-room.jpg') !important;
+#resetHub .reset-card.premium[onclick*="rainRoom"] {
+  background: linear-gradient(180deg, rgba(0,0,0,.34), rgba(0,0,0,.62)), url('./custom-backgrounds/rain-room.jpg') center/cover no-repeat !important;
 }
-#resetHub .reset-hub-grid .reset-card.premium:nth-of-type(2) {
-  background-image: linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.68)), url('./custom-backgrounds/miner.jpg') !important;
+#resetHub .reset-card.premium[onclick*="thoughtMiner"] {
+  background: linear-gradient(180deg, rgba(0,0,0,.34), rgba(0,0,0,.62)), url('./custom-backgrounds/miner.jpg') center/cover no-repeat !important;
 }
-#resetHub .reset-hub-grid .reset-card.premium:nth-of-type(3) {
-  background-image: linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.68)), url('./custom-backgrounds/campfire.jpg') !important;
+#resetHub .reset-card.premium[onclick*="campfire"] {
+  background: linear-gradient(180deg, rgba(0,0,0,.34), rgba(0,0,0,.62)), url('./custom-backgrounds/campfire.jpg') center/cover no-repeat !important;
 }
-#resetHub .reset-hub-grid .reset-card.premium:nth-of-type(4) {
-  background-image: linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.68)), url('./custom-backgrounds/biome.jpg') !important;
-}
-
-/* Actual interactive realm stages rendered by index.html */
-#resetExperience .realm-rain {
-  background-image: linear-gradient(180deg, rgba(0,0,0,.28), rgba(0,0,0,.55)), url('./custom-backgrounds/rain-room.jpg') !important;
-}
-#resetExperience .realm-mine {
-  background-image: linear-gradient(180deg, rgba(0,0,0,.28), rgba(0,0,0,.55)), url('./custom-backgrounds/miner.jpg') !important;
-}
-#resetExperience .realm-campfire {
-  background-image: linear-gradient(180deg, rgba(0,0,0,.24), rgba(0,0,0,.52)), url('./custom-backgrounds/campfire.jpg') !important;
-}
-#resetExperience .realm-biome {
-  background-image: linear-gradient(180deg, rgba(0,0,0,.24), rgba(0,0,0,.52)), url('./custom-backgrounds/biome.jpg') !important;
+#resetHub .reset-card.premium[onclick*="biomeShift"] {
+  background: linear-gradient(180deg, rgba(0,0,0,.34), rgba(0,0,0,.62)), url('./custom-backgrounds/biome.jpg') center/cover no-repeat !important;
 }
 
-/* Remove the old pixel-grid overlay that was sitting on top of custom art */
-#resetExperience .realm-stage::before {
-  opacity: 0 !important;
-  background-image: none !important;
-}
-
-
-/* =========================================================
-   CLEAN REALM CARD ART LAYER
-   Removes the old icon/art layer from Mind Reset Hub cards so
-   the custom background images are the only card artwork.
-   ========================================================= */
-#resetHub .reset-card {
-  position: relative !important;
-  overflow: hidden !important;
-}
-
-/* These emoji/icons were the old card art sitting on top of the new custom backgrounds */
-#resetHub .reset-card-icon {
-  display: none !important;
-}
-
-/* Make sure any old generated artwork layers on cards cannot cover the custom backgrounds */
-#resetHub .reset-card::before,
-#resetHub .reset-card::after {
+/* Remove old card artwork/icons/pseudo art layers */
+#resetHub .reset-card.premium .reset-card-icon,
+#resetHub .reset-card.premium::before,
+#resetHub .reset-card.premium::after {
   content: none !important;
   display: none !important;
+  background: none !important;
   background-image: none !important;
 }
 
-/* Keep text readable above the custom background image */
-#resetHub .reset-card-title,
-#resetHub .reset-card-copy,
-#resetHub .reset-card-tag {
+#resetHub .reset-card.premium .reset-card-title,
+#resetHub .reset-card.premium .reset-card-copy,
+#resetHub .reset-card.premium .reset-card-tag {
   position: relative !important;
   z-index: 2 !important;
 }
 
-/* Stronger custom background targeting: avoid nth-of-type confusion from the free cards above */
-#resetHub .reset-card.premium[onclick*="rainRoom"] {
-  background-image: linear-gradient(180deg, rgba(0,0,0,.38), rgba(0,0,0,.64)), url('./custom-backgrounds/rain-room.jpg') !important;
+/* Interactive realm canvases: replace old inline SVG scenes with custom images */
+#resetExperience .realm-stage {
+  position: relative !important;
+  overflow: hidden !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
 }
-#resetHub .reset-card.premium[onclick*="thoughtMiner"] {
-  background-image: linear-gradient(180deg, rgba(0,0,0,.38), rgba(0,0,0,.64)), url('./custom-backgrounds/miner.jpg') !important;
+
+#resetExperience .realm-rain {
+  background: linear-gradient(180deg, rgba(4,8,16,.22), rgba(5,12,20,.48)), url('./custom-backgrounds/rain-room.jpg') center/cover no-repeat !important;
 }
-#resetHub .reset-card.premium[onclick*="campfire"] {
-  background-image: linear-gradient(180deg, rgba(0,0,0,.38), rgba(0,0,0,.64)), url('./custom-backgrounds/campfire.jpg') !important;
+#resetExperience .realm-mine {
+  background: linear-gradient(180deg, rgba(0,0,0,.24), rgba(0,0,0,.52)), url('./custom-backgrounds/miner.jpg') center/cover no-repeat !important;
 }
-#resetHub .reset-card.premium[onclick*="biomeShift"] {
-  background-image: linear-gradient(180deg, rgba(0,0,0,.38), rgba(0,0,0,.64)), url('./custom-backgrounds/biome.jpg') !important;
+#resetExperience .realm-campfire {
+  background: linear-gradient(180deg, rgba(0,0,0,.20), rgba(0,0,0,.50)), url('./custom-backgrounds/campfire.jpg') center/cover no-repeat !important;
+}
+#resetExperience .realm-biome {
+  background: linear-gradient(180deg, rgba(0,0,0,.20), rgba(0,0,0,.50)), url('./custom-backgrounds/biome.jpg') center/cover no-repeat !important;
+}
+
+/* This is the old pixel-grid/SVG overlay layer. It was causing the visible overlap. */
+#resetExperience .realm-stage::before,
+#resetExperience .realm-mine::before,
+#resetExperience .realm-campfire::before,
+#resetExperience .realm-biome::before {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  background-image: none !important;
+  opacity: 0 !important;
+}
+
+/* Keep Rain Room atmospheric, but make the rain an overlay instead of an old scene image. */
+#resetExperience .realm-rain::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+  opacity: .34 !important;
+  background-image: linear-gradient(90deg, transparent 0 18px, rgba(130,210,255,.55) 19px, transparent 21px) !important;
+  background-size: 38px 82px !important;
+  animation: heavyRain 650ms linear infinite !important;
+}
+
+/* Make all usable realm content sit above the background/rain layer. */
+#resetExperience .realm-top,
+#resetExperience .realm-body,
+#resetExperience .realm-panel,
+#resetExperience .pixel-villager,
+#resetExperience .campfire-scene,
+#resetExperience .biome-picker,
+#resetExperience .biome-preview {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Stop small biome cards/previews from showing their old SVG mini-scenes over the custom realm background. */
+#resetExperience .biome-card,
+#resetExperience .biome-preview {
+  background-image: none !important;
 }
 
 </style>
