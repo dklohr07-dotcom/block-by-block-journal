@@ -1824,6 +1824,54 @@ select option{background:#222;}
   .realm-audio-bar{justify-content:center;}
 }
 
+
+
+/* =========================================================
+   CUSTOM BACKGROUND OVERRIDES FOR INDEX.HTML MIND RESET HUB
+   These must live at the END of the main <style> block so
+   they beat the older inline SVG/gradient realm backgrounds.
+   ========================================================= */
+#resetHub .reset-card.premium,
+.realm-stage {
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Premium cards inside the Mind Reset Hub grid */
+#resetHub .reset-hub-grid .reset-card.premium:nth-of-type(1) {
+  background-image: linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.68)), url('./custom-backgrounds/rain-room.jpg') !important;
+}
+#resetHub .reset-hub-grid .reset-card.premium:nth-of-type(2) {
+  background-image: linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.68)), url('./custom-backgrounds/miner.jpg') !important;
+}
+#resetHub .reset-hub-grid .reset-card.premium:nth-of-type(3) {
+  background-image: linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.68)), url('./custom-backgrounds/campfire.jpg') !important;
+}
+#resetHub .reset-hub-grid .reset-card.premium:nth-of-type(4) {
+  background-image: linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.68)), url('./custom-backgrounds/biome.jpg') !important;
+}
+
+/* Actual interactive realm stages rendered by index.html */
+#resetExperience .realm-rain {
+  background-image: linear-gradient(180deg, rgba(0,0,0,.28), rgba(0,0,0,.55)), url('./custom-backgrounds/rain-room.jpg') !important;
+}
+#resetExperience .realm-mine {
+  background-image: linear-gradient(180deg, rgba(0,0,0,.28), rgba(0,0,0,.55)), url('./custom-backgrounds/miner.jpg') !important;
+}
+#resetExperience .realm-campfire {
+  background-image: linear-gradient(180deg, rgba(0,0,0,.24), rgba(0,0,0,.52)), url('./custom-backgrounds/campfire.jpg') !important;
+}
+#resetExperience .realm-biome {
+  background-image: linear-gradient(180deg, rgba(0,0,0,.24), rgba(0,0,0,.52)), url('./custom-backgrounds/biome.jpg') !important;
+}
+
+/* Remove the old pixel-grid overlay that was sitting on top of custom art */
+#resetExperience .realm-stage::before {
+  opacity: 0 !important;
+  background-image: none !important;
+}
+
 </style>
 </head>
 <body>
