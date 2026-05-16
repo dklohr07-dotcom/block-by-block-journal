@@ -1872,6 +1872,52 @@ select option{background:#222;}
   background-image: none !important;
 }
 
+
+/* =========================================================
+   CLEAN REALM CARD ART LAYER
+   Removes the old icon/art layer from Mind Reset Hub cards so
+   the custom background images are the only card artwork.
+   ========================================================= */
+#resetHub .reset-card {
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* These emoji/icons were the old card art sitting on top of the new custom backgrounds */
+#resetHub .reset-card-icon {
+  display: none !important;
+}
+
+/* Make sure any old generated artwork layers on cards cannot cover the custom backgrounds */
+#resetHub .reset-card::before,
+#resetHub .reset-card::after {
+  content: none !important;
+  display: none !important;
+  background-image: none !important;
+}
+
+/* Keep text readable above the custom background image */
+#resetHub .reset-card-title,
+#resetHub .reset-card-copy,
+#resetHub .reset-card-tag {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Stronger custom background targeting: avoid nth-of-type confusion from the free cards above */
+#resetHub .reset-card.premium[onclick*="rainRoom"] {
+  background-image: linear-gradient(180deg, rgba(0,0,0,.38), rgba(0,0,0,.64)), url('./custom-backgrounds/rain-room.jpg') !important;
+}
+#resetHub .reset-card.premium[onclick*="thoughtMiner"] {
+  background-image: linear-gradient(180deg, rgba(0,0,0,.38), rgba(0,0,0,.64)), url('./custom-backgrounds/miner.jpg') !important;
+}
+#resetHub .reset-card.premium[onclick*="campfire"] {
+  background-image: linear-gradient(180deg, rgba(0,0,0,.38), rgba(0,0,0,.64)), url('./custom-backgrounds/campfire.jpg') !important;
+}
+#resetHub .reset-card.premium[onclick*="biomeShift"] {
+  background-image: linear-gradient(180deg, rgba(0,0,0,.38), rgba(0,0,0,.64)), url('./custom-backgrounds/biome.jpg') !important;
+}
+
 </style>
 </head>
 <body>
@@ -2396,28 +2442,24 @@ select option{background:#222;}
 
     <div class="reset-hub-grid">
       <button class="reset-card premium" onclick="openPremiumReset('rainRoom')">
-        <span class="reset-card-icon">🌧️</span>
         <span class="reset-card-title">RAIN ROOM REALM</span>
         <span class="reset-card-copy">Talk with the villager in the rain. Ground your senses and let a heavy thought go.</span>
         <span class="reset-card-tag">👑 Premium</span>
       </button>
 
       <button class="reset-card premium" onclick="openPremiumReset('thoughtMiner')">
-        <span class="reset-card-icon">⛏️</span>
         <span class="reset-card-title">THOUGHT MINER CAVE</span>
         <span class="reset-card-copy">Mine your heavy thoughts and find calmer reframes — one block at a time.</span>
         <span class="reset-card-tag">👑 Premium</span>
       </button>
 
       <button class="reset-card premium" onclick="openPremiumReset('campfire')">
-        <span class="reset-card-icon">🔥</span>
         <span class="reset-card-title">CAMPFIRE REFLECTION</span>
         <span class="reset-card-copy">Toss your worries into the fire. Let it out. Let it burn. You're not alone.</span>
         <span class="reset-card-tag">👑 Premium</span>
       </button>
 
       <button class="reset-card premium" onclick="openPremiumReset('biomeShift')">
-        <span class="reset-card-icon">🌄</span>
         <span class="reset-card-title">BIOME SHIFT PORTAL</span>
         <span class="reset-card-copy">Choose a biome to step into and relax. Listen, breathe, and just be.</span>
         <span class="reset-card-tag">👑 Premium</span>
