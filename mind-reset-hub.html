@@ -6,557 +6,624 @@
   <link rel="stylesheet" href="shared/bbb-realms.css">
   <title>Mind Reset Hub</title>
   <style>
-    body { background: #050610; }
+    :root {
+      --hub-bg: url("custom-backgrounds/hub.jpg");
+      --realm-accent: #38e7ff;
+      --realm-accent-2: #8b5cf6;
+      --mx: 50%;
+      --my: 35%;
+    }
 
-    .hub {
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #030510; }
+
+    .reset-hub {
       min-height: 100dvh;
-      background:
-        radial-gradient(ellipse 80% 60% at 50% 0%, #1a0a3a 0%, transparent 65%),
-        linear-gradient(180deg, #0a0620 0%, #050412 60%, #030209 100%);
       position: relative;
       overflow: hidden;
+      color: #fff;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: .02em;
+      isolation: isolate;
+      padding-bottom: 78px;
     }
 
-    /* Star field */
-    .hub::before {
-      content: "";
+    .hub-backdrop,
+    .hub-backdrop::before,
+    .hub-backdrop::after {
       position: fixed;
       inset: 0;
-      background-image:
-        radial-gradient(1px 1px at 8% 12%, #ffffffcc, transparent),
-        radial-gradient(1px 1px at 22% 5%, #ffffff99, transparent),
-        radial-gradient(2px 2px at 37% 18%, #ffffff55, transparent),
-        radial-gradient(1px 1px at 51% 8%, #ffffffbb, transparent),
-        radial-gradient(1px 1px at 68% 14%, #ffffff88, transparent),
-        radial-gradient(1px 1px at 80% 6%, #ffffffaa, transparent),
-        radial-gradient(1px 1px at 93% 22%, #ffffff66, transparent),
-        radial-gradient(1px 1px at 15% 38%, #ffffff44, transparent),
-        radial-gradient(2px 2px at 45% 32%, #8b5cf633, transparent),
-        radial-gradient(1px 1px at 72% 28%, #ffffff55, transparent),
-        radial-gradient(1px 1px at 88% 45%, #ffffff33, transparent),
-        radial-gradient(1px 1px at 30% 70%, #ffffff33, transparent),
-        radial-gradient(2px 2px at 60% 55%, #38e7ff22, transparent),
-        radial-gradient(1px 1px at 78% 68%, #ffffff44, transparent),
-        radial-gradient(1px 1px at 92% 72%, #ffffff33, transparent),
-        radial-gradient(1px 1px at 18% 85%, #ffffff22, transparent),
-        radial-gradient(1px 1px at 48% 88%, #ffffff33, transparent);
       pointer-events: none;
-      z-index: 0;
-      animation: twinkle 7s ease-in-out infinite alternate;
-    }
-    @keyframes twinkle { 0%{opacity:.6} 100%{opacity:1} }
-
-    .sparkle { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-    .sparkle span {
-      position: absolute; opacity: 0;
-      animation: sparkleAnim 4s ease-in-out infinite;
-    }
-    @keyframes sparkleAnim {
-      0%,100%{opacity:0;transform:scale(0) rotate(0deg)}
-      50%{opacity:.7;transform:scale(1) rotate(180deg)}
+      z-index: -3;
     }
 
-    /* Top bar */
+    .hub-backdrop {
+      background-image:
+        radial-gradient(circle at var(--mx) var(--my), color-mix(in srgb, var(--realm-accent) 34%, transparent), transparent 26rem),
+        linear-gradient(180deg, rgba(3,5,16,.18), rgba(3,5,16,.58) 52%, rgba(3,5,16,.9)),
+        var(--hub-bg);
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.035);
+      transition: background-image .55s ease, filter .55s ease;
+    }
+
+    .hub-backdrop::before {
+      content: "";
+      z-index: -2;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mix-blend-mode: screen;
+      opacity: .24;
+      transform: translate3d(calc((50% - var(--mx)) / 26), calc((50% - var(--my)) / 26), 0);
+    }
+
+    .hub-backdrop::after {
+      content: "";
+      z-index: -1;
+      background:
+        radial-gradient(2px 2px at 8% 14%, #fff9, transparent),
+        radial-gradient(1px 1px at 18% 72%, #fff6, transparent),
+        radial-gradient(2px 2px at 37% 22%, #fff8, transparent),
+        radial-gradient(1px 1px at 58% 10%, #fff7, transparent),
+        radial-gradient(2px 2px at 82% 18%, #fff8, transparent),
+        radial-gradient(1px 1px at 91% 76%, #fff6, transparent),
+        radial-gradient(2px 2px at 72% 62%, color-mix(in srgb, var(--realm-accent) 70%, #fff), transparent);
+      opacity: .75;
+      animation: twinkle 4.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes twinkle {
+      from { opacity: .38; transform: translateY(0); }
+      to { opacity: .82; transform: translateY(-8px); }
+    }
+
+    .hub-motes {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .hub-motes span {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      left: var(--x);
+      top: 110%;
+      background: var(--realm-accent);
+      box-shadow: 0 0 18px var(--realm-accent);
+      opacity: .58;
+      transform: rotate(45deg);
+      animation: floatUp var(--dur) linear infinite;
+      animation-delay: var(--delay);
+    }
+
+    @keyframes floatUp {
+      to { transform: translate3d(var(--drift), -122dvh, 0) rotate(405deg); opacity: 0; }
+    }
+
     .hub-top {
-      position: relative; z-index: 10;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 18px clamp(16px, 4vw, 34px);
+      position: relative;
+      z-index: 4;
     }
-    .hub-back {
-      width: 44px; height: 44px;
+
+    .hub-back,
+    .hub-diamonds {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid rgba(255,255,255,.18);
       background: rgba(0,0,0,.55);
-      border: 2px solid rgba(255,255,255,.2);
-      border-radius: 10px; color: #fff; font-size: 20px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; box-shadow: 0 4px 14px #0009;
-      text-decoration: none; font-family: inherit;
-    }
-    .hub-gem {
-      background: rgba(0,0,0,.55); border: 2px solid rgba(255,255,255,.2);
-      border-radius: 10px; color: #fff; font-family: ui-monospace, monospace;
-      font-size: 17px; padding: 10px 16px; box-shadow: 0 4px 14px #0009;
+      color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 12px 28px rgba(0,0,0,.45), inset 0 1px rgba(255,255,255,.12);
+      text-decoration: none;
+      backdrop-filter: blur(8px);
     }
 
-    /* Title */
-    .hub-title-wrap {
-      position: relative; z-index: 2; text-align: center; padding: 0 24px 14px;
-    }
-    .hub-title-wrap h1 {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: clamp(22px, 4.5vw, 38px); font-weight: 900; color: #fff;
-      letter-spacing: .06em; margin: 0 0 6px;
-      text-shadow: 0 4px 0 #000, 0 0 28px #fff4;
-    }
-    .hub-subtitle {
-      font-family: ui-monospace, monospace; color: #ccc;
-      font-size: 14px; margin: 0;
+    .hub-back {
+      width: 44px;
+      font-size: 22px;
     }
 
-    /* Grid layout */
-    .hub-wrap {
-      position: relative; z-index: 2;
-      max-width: 1100px; margin: 14px auto 0;
-      padding: 0 20px 100px;
+    .hub-diamonds {
+      padding: 0 15px;
+      font-weight: 900;
     }
 
-    .section-label {
-      font-family: ui-monospace, monospace; font-size: 12px;
-      font-weight: 900; letter-spacing: .1em; margin-bottom: 12px;
-    }
-    .label-free { color: #38e7ff; }
-    .label-premium { color: #f6c65b; display: flex; align-items: center; gap: 7px; }
-
-    .hub-grid {
-      display: grid; grid-template-columns: 1fr 2fr;
-      gap: 24px; align-items: start;
-    }
-    .free-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .premium-cards { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
-
-    /* Cards */
-    .realm-card {
-      background: rgba(8,10,28,.88); border: 3px solid rgba(255,255,255,.12);
-      border-radius: 12px; overflow: hidden; cursor: pointer;
-      transition: transform .18s, box-shadow .18s, border-color .18s;
-      position: relative; display: flex; flex-direction: column;
-      box-shadow: 0 8px 24px #0009; text-decoration: none;
-    }
-    .realm-card:hover { transform: translateY(-4px) scale(1.025); box-shadow: 0 16px 40px #000b; }
-    .free-card { border-color: rgba(56,231,255,.22); }
-    .free-card:hover { border-color: rgba(56,231,255,.55); box-shadow: 0 16px 40px #000b, 0 0 18px #38e7ff1a; }
-    .premium-card { border-color: rgba(246,198,91,.14); cursor: default; }
-    .premium-card:hover { border-color: rgba(246,198,91,.32); }
-
-    .lock-badge { position: absolute; top: 9px; right: 9px; font-size: 16px; z-index: 5; filter: drop-shadow(0 2px 4px #000); }
-
-    /* Art areas */
-    .card-art { height: 128px; position: relative; overflow: hidden; flex-shrink: 0; }
-    .free-card .card-art { height: 148px; }
-
-    /* Diamond Mind Reset */
-    .art-diamond { background: linear-gradient(135deg,#0d1f0d,#1a3520 40%,#0a150a); }
-    .art-diamond::before {
-      content: ""; position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 50% 85%,#1c4a2a,transparent 55%);
-    }
-    .diamond-gem {
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%,-58%);
-      width: 68px; height: 68px;
-      background: linear-gradient(135deg,#5bccff,#3a8fff 30%,#6b4bff 60%,#a855f7);
-      clip-path: polygon(50% 0%,100% 38%,78% 100%,22% 100%,0% 38%);
-      box-shadow: 0 0 28px #6b4bff88, 0 0 55px #3a8fff44;
-      animation: gemPulse 2.5s ease-in-out infinite;
-    }
-    @keyframes gemPulse {
-      0%,100%{box-shadow:0 0 28px #6b4bff88,0 0 55px #3a8fff44}
-      50%{box-shadow:0 0 50px #6b4bffcc,0 0 90px #3a8fff77}
-    }
-    .grass-row { position: absolute; bottom: 0; left: 0; right: 0; height: 36px; display: flex; }
-    .grass-block { flex:1; background: linear-gradient(180deg,#5a9e3a 0 28%,#7ac14a 28% 32%,#3d6b25 32%); border-right:1px solid #2a4a1a; }
-
-    /* Breathing Blocks */
-    .art-breathing { background: linear-gradient(135deg,#0d1520,#111e2e 50%,#080e1a); }
-    .art-breathing::before { content:""; position:absolute; inset:0; background:radial-gradient(circle at 50% 45%,#1a3a6a33,transparent 60%); }
-    .bb-block {
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%,-56%);
-      width: 68px; height: 68px;
-      background: linear-gradient(135deg,#2d4a7a,#1a2e55 40%,#0f1e3a);
-      border: 3px solid #3a5a9a;
-      box-shadow: inset 0 0 20px #6b9fff44, 0 0 18px #3a6bff33;
-      animation: breatheScale 3s ease-in-out infinite;
-    }
-    .bb-block::before {
-      content:""; position:absolute; inset:4px;
-      background: repeating-linear-gradient(0deg,transparent,transparent 8px,#6b9fff11 8px,#6b9fff11 9px),
-                  repeating-linear-gradient(90deg,transparent,transparent 8px,#6b9fff11 8px,#6b9fff11 9px);
-    }
-    @keyframes breatheScale {
-      0%,100%{transform:translate(-50%,-56%) scale(1)}
-      50%{transform:translate(-50%,-56%) scale(1.17)}
+    .hero {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 20px clamp(16px, 4vw, 34px) 10px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(280px, .95fr);
+      gap: clamp(18px, 4vw, 34px);
+      align-items: center;
+      position: relative;
+      z-index: 2;
     }
 
-    /* Rain Room */
-    .art-rain { background: linear-gradient(180deg,#0a1a2e,#06101c 60%,#03070d); overflow:hidden; }
-    .rain-streaks {
-      position: absolute; inset: -20%;
-      background: repeating-linear-gradient(105deg,transparent 0 7px,rgba(100,170,255,.28) 8px 10px,transparent 11px 16px);
-      animation: rainFall .6s linear infinite;
-    }
-    @keyframes rainFall { to { transform: translateY(50px); } }
-    .lantern-mini {
-      position: absolute; top: 8px; right: 14px;
-      width: 22px; height: 32px;
-      background: radial-gradient(#ffca6c,#ad5a20 55%,#3b1808);
-      box-shadow: 0 0 18px #ff8a22, 0 0 36px #ff8a2255;
-      border: 2px solid #382014;
-    }
-    .villager-mini { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); }
-    .mc-v { width: 34px; }
-    .mc-v .vh { width:34px; height:28px; background:#c8965a; border:2px solid #6b4e2a; position:relative; }
-    .mc-v .vn { position:absolute; top:9px; left:50%; transform:translateX(-50%); width:9px; height:13px; background:#a0724a; border:1px solid #6b4e2a; }
-    .mc-v .vel,.mc-v .ver { position:absolute; top:7px; width:5px; height:5px; background:#1a9a2a; border:1px solid #000; }
-    .mc-v .vel { left:3px; } .mc-v .ver { right:3px; }
-    .mc-v .vb { width:26px; height:20px; background:linear-gradient(180deg,#7a5228 60%,#5a3c1c); border:2px solid #4a2c10; margin:0 auto; }
-
-    /* Thought Miner */
-    .art-miner { background: radial-gradient(circle at 54% 50%,#2a1040,#0d0910 55%,#030303); }
-    .axe-glow {
-      position:absolute; top:50%; left:50%; transform:translate(-45%,-55%) rotate(-20deg);
-      font-size:50px;
-      filter:drop-shadow(0 0 12px #b15cff) drop-shadow(0 0 24px #8b2fff);
-      animation:mineSwing .9s ease-in-out infinite alternate;
-    }
-    .purple-orbs {
-      position:absolute; inset:0;
-      background-image:
-        radial-gradient(4px 4px at 20% 25%,#b15cff88,transparent),
-        radial-gradient(3px 3px at 75% 30%,#8b2fff77,transparent),
-        radial-gradient(4px 4px at 30% 70%,#b15cff66,transparent),
-        radial-gradient(3px 3px at 80% 75%,#d980ff55,transparent);
-    }
-    @keyframes mineSwing {
-      0%{transform:translate(-45%,-55%) rotate(-20deg)}
-      100%{transform:translate(-45%,-55%) rotate(10deg)}
+    .hero-copy {
+      background: linear-gradient(135deg, rgba(0,0,0,.62), rgba(10,12,32,.42));
+      border: 2px solid rgba(255,255,255,.14);
+      border-radius: 20px;
+      padding: clamp(18px, 4vw, 34px);
+      box-shadow: 0 24px 70px rgba(0,0,0,.52), inset 0 0 42px rgba(255,255,255,.055);
+      backdrop-filter: blur(10px);
     }
 
-    /* Campfire */
-    .art-campfire { background: radial-gradient(circle at 50% 75%,#4a1a0a,#1a0808 45%,#050202); }
-    .fire-glow { position:absolute; inset:0; background:radial-gradient(circle at 50% 80%,#ff710433,transparent 55%); }
-    .fire-mini { position:absolute; bottom:10px; left:50%; transform:translateX(-50%); width:48px; height:60px; }
-    .flame-mini {
-      position:absolute; left:50%; bottom:16px; width:30px; height:46px;
-      background:radial-gradient(#fff39a 8%,#ff9a17 42%,#d6420d 70%,transparent 72%);
-      border-radius:50%; transform:translateX(-50%);
-      filter:drop-shadow(0 0 10px #ff7a11);
-      animation:flicker .2s infinite alternate;
-    }
-    .logs-mini { position:absolute; left:4px; right:4px; bottom:6px; height:14px; background:#653518; transform:rotate(5deg); }
-    @keyframes flicker { to{transform:translateX(-50%) scale(1.08,.93)} }
-
-    /* Biome Shift */
-    .art-biome { background: radial-gradient(circle at 50% 45%,#4a1a9a,#1a0840 50%,#050210); }
-    .portal-frame {
-      position:absolute; top:50%; left:50%; transform:translate(-50%,-58%);
-      width:44px; height:66px;
-      border:4px solid #7e22ce; border-radius:2px;
-      box-shadow:0 0 18px #9333ea, inset 0 0 14px #a855f7;
-      background:linear-gradient(135deg,#7c3aed,#a855f7 50%,#4c1d95);
-      animation:portalPulse 2s ease-in-out infinite;
-    }
-    .portal-particles {
-      position:absolute; inset:0;
-      background-image:
-        radial-gradient(3px 3px at 15% 20%,#c084fc77,transparent),
-        radial-gradient(2px 2px at 80% 25%,#a855f766,transparent),
-        radial-gradient(3px 3px at 20% 75%,#7c3aed55,transparent),
-        radial-gradient(2px 2px at 85% 70%,#c084fc44,transparent);
-    }
-    @keyframes portalPulse {
-      0%,100%{box-shadow:0 0 18px #9333ea,inset 0 0 14px #a855f7}
-      50%{box-shadow:0 0 32px #9333eacc,inset 0 0 24px #a855f7bb}
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      color: var(--realm-accent);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      text-shadow: 0 0 18px color-mix(in srgb, var(--realm-accent) 72%, transparent);
     }
 
-    /* Card info */
-    .card-info { padding: 12px 12px 14px; flex:1; display:flex; flex-direction:column; }
-    .card-name { font-family:ui-monospace,monospace; font-size:11px; font-weight:900; color:#fff; letter-spacing:.05em; margin:0 0 5px; }
-    .card-desc { font-family:ui-monospace,monospace; font-size:10px; color:#999; line-height:1.5; margin:0 0 12px; flex:1; }
-    .card-btn {
-      display:block; width:100%; padding:9px 6px; border:0; border-radius:6px;
-      font-family:ui-monospace,monospace; font-size:12px; font-weight:900;
-      letter-spacing:.03em; cursor:pointer; text-align:center; text-decoration:none;
-    }
-    .btn-play {
-      background:linear-gradient(180deg,#3a8fff,#1a5adb);
-      color:#fff; box-shadow:inset 0 1px #7bbfff,0 4px 0 #0a2a7a,0 6px 14px #0009;
-      text-shadow:0 1px #0005;
-    }
-    .btn-premium {
-      background:linear-gradient(180deg,#7737be,#321068);
-      color:#f6c65b; box-shadow:inset 0 1px #dbb2ff,0 4px 0 #140025,0 6px 14px #0009;
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 7vw, 70px);
+      line-height: .94;
+      text-shadow: 0 5px #000, 0 0 26px rgba(255,255,255,.26);
+      letter-spacing: .04em;
     }
 
-    /* Footer */
-    .hub-footer { position:relative; z-index:2; text-align:center; padding:22px 24px 16px; }
-    .hub-footer span {
-      font-family:ui-monospace,monospace; font-size:13px; color:#aaa;
-      background:rgba(0,0,0,.4); border:1px solid rgba(255,255,255,.1);
-      border-radius:20px; padding:8px 18px; display:inline-block;
+    .hero-copy p {
+      margin: 18px 0 0;
+      color: #d8d8e7;
+      font-size: clamp(14px, 2vw, 17px);
+      line-height: 1.7;
+      max-width: 58ch;
     }
 
-    /* Premium modal */
+    .scene-preview {
+      min-height: 390px;
+      border: 3px solid color-mix(in srgb, var(--realm-accent) 50%, rgba(255,255,255,.18));
+      border-radius: 22px;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.4)),
+        var(--hub-bg) center / cover no-repeat;
+      box-shadow: 0 26px 70px rgba(0,0,0,.62), 0 0 44px color-mix(in srgb, var(--realm-accent) 22%, transparent);
+      overflow: hidden;
+      position: relative;
+      transition: background-image .55s ease, border-color .35s ease, box-shadow .35s ease;
+    }
+
+    .scene-preview::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,.34), transparent 18rem);
+      opacity: .32;
+      mix-blend-mode: overlay;
+    }
+
+    .scene-preview::after {
+      content: attr(data-title);
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      padding: 14px 16px;
+      border: 2px solid rgba(255,255,255,.18);
+      border-radius: 14px;
+      background: rgba(0,0,0,.58);
+      color: #fff;
+      font-size: clamp(16px, 2vw, 22px);
+      font-weight: 900;
+      text-shadow: 0 3px #000;
+      backdrop-filter: blur(8px);
+    }
+
+    .realm-grid {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 18px clamp(16px, 4vw, 34px) 110px;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 13px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .portal-card {
+      grid-column: span 2;
+      min-height: 245px;
+      border: 2px solid rgba(255,255,255,.14);
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 14px;
+      color: #fff;
+      text-decoration: none;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.78)),
+        var(--card-bg) center / cover no-repeat;
+      box-shadow: 0 18px 45px rgba(0,0,0,.48), inset 0 0 26px rgba(255,255,255,.06);
+      cursor: pointer;
+      transform: translateY(0);
+      transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease, filter .22s ease;
+    }
+
+    .portal-card:nth-child(1),
+    .portal-card:nth-child(2) {
+      grid-column: span 3;
+    }
+
+    .portal-card:hover,
+    .portal-card:focus-visible,
+    .portal-card.is-active {
+      transform: translateY(-7px);
+      border-color: color-mix(in srgb, var(--card-accent) 72%, #fff);
+      box-shadow: 0 26px 66px rgba(0,0,0,.62), 0 0 34px color-mix(in srgb, var(--card-accent) 38%, transparent);
+      outline: none;
+    }
+
+    .portal-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at var(--mx) var(--my), color-mix(in srgb, var(--card-accent) 44%, transparent), transparent 15rem),
+        linear-gradient(180deg, rgba(255,255,255,.08), transparent 34%);
+      opacity: 0;
+      transition: opacity .22s ease;
+    }
+
+    .portal-card:hover::before,
+    .portal-card:focus-visible::before,
+    .portal-card.is-active::before { opacity: 1; }
+
+    .portal-card .lock {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border: 2px solid rgba(255,255,255,.18);
+      border-radius: 10px;
+      background: rgba(0,0,0,.58);
+      backdrop-filter: blur(6px);
+    }
+
+    .portal-card h2,
+    .portal-card p,
+    .portal-action {
+      position: relative;
+      z-index: 1;
+    }
+
+    .portal-card h2 {
+      margin: 0;
+      font-size: clamp(17px, 2.3vw, 24px);
+      line-height: 1.05;
+      text-shadow: 0 3px #000;
+    }
+
+    .portal-card p {
+      margin: 8px 0 14px;
+      color: #e4e4ee;
+      font-size: 13px;
+      line-height: 1.5;
+      max-width: 36ch;
+    }
+
+    .portal-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      align-self: flex-start;
+      min-height: 38px;
+      padding: 9px 13px;
+      border-radius: 9px;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--card-accent) 82%, #fff), color-mix(in srgb, var(--card-accent) 62%, #000));
+      color: #fff;
+      font-weight: 900;
+      font-size: 12px;
+      box-shadow: inset 0 1px rgba(255,255,255,.55), 0 5px 0 rgba(0,0,0,.42);
+      text-shadow: 0 1px rgba(0,0,0,.5);
+    }
+
+    .premium .portal-action { color: #ffe9a8; }
+
     .modal-bg {
-      display:none; position:fixed; inset:0; background:#000a; z-index:100;
-      align-items:center; justify-content:center;
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(8px);
     }
+
     .modal-box {
-      background:linear-gradient(180deg,#1a0a40,#0d0620);
-      border:3px solid #7737be; border-radius:16px; padding:30px;
-      max-width:340px; width:90%; text-align:center;
-      box-shadow:0 0 60px #7737be44;
-      font-family:ui-monospace,monospace;
+      width: min(420px, 100%);
+      border: 3px solid #f6c65b;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(36,20,8,.96), rgba(11,7,22,.96));
+      box-shadow: 0 0 70px rgba(246,198,91,.22), 0 25px 80px rgba(0,0,0,.7);
+      padding: 26px;
+      text-align: center;
     }
 
-    @media(max-width:900px){
-      .hub-grid{grid-template-columns:1fr}
-      .premium-cards{grid-template-columns:repeat(2,1fr)}
-    }
-    @media(max-width:520px){
-      .free-cards{grid-template-columns:1fr}
-      .premium-cards{grid-template-columns:repeat(2,1fr)}
+    .modal-box h2 {
+      margin: 8px 0 10px;
+      color: #f6c65b;
+      font-size: 22px;
     }
 
-    /* Custom uploaded backgrounds — clean build */
-    .hub.pixel {
-      background-image: linear-gradient(rgba(7,7,19,.16), rgba(7,7,19,.32)), url("custom-backgrounds/hub.jpg") !important;
-      background-size: cover !important;
-      background-position: center center !important;
-      background-repeat: no-repeat !important;
-    }
-    .art-rain {
-      background-image: linear-gradient(rgba(5,8,18,.12), rgba(5,8,18,.24)), url("custom-backgrounds/rain-room.jpg") !important;
-      background-size: cover !important;
-      background-position: center center !important;
-      background-repeat: no-repeat !important;
-    }
-    .art-miner {
-      background-image: linear-gradient(rgba(5,3,12,.18), rgba(5,3,12,.35)), url("custom-backgrounds/miner.jpg") !important;
-      background-size: cover !important;
-      background-position: center center !important;
-      background-repeat: no-repeat !important;
-    }
-    .art-campfire {
-      background-image: linear-gradient(rgba(8,4,1,.12), rgba(8,4,1,.28)), url("custom-backgrounds/campfire.jpg") !important;
-      background-size: cover !important;
-      background-position: center center !important;
-      background-repeat: no-repeat !important;
-    }
-    .art-biome {
-      background-image: linear-gradient(rgba(10,4,24,.12), rgba(10,4,24,.28)), url("custom-backgrounds/biome.jpg") !important;
-      background-size: cover !important;
-      background-position: center center !important;
-      background-repeat: no-repeat !important;
+    .modal-box p {
+      margin: 0 0 20px;
+      color: #ddd;
+      line-height: 1.65;
+      font-size: 14px;
     }
 
+    .upgrade,
+    .later {
+      width: 100%;
+      min-height: 44px;
+      border-radius: 10px;
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .upgrade {
+      display: grid;
+      place-items: center;
+      text-decoration: none;
+      background: linear-gradient(180deg, #7737be, #321068);
+      color: #f6c65b;
+      box-shadow: inset 0 1px #dbb2ff, 0 5px 0 #140025;
+      margin-bottom: 10px;
+    }
+
+    .later {
+      border: 2px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.07);
+      color: #bbb;
+    }
+
+    .nav {
+      z-index: 10;
+    }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .scene-preview { min-height: 260px; }
+      .portal-card,
+      .portal-card:nth-child(1),
+      .portal-card:nth-child(2) { grid-column: span 3; }
+    }
+
+    @media (max-width: 560px) {
+      .hub-top { padding-inline: 14px; }
+      .hero { padding-top: 8px; }
+      .realm-grid { grid-template-columns: 1fr; }
+      .portal-card,
+      .portal-card:nth-child(1),
+      .portal-card:nth-child(2) {
+        grid-column: auto;
+        min-height: 220px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .001ms !important;
+      }
+    }
   </style>
 </head>
 <body>
-<div class="hub pixel">
+  <main class="reset-hub" id="hub">
+    <div class="hub-backdrop" id="hubBackdrop"></div>
+    <div class="hub-motes" id="hubMotes" aria-hidden="true"></div>
 
-  <div class="sparkle" id="sparkles"></div>
+    <header class="hub-top">
+      <a href="index.html" class="hub-back" aria-label="Back to home">←</a>
+      <div class="hub-diamonds">💎 <span data-diamonds>250</span></div>
+    </header>
 
-  <!-- Top bar -->
-  <div class="hub-top">
-    <a href="index.html" class="hub-back">←</a>
-    <div class="hub-gem">💎 <span data-diamonds>250</span></div>
-  </div>
-
-  <!-- Title -->
-  <div class="hub-title-wrap">
-    <h1>✦ MIND RESET HUB ✦</h1>
-    <p class="hub-subtitle">Pick a place to reset your mind and find some peace.</p>
-  </div>
-
-  <!-- Cards -->
-  <div class="hub-wrap">
-    <div class="hub-grid">
-
-      <!-- FREE -->
-      <div>
-        <div class="section-label label-free">FREE TO PLAY</div>
-        <div class="free-cards">
-
-          <a href="realms/mind-reset.html" class="realm-card free-card">
-            <div class="card-art art-diamond">
-              <div class="diamond-gem"></div>
-              <div class="grass-row">
-                <div class="grass-block"></div><div class="grass-block"></div>
-                <div class="grass-block"></div><div class="grass-block"></div>
-                <div class="grass-block"></div>
-              </div>
-            </div>
-            <div class="card-info">
-              <div class="card-name">DIAMOND MIND RESET</div>
-              <div class="card-desc">A quick reset to clear your mind.</div>
-              <span class="card-btn btn-play">Play</span>
-            </div>
-          </a>
-
-          <a href="realms/breathing.html" class="realm-card free-card">
-            <div class="card-art art-breathing">
-              <div class="bb-block"></div>
-            </div>
-            <div class="card-info">
-              <div class="card-name">BREATHING BLOCKS</div>
-              <div class="card-desc">Breathe in, breathe out. Find your rhythm.</div>
-              <span class="card-btn btn-play">Play</span>
-            </div>
-          </a>
-
-        </div>
+    <section class="hero" aria-labelledby="hubTitle">
+      <div class="hero-copy">
+        <div class="eyebrow">✦ Choose your reset realm</div>
+        <h1 id="hubTitle">Mind Reset Hub</h1>
+        <p>
+          Hover or tap a realm to pull its custom background into the hub. Pick a free activity, or preview the premium spaces before upgrading.
+        </p>
       </div>
 
-      <!-- PREMIUM -->
-      <div>
-        <div class="section-label label-premium">
-          PREMIUM REALMS
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="#f6c65b"><path d="M12 1L3 6v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V6L12 1z"/></svg>
-        </div>
-        <div class="premium-cards">
+      <aside class="scene-preview" id="scenePreview" data-title="Move through the hub and choose a calm place." aria-live="polite"></aside>
+    </section>
 
-          <!-- Rain Room -->
-          <div class="realm-card premium-card" onclick="openModal('Rain Room Realm')">
-            <span class="lock-badge">🔒</span>
-            <div class="card-art art-rain">
-              <div class="rain-streaks"></div>
-              <div class="lantern-mini"></div>
-              <div class="villager-mini">
-                <div class="mc-v">
-                  <div class="vh"><div class="vel"></div><div class="ver"></div><div class="vn"></div></div>
-                  <div class="vb"></div>
-                </div>
-              </div>
-            </div>
-            <div class="card-info">
-              <div class="card-name">RAIN ROOM REALM</div>
-              <div class="card-desc">Talk with the villager in the rain.</div>
-              <button class="card-btn btn-premium">👑 Premium</button>
-            </div>
-          </div>
-
-          <!-- Thought Miner -->
-          <div class="realm-card premium-card" onclick="openModal('Thought Miner Cave')">
-            <span class="lock-badge">🔒</span>
-            <div class="card-art art-miner">
-              <div class="purple-orbs"></div>
-              <div class="axe-glow">⛏️</div>
-            </div>
-            <div class="card-info">
-              <div class="card-name">THOUGHT MINER CAVE</div>
-              <div class="card-desc">Mine your heavy thoughts and find calmer ones.</div>
-              <button class="card-btn btn-premium">👑 Premium</button>
-            </div>
-          </div>
-
-          <!-- Campfire -->
-          <div class="realm-card premium-card" onclick="openModal('Campfire Reflection')">
-            <span class="lock-badge">🔒</span>
-            <div class="card-art art-campfire">
-              <div class="fire-glow"></div>
-              <div class="fire-mini">
-                <div class="flame-mini"></div>
-                <div class="logs-mini"></div>
-              </div>
-            </div>
-            <div class="card-info">
-              <div class="card-name">CAMPFIRE REFLECTION</div>
-              <div class="card-desc">Toss your worries into the fire.</div>
-              <button class="card-btn btn-premium">👑 Premium</button>
-            </div>
-          </div>
-
-          <!-- Biome Shift -->
-          <div class="realm-card premium-card" onclick="openModal('Biome Shift Portal')">
-            <span class="lock-badge">🔒</span>
-            <div class="card-art art-biome">
-              <div class="portal-particles"></div>
-              <div class="portal-frame"></div>
-            </div>
-            <div class="card-info">
-              <div class="card-name">BIOME SHIFT PORTAL</div>
-              <div class="card-desc">Choose a biome to relax and chill.</div>
-              <button class="card-btn btn-premium">👑 Premium</button>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-
-    <div class="hub-footer">
-      <span>☁️ Complete realms and activities to earn diamonds</span>
-    </div>
-  </div>
-
-  <!-- Nav -->
-  <nav class="nav">
-    <a href="index.html">🏠 Home</a>
-    <a>📖 Journal</a>
-    <a>💗 Mood</a>
-    <a class="active">🌍 My World</a>
-    <a>👤 Account</a>
-  </nav>
-
-  <!-- Premium modal -->
-  <div class="modal-bg" id="modal">
-    <div class="modal-box">
-      <div style="font-size:34px;margin-bottom:10px">👑</div>
-      <h2 style="color:#f6c65b;margin:0 0 10px;font-size:17px" id="modalTitle">Premium Realm</h2>
-      <p style="color:#bbb;font-size:13px;margin:0 0 20px;line-height:1.6">
-        Unlock all premium realms to access <strong id="modalName" style="color:#fff"></strong> and more peaceful spaces!
-      </p>
-      <a href="pricing.html" style="display:block;padding:13px;background:linear-gradient(180deg,#7737be,#321068);color:#f6c65b;border-radius:8px;font-weight:900;font-size:14px;text-decoration:none;margin-bottom:10px;box-shadow:inset 0 1px #dbb2ff,0 4px 0 #140025">
-        👑 Upgrade to Premium
+    <section class="realm-grid" aria-label="Mind reset realms">
+      <a class="portal-card" href="realms/mind-reset.html"
+         style="--card-bg:url('custom-backgrounds/hub.jpg');--card-accent:#38e7ff"
+         data-bg="custom-backgrounds/hub.jpg"
+         data-title="Diamond Mind Reset"
+         data-desc="A fast clarity check-in for clearing mental clutter."
+         data-accent="#38e7ff">
+        <h2>Diamond Mind Reset</h2>
+        <p>A quick reset to clear your mind and earn a little momentum.</p>
+        <span class="portal-action">Play free</span>
       </a>
-      <button onclick="closeModal()" style="width:100%;padding:11px;background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.12);color:#999;border-radius:8px;font-family:inherit;font-size:13px;cursor:pointer">
-        Maybe later
+
+      <a class="portal-card" href="realms/breathing.html"
+         style="--card-bg:url('custom-backgrounds/biome.jpg');--card-accent:#76ef62"
+         data-bg="custom-backgrounds/biome.jpg"
+         data-title="Breathing Blocks"
+         data-desc="Slow block-by-block breathing with a calmer pace."
+         data-accent="#76ef62">
+        <h2>Breathing Blocks</h2>
+        <p>Breathe in, breathe out, and settle into a simple rhythm.</p>
+        <span class="portal-action">Play free</span>
+      </a>
+
+      <button class="portal-card premium" type="button"
+         style="--card-bg:url('custom-backgrounds/rain-room.jpg');--card-accent:#4aa3ff"
+         data-bg="custom-backgrounds/rain-room.jpg"
+         data-title="Rain Room Realm"
+         data-desc="A quiet rain scene with a villager check-in."
+         data-accent="#4aa3ff"
+         data-premium="Rain Room Realm">
+        <span class="lock">🔒</span>
+        <h2>Rain Room Realm</h2>
+        <p>Talk with the villager while rain softens the background.</p>
+        <span class="portal-action">👑 Premium</span>
       </button>
+
+      <button class="portal-card premium" type="button"
+         style="--card-bg:url('custom-backgrounds/miner.jpg');--card-accent:#b15cff"
+         data-bg="custom-backgrounds/miner.jpg"
+         data-title="Thought Miner Cave"
+         data-desc="Mine heavy thoughts into smaller, workable blocks."
+         data-accent="#b15cff"
+         data-premium="Thought Miner Cave">
+        <span class="lock">🔒</span>
+        <h2>Thought Miner Cave</h2>
+        <p>Break heavy thoughts into calmer, easier pieces.</p>
+        <span class="portal-action">👑 Premium</span>
+      </button>
+
+      <button class="portal-card premium" type="button"
+         style="--card-bg:url('custom-backgrounds/campfire.jpg');--card-accent:#ff8a1a"
+         data-bg="custom-backgrounds/campfire.jpg"
+         data-title="Campfire Reflection"
+         data-desc="Set a worry by the fire and let it cool down."
+         data-accent="#ff8a1a"
+         data-premium="Campfire Reflection">
+        <span class="lock">🔒</span>
+        <h2>Campfire Reflection</h2>
+        <p>Toss your worries into the fire and reflect for a minute.</p>
+        <span class="portal-action">👑 Premium</span>
+      </button>
+
+      <button class="portal-card premium" type="button"
+         style="--card-bg:url('custom-backgrounds/biome.jpg');--card-accent:#a855f7"
+         data-bg="custom-backgrounds/biome.jpg"
+         data-title="Biome Shift Portal"
+         data-desc="Preview a new mood by shifting the whole hub scene."
+         data-accent="#a855f7"
+         data-premium="Biome Shift Portal">
+        <span class="lock">🔒</span>
+        <h2>Biome Shift Portal</h2>
+        <p>Choose a biome, change the atmosphere, and reset the vibe.</p>
+        <span class="portal-action">👑 Premium</span>
+      </button>
+    </section>
+
+    <nav class="nav" aria-label="Main navigation">
+      <a href="index.html">🏠 Home</a>
+      <a>📖 Journal</a>
+      <a>💗 Mood</a>
+      <a class="active">🌍 My World</a>
+      <a>👤 Account</a>
+    </nav>
+
+    <div class="modal-bg" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-box">
+        <div style="font-size:38px">👑</div>
+        <h2 id="modalTitle">Premium Realm</h2>
+        <p>Unlock <strong id="modalName">this realm</strong> and the other custom background spaces.</p>
+        <a class="upgrade" href="pricing.html">Upgrade to Premium</a>
+        <button class="later" type="button" id="closeModal">Maybe later</button>
+      </div>
     </div>
-  </div>
+  </main>
 
-</div>
+  <script src="shared/bbb-realms.js"></script>
+  <script>
+    const hub = document.getElementById('hub');
+    const preview = document.getElementById('scenePreview');
+    const modal = document.getElementById('modal');
+    const modalName = document.getElementById('modalName');
+    const modalTitle = document.getElementById('modalTitle');
+    const cards = [...document.querySelectorAll('.portal-card')];
 
-<script src="shared/bbb-realms.js"></script>
-<script>
-  // ── SOUND PLACEHOLDERS ──────────────────────────────────────────────────────
-  // Hub UI sounds — add your audio files to /public/sounds/ and wire them here.
-  //
-  // HUB_OPEN:        Plays when Mind Reset Hub loads
-  //   PLACEHOLDER: new Audio('/public/sounds/hub-open.mp3').play();
-  //
-  // CARD_HOVER:      Plays on free card hover
-  //   PLACEHOLDER: new Audio('/public/sounds/card-hover.mp3').play();
-  //
-  // CARD_CLICK:      Plays when a free realm card is clicked
-  //   PLACEHOLDER: new Audio('/public/sounds/card-click.mp3').play();
-  //
-  // PREMIUM_CLICK:   Plays when a premium card is clicked
-  //   PLACEHOLDER: new Audio('/public/sounds/premium-click.mp3').play();
-  //
-  // MODAL_CLOSE:     Plays when the premium modal is dismissed
-  //   PLACEHOLDER: new Audio('/public/sounds/modal-close.mp3').play();
-  // ──────────────────────────────────────────────────────────────────────────
+    function setRealm(card) {
+      const bg = card.dataset.bg;
+      const accent = card.dataset.accent || '#38e7ff';
+      const title = card.dataset.title || 'Mind Reset Hub';
+      const desc = card.dataset.desc || 'Choose a calm place.';
+      document.documentElement.style.setProperty('--hub-bg', `url("${bg}")`);
+      document.documentElement.style.setProperty('--realm-accent', accent);
+      preview.style.backgroundImage = `linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.4)), url("${bg}")`;
+      preview.dataset.title = `${title} — ${desc}`;
+      cards.forEach(c => c.classList.toggle('is-active', c === card));
+    }
 
-  function openModal(name) {
-    // PLACEHOLDER: PREMIUM_CLICK sound here
-    if (BBBRealms && BBBRealms.sound) BBBRealms.sound.chime();
-    document.getElementById('modalName').textContent = name;
-    document.getElementById('modalTitle').textContent = name;
-    const m = document.getElementById('modal');
-    m.style.display = 'flex';
-  }
-  function closeModal() {
-    // PLACEHOLDER: MODAL_CLOSE sound here
-    document.getElementById('modal').style.display = 'none';
-  }
-  document.getElementById('modal').addEventListener('click', function(e) {
-    if (e.target === this) closeModal();
-  });
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', () => setRealm(card));
+      card.addEventListener('focus', () => setRealm(card));
+      card.addEventListener('click', event => {
+        setRealm(card);
+        if (card.dataset.premium) {
+          event.preventDefault();
+          if (window.BBBRealms?.sound) BBBRealms.sound.chime();
+          modalName.textContent = card.dataset.premium;
+          modalTitle.textContent = card.dataset.premium;
+          modal.style.display = 'flex';
+        }
+      });
+    });
 
-  // Sparkle particles
-  const sp = document.getElementById('sparkles');
-  const chars = ['✦','✧','✵','✴','✸','⊹'];
-  for (let i = 0; i < 20; i++) {
-    const s = document.createElement('span');
-    s.textContent = chars[i % chars.length];
-    s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*6}s;animation-duration:${3+Math.random()*4}s;font-size:${8+Math.random()*8}px;color:hsl(${240+Math.random()*60},70%,72%)`;
-    sp.appendChild(s);
-  }
+    document.getElementById('closeModal').addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
 
-  // PLACEHOLDER: HUB_OPEN sound (fires on page load)
-  // window.addEventListener('load', () => new Audio('/public/sounds/hub-open.mp3').play().catch(()=>{}));
-</script>
+    modal.addEventListener('click', event => {
+      if (event.target === modal) modal.style.display = 'none';
+    });
+
+    window.addEventListener('keydown', event => {
+      if (event.key === 'Escape') modal.style.display = 'none';
+    });
+
+    hub.addEventListener('pointermove', event => {
+      const x = Math.round((event.clientX / window.innerWidth) * 100);
+      const y = Math.round((event.clientY / window.innerHeight) * 100);
+      document.documentElement.style.setProperty('--mx', `${x}%`);
+      document.documentElement.style.setProperty('--my', `${y}%`);
+    }, { passive: true });
+
+    const motes = document.getElementById('hubMotes');
+    for (let i = 0; i < 34; i++) {
+      const mote = document.createElement('span');
+      mote.style.setProperty('--x', `${Math.random() * 100}%`);
+      mote.style.setProperty('--dur', `${8 + Math.random() * 12}s`);
+      mote.style.setProperty('--delay', `${Math.random() * -18}s`);
+      mote.style.setProperty('--drift', `${-50 + Math.random() * 100}px`);
+      motes.appendChild(mote);
+    }
+
+    setRealm(cards[0]);
+  </script>
 </body>
 </html>
