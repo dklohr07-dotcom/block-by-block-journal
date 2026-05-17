@@ -1,17 +1,20 @@
-Mind Reset Hub centered/no-wrap patch
+Mind Reset Hub exact-position patch
 
-This patch keeps:
-- MIND RESET HUB centered and on one line at all times.
-- The description centered at all times.
-- FREE TO PLAY on one line at all times.
-- PREMIUM REALMS ♛ on one line at all times.
+This upload-ready patch is designed to avoid changing the rest of your app.
 
-Upload options:
-1. Safest option: upload mobile-centered-nowrap-fix.css and link it after your existing Mind Reset Hub CSS.
-2. Or paste the CSS at the very bottom of mind-reset-hub.html inside the existing <style> tag.
-3. Replace only the title/description/label markup with html-snippet.html if your current classes do not match.
+Files:
+- mind-reset-hub-exact-position-fix.css
+- html-snippet.html
 
-Recommended link tag:
-<link rel="stylesheet" href="mobile-centered-nowrap-fix.css">
+Recommended upload:
+1. Add mind-reset-hub-exact-position-fix.css to the same folder as mind-reset-hub.html.
+2. In mind-reset-hub.html, add this link AFTER the current hub stylesheet:
+   <link rel="stylesheet" href="mind-reset-hub-exact-position-fix.css">
+3. If your existing title/label classes are different, replace only the heading and label area with html-snippet.html.
 
-This patch is scoped to common Mind Reset Hub class names and should not affect the rest of the app.
+What this fixes:
+- MIND RESET HUB stays centered and on one line.
+- Description stays centered.
+- FREE TO PLAY stays left and on one line.
+- PREMIUM REALMS ♛ stays right and on one line.
+- Text scales down on smaller screens instead of wrapping or drifting.
