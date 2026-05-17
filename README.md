@@ -1,149 +1,73 @@
-# 💎 Block by Block — Setup Guide
-## Railway · Supabase · Stripe · $29.99/year
+# Mind Reset Hub
 
----
+A Minecraft-themed mental wellness mini-app with 9 interactive sections designed to help users de-stress, manage anxiety, and build confidence.
 
-## 🗂 Files
-```
-├── index.html           Main app
-├── pricing.html         Parent-focused pricing page  ← NEW
-├── login.html           Login / signup               ← NEW
-├── server.js            Express + Supabase + Stripe  ← NEW
-├── package.json         Dependencies                 ← UPDATED
-├── .env.example         Copy → .env, fill in values  ← NEW
-├── supabase-schema.sql  Paste into Supabase SQL editor ← NEW
-└── README.md            This file
-```
+## Features
 
----
-
-## STEP 1 — Supabase (10 min, free)
-
-1. **supabase.com** → New Project (name it `block-by-block`)
-2. Settings → API → copy:
-   - Project URL → `SUPABASE_URL`
-   - `anon` key → `SUPABASE_ANON_KEY`
-   - `service_role` key → `SUPABASE_SERVICE_ROLE_KEY`
-3. SQL Editor → paste `supabase-schema.sql` → **Run**
-4. Authentication → Settings → enable **Email confirmations**
-5. (Optional) Authentication → Providers → enable **Google**
-
----
-
-## STEP 2 — Stripe (15 min, free until you earn)
-
-1. **stripe.com** → create account
-2. Developers → API Keys → copy Secret + Publishable keys
-3. **Create your product:**
-   - Products → Add Product
-   - Name: `Block by Block Premium`
-   - Add price: **$29.99 / year** (recurring, annual)
-   - Copy the Price ID → `STRIPE_PRICE_PREMIUM_ANNUAL`
-4. **Webhook:**
-   - Developers → Webhooks → Add endpoint
-   - URL: `https://YOUR-APP.up.railway.app/stripe/webhook`
-   - Events: `checkout.session.completed`, `customer.subscription.deleted`, `invoice.payment_succeeded`, `invoice.payment_failed`
-   - Copy Signing secret → `STRIPE_WEBHOOK_SECRET`
-5. Settings → Billing → **Customer portal → Activate**
-
----
-
-## STEP 3 — Railway Variables (5 min)
-
-Railway → your project → **Variables** → add:
-
-| Variable | Value |
+### Free Sections
+| Section | Experience |
 |---|---|
-| `APP_URL` | `https://YOUR-APP.up.railway.app` |
-| `SUPABASE_URL` | From Supabase Settings → API |
-| `SUPABASE_ANON_KEY` | From Supabase Settings → API |
-| `SUPABASE_SERVICE_ROLE_KEY` | From Supabase Settings → API |
-| `STRIPE_SECRET_KEY` | From Stripe Developers → API Keys |
-| `STRIPE_PUBLISHABLE_KEY` | From Stripe Developers → API Keys |
-| `STRIPE_WEBHOOK_SECRET` | From Stripe Developers → Webhooks |
-| `STRIPE_PRICE_PREMIUM_ANNUAL` | From Stripe Products → your price ID |
-| `NODE_ENV` | `production` |
+| 💎 Diamond Mind Reset | Light up a pixel heart — each click reveals an affirmation |
+| 🧊 Breathing Blocks | Box breathing with an animated 3D Minecraft cube |
+| ⛏ Thought Miner Cave | CBT-style thought reframing exercise |
+| 🔥 Campfire Reflection | Guided journaling prompts with animated fire |
+| 🌲 Forest Whisper | 5-4-3-2-1 grounding exercise + nature poems |
+| 🌅 Sunset Reset | Gratitude journaling + day rating |
 
----
+### Premium Sections
+| Section | Experience |
+|---|---|
+| 🌧️ Rain Room Realm | Interactive rain canvas with adjustable intensity/speed/wind + meditation guides |
+| 🌀 Biome Shift Portal | Perspective-shifting affirmations per biome (Mountain, Ocean, Desert, Space) |
+| 💎 Deep Cave Calm | Mood check-in with personalized coping toolkit |
 
-## STEP 4 — Push & Deploy
+## Setup
+
+No build step required. Just open `index.html` in a browser, or serve with any static file server:
 
 ```bash
-git add .
-git commit -m "feat: add Stripe + Supabase freemium system"
-git push
+# Python
+python3 -m http.server 8080
+
+# Node.js (npx)
+npx serve .
 ```
 
-Railway auto-redeploys. Watch logs for:
+## File Structure
+
 ```
-🧱 Block by Block running on port 3000
-```
-
----
-
-## STEP 5 — Test Payments
-
-1. Switch Stripe to **Test Mode** (toggle top-left in dashboard)
-2. Go to `/pricing.html` → click "Get Premium"
-3. Complete signup → redirected to Stripe checkout
-4. Use test card: `4242 4242 4242 4242` · any future date · any CVC
-5. Check Supabase → Table Editor → profiles → `plan` should be `premium`
-
-To test webhook locally:
-```bash
-stripe listen --forward-to localhost:3000/stripe/webhook
-```
-
----
-
-## How Premium Gating Works
-
-In `index.html`, call `/auth/me` on load to check the user's plan:
-
-```javascript
-async function initApp() {
-  try {
-    const res  = await fetch('/auth/me');
-    const user = await res.json();
-
-    if (user.isPremium) {
-      // Show all features
-      unlockAllFeatures();
-    } else {
-      // Limit journal entries, hide premium tools
-      limitToFreeFeatures();
-      showUpgradeBanner(); // link to /pricing.html
-    }
-  } catch {
-    // Not logged in — guest mode (limited features)
-    guestMode();
-  }
-}
+mind-reset-hub/
+├── index.html              # Main entry point
+├── css/
+│   └── styles.css          # All styles (Minecraft dark theme)
+├── js/
+│   ├── stars.js            # Animated starfield background
+│   ├── app.js              # Section routing & navigation
+│   └── sections/
+│       ├── diamond.js      # Diamond Mind Reset
+│       ├── breathing.js    # Breathing Blocks
+│       ├── thought.js      # Thought Miner Cave
+│       ├── campfire.js     # Campfire Reflection
+│       ├── forest.js       # Forest Whisper
+│       ├── sunset.js       # Sunset Reset
+│       ├── rain.js         # Rain Room Realm
+│       ├── biome.js        # Biome Shift Portal
+│       └── deep.js         # Deep Cave Calm
+└── README.md
 ```
 
----
+## Design System
 
-## 💰 Revenue Projections
+- **Fonts**: Press Start 2P (headers), VT323 (body text), Silkscreen (labels)
+- **Colors**: Deep navy backgrounds, cyan/blue free accents, gold premium accents
+- **Aesthetic**: Minecraft pixel art + dark cosmic space theme
+- **Mobile**: Fully responsive, touch-friendly
 
-| Paying parents | Monthly revenue | Annual revenue |
-|---|---|---|
-| 10 | $25 | $300 |
-| 50 | $125 | $1,500 |
-| 200 | $500 | $6,000 |
-| 500 | $1,250 | $15,000 |
-| 1,000 | $2,500 | $30,000 |
+## Integration
 
-*(Based on $29.99/year = ~$2.50/month)*
+To embed in an existing app, either:
+1. Drop these files into a subfolder and link to `index.html`
+2. Copy individual section JS functions into your framework
+3. Import the CSS variables into your existing stylesheet
 
----
-
-## 📧 Support
-- Email: hello@blockbyblockjournal.com
-- Crisis Text Line: Text HOME to 741741
-
-❤️ You matter. Your story matters. Your future matters.
-
-
-## Latest launch patch
-
-This package includes remember-me login, clearer Premium welcome text, a functional homepage community signup form, and security hardening. If your Supabase database already exists, run `SUPABASE_COMMUNITY_MIGRATION.sql` once in the Supabase SQL Editor before testing the community form.
+The hub uses vanilla JS with no dependencies — zero npm installs required.
