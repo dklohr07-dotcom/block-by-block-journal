@@ -132,6 +132,109 @@ textarea::placeholder{color:#d8d1de}
   .bubble-diamond{width:64px;height:64px}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+/* Rain Room Realm revision: use the exact scene image as the immersive canvas and keep rain behind the usable controls. */
+.rain-scene{background:#030816}
+.rain-scene .scene-bg-img{
+  filter:saturate(1.03) brightness(.98);
+  object-fit:cover;
+  object-position:center center;
+  z-index:0;
+}
+.rain-scene .scene-shade{
+  z-index:2;
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.04),rgba(0,0,0,.03) 46%,rgba(0,0,0,.18) 100%);
+  pointer-events:none;
+}
+.rain-scene .rain-lines{
+  z-index:1;
+  opacity:.16;
+  filter:blur(.25px);
+  background-image:
+    repeating-linear-gradient(100deg,rgba(125,190,255,0) 0 18px,rgba(122,190,255,.34) 19px 21px,rgba(125,190,255,0) 22px 42px),
+    repeating-linear-gradient(100deg,rgba(80,145,235,0) 0 28px,rgba(80,145,235,.20) 29px 31px,rgba(80,145,235,0) 32px 58px);
+  background-size:72px 150px,110px 210px;
+  animation-duration:2.4s;
+}
+.rain-scene .rain-lines.two{opacity:.10;filter:blur(.8px);animation-duration:3.5s}
+.rain-back,.rain-sound{background:rgba(8,9,20,.72);backdrop-filter:blur(4px)}
+.rain-room-form{
+  position:absolute;
+  z-index:5;
+  left:50%;
+  bottom:clamp(1rem,4.5vh,2rem);
+  transform:translateX(-50%);
+  width:min(66rem,calc(100% - 2rem));
+  padding:clamp(.75rem,2vw,1rem);
+  border:2px solid rgba(255,255,255,.22);
+  border-radius:clamp(18px,2.6vw,28px);
+  background:rgba(3,6,15,.76);
+  box-shadow:0 22px 58px rgba(0,0,0,.52), inset 0 0 0 1px rgba(255,255,255,.06);
+  backdrop-filter:blur(3px);
+}
+.rain-room-form textarea{
+  display:block;
+  width:100%;
+  min-height:clamp(7.2rem,22vh,11rem);
+  border:2px solid rgba(255,255,255,.28);
+  border-radius:clamp(14px,2vw,22px);
+  background:rgba(0,2,9,.72);
+  color:#fff;
+  padding:clamp(.9rem,2.5vw,1.25rem);
+  font-size:clamp(1.2rem,3.1vw,1.8rem);
+  line-height:1.35;
+  font-weight:900;
+  outline:none;
+  resize:none;
+}
+.rain-room-form textarea:focus{border-color:rgba(149,174,255,.78);box-shadow:0 0 0 4px rgba(91,114,255,.18)}
+.rain-room-form textarea::placeholder{color:rgba(255,255,255,.82)}
+.rain-share-btn{
+  width:100%;
+  min-height:clamp(3.6rem,9vw,5rem);
+  margin-top:clamp(.65rem,1.5vw,.9rem);
+  border:2px solid rgba(180,200,255,.50);
+  border-radius:clamp(14px,2vw,20px);
+  color:#fff;
+  font-weight:900;
+  font-size:clamp(1.15rem,3.2vw,1.75rem);
+  background:linear-gradient(180deg,#647ce4,#2f408e);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.22),0 8px 22px rgba(0,0,0,.36);
+}
+.rain-share-btn:active{transform:translateY(1px) scale(.995)}
+.rain-helper{
+  margin:clamp(.55rem,1.2vw,.75rem) 0 0;
+  color:#fff;
+  text-align:center;
+  font-size:clamp(1.05rem,2.7vw,1.45rem);
+  line-height:1.25;
+  font-weight:900;
+  text-shadow:2px 2px 0 #000;
+}
+@media (max-width:760px){
+  .rain-scene .scene-bg-img{object-position:center top}
+  .rain-room-form{
+    width:calc(100% - 1rem);
+    bottom:max(.55rem,env(safe-area-inset-bottom));
+    padding:.65rem;
+    border-radius:18px;
+  }
+  .rain-room-form textarea{min-height:7rem;padding:.85rem;font-size:1.12rem}
+  .rain-share-btn{min-height:3.5rem;font-size:1.12rem}
+  .rain-helper{font-size:1rem}
+}
+@media (orientation:landscape) and (max-height:640px){
+  .rain-room-form{
+    left:auto;
+    right:clamp(.75rem,3vw,2rem);
+    bottom:clamp(.75rem,3vh,1.2rem);
+    transform:none;
+    width:min(46rem,58vw);
+  }
+  .rain-room-form textarea{min-height:6.2rem}
+}
+
 </style>
 </head>
 <body>
@@ -189,17 +292,17 @@ textarea::placeholder{color:#d8d1de}
 </section>
 
 <section id="rain" class="screen rain-scene">
-  <img class="scene-bg-img" src="custom-backgrounds/rain-room.jpg" alt="Minecraft inspired rain room"/>
+  <img class="scene-bg-img" src="custom-backgrounds/rain-room-realm-bg.jpg" alt="Rain Room Realm"/>
   <div class="rain-lines"></div><div class="rain-lines two"></div><div class="scene-shade"></div>
-  <button class="back-hub" onclick="backHub()">← Hub</button><button id="rainSoundBtn" class="sound-btn" onclick="toggleSound('rainAudio','rainSoundBtn')">🔇</button>
-  <div class="rain-immersive-panel">
-    <div class="rain-prompt">What thought has been following you lately?</div>
-    <div class="rain-entry">
-      <textarea maxlength="220" placeholder="Type your thought here..."></textarea>
-      <button class="primary" style="width:100%;margin-top:.7rem;background:linear-gradient(#526ac9,#2b367e)" onclick="releaseText(this,'The rain helped lighten what you were carrying. +10 diamonds',10)">Share with the rain 🌧️</button>
-      <p class="helper">The rain can help lighten what you are carrying.</p>
-    </div>
+  <button class="back-hub rain-back" onclick="backHub()">← Hub</button>
+  <button id="rainSoundBtn" class="sound-btn rain-sound" onclick="toggleSound('rainAudio','rainSoundBtn')" aria-label="Toggle rain sound">🔇</button>
+
+  <div class="rain-room-form" aria-label="Rain Room reflection">
+    <textarea maxlength="220" placeholder="Type your thoughts here..." aria-label="Type your thought here"></textarea>
+    <button class="rain-share-btn" onclick="releaseText(this,'The rain helped lighten what you were carrying. +10 diamonds',10)">🌧️ Share with the rain</button>
+    <p class="rain-helper">The rain can help lighten what you are carrying.</p>
   </div>
+
   <audio id="rainAudio" loop preload="auto" src="public:sounds:/ES_Weather, Thunder, Light Rain - Epidemic Sound.mp3"></audio>
 </section>
 
