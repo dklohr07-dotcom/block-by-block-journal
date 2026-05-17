@@ -4,203 +4,345 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 <title>Mind Reset Hub | Block by Block</title>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet"/>
 <style>
 :root{
-  --diamond:#54d8ff;--gold:#ffd47a;--purple:#8b54ff;--green:#52d15d;--orange:#ff8b35;
-  --text:#fffaf2;--muted:#d9d4e8;--panel:rgba(6,7,14,.82);--line:rgba(255,255,255,.22);
+  --diamond:#54d8ff;--gold:#ffd47a;--purple:#8b54ff;--green:#52d15d;
+  --text:#fffaf2;--muted:#d9d4e8;--line:rgba(255,255,255,.22);
   --mc:'Press Start 2P',monospace;--ui:'Nunito',system-ui,sans-serif;
 }
 *{box-sizing:border-box}
-html{font-size:18px}
+html{font-size:19px}
 body{margin:0;min-height:100vh;background:#05050d;color:var(--text);font-family:var(--ui);overflow-x:hidden}
-button,a,input,textarea{font:inherit}
-button{cursor:pointer}
-.app{min-height:100vh;background:radial-gradient(circle at 30% 0%,rgba(99,50,190,.28),transparent 38%),#06060f}
-.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:.7rem;justify-content:space-between;padding:max(.8rem,env(safe-area-inset-top)) .8rem .8rem;background:rgba(4,4,10,.72);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.back{width:3.2rem;height:3.2rem;border-radius:.65rem;border:2px solid var(--line);background:rgba(255,255,255,.06);color:white;font-size:1.8rem;display:grid;place-items:center;text-decoration:none}
-.title{text-align:center;min-width:0;flex:1}
-.title h1{margin:0;font-family:var(--mc);font-size:clamp(1.05rem,4vw,1.7rem);line-height:1.35;text-shadow:3px 3px 0 #000}
-.title p{margin:.35rem 0 0;color:var(--muted);font-size:clamp(1rem,3vw,1.25rem);font-weight:900}
-.diamonds{min-width:5.7rem;height:3.2rem;border-radius:.65rem;border:2px solid var(--line);background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;gap:.35rem;font-size:1.2rem;font-weight:900}
-.screen{display:none;min-height:calc(100vh - 82px);padding:.8rem}
+button,textarea{font:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.screen{display:none;min-height:100svh}
 .screen.active{display:block}
-.hub-wrap{max-width:1180px;margin:0 auto}
-.hub-note{font-weight:900;color:#d9d4e8;text-align:center;margin:.5rem auto 1rem;max-width:850px;font-size:1.05rem;line-height:1.45}
-.hub-stage{position:relative;border:2px solid rgba(108,211,255,.45);border-radius:1rem;overflow:hidden;background:#05050c;box-shadow:0 18px 50px rgba(0,0,0,.45)}
-.hub-img{width:100%;display:block;user-select:none}
-.hotspot{position:absolute;border:2px solid rgba(84,216,255,.1);border-radius:.8rem;background:rgba(84,216,255,.02);transition:.15s;min-height:44px}
-.hotspot:hover,.hotspot:focus{outline:none;border-color:var(--diamond);background:rgba(84,216,255,.12);box-shadow:0 0 20px rgba(84,216,255,.35)}
-.hotspot span{position:absolute;left:50%;bottom:.55rem;transform:translateX(-50%);white-space:nowrap;background:rgba(0,0,0,.78);border:1px solid var(--line);border-radius:.45rem;padding:.3rem .45rem;color:#fff;font-weight:900;font-size:.78rem}
-.hs-diamond{left:2.5%;top:28%;width:17.5%;height:56%}.hs-breathe{left:21%;top:28%;width:16.5%;height:56%}.hs-rain{left:39%;top:28%;width:15%;height:56%}.hs-miner{left:54.5%;top:28%;width:15%;height:56%}.hs-camp{left:70%;top:28%;width:14.8%;height:56%}.hs-biome{left:85.2%;top:28%;width:14.2%;height:56%}
-.mobile-picker{display:none;grid-template-columns:1fr;gap:.7rem;margin-top:.8rem}
-.pick{border:2px solid var(--line);border-radius:.8rem;background:rgba(255,255,255,.08);color:#fff;padding:.9rem;text-align:left;font-weight:900;font-size:1.08rem;display:flex;justify-content:space-between;align-items:center}
-.scene{position:relative;min-height:calc(100vh - 82px);overflow:hidden;border-radius:0}
-.scene-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.05) brightness(.82);z-index:0}
-.scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.2),rgba(0,0,0,.4) 55%,rgba(0,0,0,.75));z-index:1}
-.scene-ui{position:relative;z-index:5;min-height:calc(100vh - 82px);display:flex;flex-direction:column;padding:1rem;gap:1rem}
-.scene-head{display:flex;gap:.75rem;align-items:flex-start}
-.scene-icon{font-size:2.3rem;filter:drop-shadow(3px 3px 0 #000)}
-.scene h2{font-family:var(--mc);font-size:clamp(1.15rem,4vw,1.7rem);line-height:1.35;margin:.1rem 0;text-shadow:3px 3px 0 #000}
-.scene-sub{font-size:clamp(1.05rem,3.5vw,1.35rem);font-weight:900;color:#eee;line-height:1.35;text-shadow:2px 2px 0 #000}
-.card{margin-top:auto;background:var(--panel);border:2px solid var(--line);border-radius:1rem;padding:1rem;box-shadow:0 14px 42px rgba(0,0,0,.45)}
-.prompt{font-size:1.25rem;font-weight:900;line-height:1.45;margin-bottom:.75rem}
-textarea{width:100%;min-height:8rem;border:2px solid var(--line);border-radius:.75rem;background:rgba(0,0,0,.7);color:#fff;padding:1rem;font-size:1.1rem;font-weight:800;resize:vertical}
-.primary{width:100%;border:2px solid rgba(255,255,255,.28);border-radius:.75rem;background:linear-gradient(#2c8ddd,#10639b);color:white;padding:1rem;margin-top:.75rem;font-size:1.2rem;font-weight:900;box-shadow:inset 2px 2px 0 rgba(255,255,255,.18),0 8px 0 rgba(0,0,0,.28)}
-.reward{display:inline-flex;gap:.45rem;align-items:center;margin-top:.7rem;font-weight:900;font-size:1.15rem;color:#fff}
-.float-btns{position:absolute;right:1rem;top:1rem;z-index:10;display:flex;gap:.55rem}
-.sound{width:3.2rem;height:3.2rem;border-radius:.7rem;border:2px solid var(--line);background:rgba(0,0,0,.55);color:#fff;font-size:1.5rem}
-.rain-layer{pointer-events:none;position:absolute;inset:-20%;z-index:3;background-image:repeating-linear-gradient(105deg,rgba(120,190,255,.0) 0 12px,rgba(120,190,255,.45) 13px 15px,rgba(120,190,255,0) 16px 24px);animation:rain 1s linear infinite;opacity:.55}
-@keyframes rain{to{transform:translate3d(-55px,90px,0)}}
-.fire-glow{pointer-events:none;position:absolute;left:18%;bottom:18%;width:24%;height:28%;z-index:3;background:radial-gradient(circle,rgba(255,196,70,.75),rgba(255,96,20,.34) 40%,transparent 72%);filter:blur(8px);animation:flicker .42s infinite alternate}
-@keyframes flicker{from{transform:scale(.93);opacity:.65}to{transform:scale(1.08);opacity:1}}
+#hub{background:radial-gradient(circle at 50% 0%,rgba(81,44,170,.28),transparent 45%),#05050d;padding:clamp(.55rem,2vw,1rem)}
+.hub-shell{width:min(1120px,100%);margin:0 auto;padding-top:clamp(.25rem,2vw,.8rem)}
+.hub-stage{position:relative;width:100%;aspect-ratio:1049/420;overflow:hidden;border:2px solid rgba(108,211,255,.35);border-radius:1rem;background:#05050c;box-shadow:0 20px 60px rgba(0,0,0,.48)}
+.hub-img{position:absolute;left:0;top:-28.1%;width:100%;height:auto;display:block;user-select:none}
+.hotspot{position:absolute;border:2px solid rgba(84,216,255,.08);border-radius:.7rem;background:rgba(84,216,255,.015);transition:.15s;min-width:44px;min-height:44px}
+.hotspot:focus,.hotspot:hover{outline:none;border-color:var(--diamond);background:rgba(84,216,255,.13);box-shadow:0 0 22px rgba(84,216,255,.42)}
+.hs-diamond{left:2.5%;top:12%;width:17.6%;height:80%}.hs-breathe{left:21%;top:12%;width:16.7%;height:80%}.hs-rain{left:39%;top:12%;width:15.1%;height:80%}.hs-miner{left:54.6%;top:12%;width:15.1%;height:80%}.hs-camp{left:70.1%;top:12%;width:14.8%;height:80%}.hs-biome{left:85.2%;top:12%;width:14.3%;height:80%}
+.scene{position:relative;overflow:hidden;background:#06060f}
+.back-hub{position:fixed;left:max(.7rem,env(safe-area-inset-left));top:max(.7rem,env(safe-area-inset-top));z-index:30;border:2px solid var(--line);border-radius:.75rem;background:rgba(0,0,0,.62);color:#fff;padding:.7rem .85rem;font-size:1.05rem;font-weight:900;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.sound-btn{position:fixed;right:max(.7rem,env(safe-area-inset-right));top:max(.7rem,env(safe-area-inset-top));z-index:30;width:3.3rem;height:3.3rem;border-radius:.75rem;border:2px solid var(--line);background:rgba(0,0,0,.62);color:#fff;font-size:1.45rem}
+.game-panel{position:relative;z-index:10;width:min(760px,calc(100% - 1.2rem));margin:0 auto;padding:calc(env(safe-area-inset-top) + 4.7rem) 0 1rem;text-align:center}
+.game-title{font-family:var(--mc);font-size:clamp(1.1rem,5vw,1.8rem);line-height:1.35;margin:0 0 .65rem;text-shadow:3px 3px 0 #000}
+.instructions{font-size:clamp(1.1rem,4vw,1.45rem);line-height:1.35;font-weight:900;color:#f4f0ff;margin:.25rem auto .9rem;max-width:680px}
+.primary,.stop{border:2px solid rgba(255,255,255,.28);border-radius:.8rem;color:white;padding:1rem 1.15rem;font-size:clamp(1.05rem,4vw,1.35rem);font-weight:900;box-shadow:inset 2px 2px 0 rgba(255,255,255,.18),0 8px 0 rgba(0,0,0,.3)}
+.primary{background:linear-gradient(#2c8ddd,#10639b)}
+.stop{background:linear-gradient(#c35a32,#873114);margin-left:.4rem}
+.stat{display:inline-flex;align-items:center;gap:.4rem;margin:.4rem;padding:.65rem .9rem;border:2px solid var(--line);border-radius:.75rem;background:rgba(0,0,0,.56);font-size:1.15rem;font-weight:900}
+.starfield{position:absolute;inset:0;background:radial-gradient(circle at 15% 20%,rgba(84,216,255,.28),transparent 1px),radial-gradient(circle at 80% 12%,rgba(255,255,255,.7),transparent 1.2px),radial-gradient(circle at 50% 65%,rgba(151,101,255,.38),transparent 1.4px),radial-gradient(circle at 35% 78%,rgba(255,255,255,.55),transparent 1px),#05050d;background-size:90px 90px,130px 130px,160px 160px,115px 115px,auto;animation:drift 28s linear infinite}
+@keyframes drift{to{background-position:180px 90px,-130px 130px,160px -160px,-115px -115px,0 0}}
+.tap-zone{position:relative;min-height:min(58svh,520px);border:2px solid rgba(84,216,255,.24);border-radius:1rem;background:rgba(255,255,255,.035);overflow:hidden;touch-action:manipulation}
+.falling-diamond{position:absolute;font-size:2rem;filter:drop-shadow(0 0 12px rgba(84,216,255,.8));animation:fall 2.6s linear forwards}
+@keyframes fall{from{transform:translateY(-60px) scale(.9)}to{transform:translateY(620px) scale(1.1)}}
+.result{font-size:1.35rem;font-weight:900;margin-top:.8rem;min-height:1.8rem}
+.breathe-area{min-height:100svh;background:radial-gradient(circle at 50% 35%,rgba(84,216,255,.18),transparent 36%),#05050d;display:grid;place-items:center;padding:4.8rem .7rem 1rem}
+.breathe-card{width:min(680px,100%);text-align:center}
+.breath-block{width:min(55vw,230px);height:min(55vw,230px);margin:1.4rem auto;border-radius:.6rem;background-image:linear-gradient(rgba(20,35,45,.16),rgba(20,35,45,.16)),url("custom-backgrounds/hub.jpg");background-size:610% auto;background-position:20.8% 43%;border:4px solid rgba(110,220,255,.5);box-shadow:0 0 45px rgba(84,216,255,.6),inset 5px 5px 0 rgba(255,255,255,.12);image-rendering:auto;animation:breathe 6s ease-in-out infinite}
+.breath-block.done{animation:none;filter:saturate(.8);box-shadow:0 0 20px rgba(84,216,255,.25)}
+@keyframes breathe{0%,100%{transform:scale(.78)}50%{transform:scale(1.13)}}
+.progress{height:1.1rem;border:2px solid var(--line);border-radius:1rem;background:rgba(0,0,0,.55);overflow:hidden;margin:.8rem auto;max-width:560px}
+.progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,#54d8ff,#8b54ff);transition:width .3s}
+.image-scene{min-height:100svh;background:#02030a}
+.scene-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.08) brightness(.9)}
+.scene-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.2) 45%,rgba(0,0,0,.45));pointer-events:none}
+.rain-layer{position:absolute;inset:-20%;pointer-events:none;opacity:.68;background-image:repeating-linear-gradient(92deg,rgba(120,190,255,0) 0 12px,rgba(120,190,255,.62) 13px 15px,rgba(120,190,255,0) 17px 25px);animation:rain 1.25s linear infinite}
+.rain-layer.soft{opacity:.38;filter:blur(.5px);animation-duration:1.75s}
+@keyframes rain{to{transform:translate3d(-46px,96px,0)}}
+.rain-input{position:relative;z-index:12;width:min(760px,calc(100% - 1.2rem));margin:0 auto;padding-top:calc(env(safe-area-inset-top) + 48svh)}
+.rain-input textarea{width:100%;min-height:7rem;border:2px solid rgba(255,255,255,.28);border-radius:.8rem;background:rgba(0,0,0,.68);color:#fff;padding:1rem;font-size:clamp(1.05rem,4vw,1.35rem);font-weight:900;resize:vertical}
+.rain-input .primary{width:100%;margin-top:.7rem;background:linear-gradient(#4d62bd,#28347b)}
+.fire-glow{pointer-events:none;position:absolute;left:18%;bottom:17%;width:25%;height:30%;z-index:3;background:radial-gradient(circle,rgba(255,196,70,.75),rgba(255,96,20,.34) 42%,transparent 72%);filter:blur(8px);animation:flicker .42s infinite alternate}
+@keyframes flicker{from{transform:scale(.94);opacity:.68}to{transform:scale(1.08);opacity:1}}
 .spark{position:absolute;width:6px;height:6px;background:#ffb04c;z-index:4;bottom:28%;left:28%;animation:spark 2.2s linear infinite}
-.spark:nth-child(2){left:35%;animation-delay:.4s}.spark:nth-child(3){left:24%;animation-delay:.8s}.spark:nth-child(4){left:31%;animation-delay:1.2s}
+.spark:nth-of-type(2){left:35%;animation-delay:.4s}.spark:nth-of-type(3){left:24%;animation-delay:.8s}.spark:nth-of-type(4){left:31%;animation-delay:1.2s}
 @keyframes spark{0%{transform:translateY(0);opacity:0}20%{opacity:1}100%{transform:translateY(-220px);opacity:0}}
-.mine-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem}
-.block{min-height:5.2rem;border:3px solid #40352e;background:#2b2424;color:white;border-radius:.35rem;font-size:1rem;font-weight:900;padding:.6rem;box-shadow:inset 3px 3px 0 rgba(255,255,255,.08),0 6px 0 #111}
-.block.mined{background:linear-gradient(#8d6e47,#5a442d);border-color:#ffd47a;box-shadow:0 0 24px rgba(255,212,122,.7);animation:pop .25s}
-@keyframes pop{50%{transform:scale(1.06)}}
-.biomes{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem}
-.biome{border:2px solid var(--line);border-radius:.75rem;background:rgba(0,0,0,.58);color:#fff;padding:.9rem;text-align:left;font-weight:900;font-size:1rem;min-height:5.3rem}
-.biome.sel{border-color:#65e66d;box-shadow:0 0 20px rgba(82,209,93,.35)}
-.breathe-orb{width:min(44vw,230px);height:min(44vw,230px);border-radius:50%;margin:2rem auto;background:radial-gradient(circle,#bff6ff,#37cfff 45%,#07495f 72%);box-shadow:0 0 50px rgba(84,216,255,.75);animation:breathe 6s ease-in-out infinite}
-@keyframes breathe{0%,100%{transform:scale(.82)}50%{transform:scale(1.12)}}
-.toast{position:fixed;left:50%;bottom:1rem;transform:translateX(-50%);z-index:100;background:#111;border:2px solid var(--diamond);border-radius:.75rem;padding:.8rem 1rem;font-weight:900;display:none}
+.simple-panel{position:relative;z-index:12;width:min(760px,calc(100% - 1.2rem));margin:0 auto;padding-top:calc(env(safe-area-inset-top) + 58svh);padding-bottom:1rem}
+.simple-panel textarea{width:100%;min-height:6.5rem;border:2px solid rgba(255,255,255,.28);border-radius:.8rem;background:rgba(0,0,0,.68);color:#fff;padding:1rem;font-size:clamp(1.05rem,4vw,1.3rem);font-weight:900;resize:vertical}
+.mine-grid,.biomes{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem}
+.block,.biome{border:2px solid var(--line);border-radius:.75rem;background:rgba(0,0,0,.66);color:#fff;padding:.9rem;font-size:1rem;font-weight:900;min-height:4.8rem}
+.block.mined{background:linear-gradient(#8d6e47,#5a442d);border-color:#ffd47a;box-shadow:0 0 24px rgba(255,212,122,.72)}
+.biome.sel{border-color:#65e66d;box-shadow:0 0 20px rgba(82,209,93,.4)}
+.toast{position:fixed;left:50%;bottom:max(.8rem,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:100;background:#111;border:2px solid var(--diamond);border-radius:.75rem;padding:.8rem 1rem;font-weight:900;font-size:1rem;display:none;max-width:92%;text-align:center}
 .toast.show{display:block}
 @media(max-width:760px){
-  html{font-size:17px}
-  .topbar{gap:.45rem}.back,.diamonds,.sound{height:2.8rem}.back,.sound{width:2.8rem}.diamonds{min-width:4.8rem;font-size:1rem}
-  .title h1{font-size:.95rem}.title p{font-size:.92rem}
-  .screen{padding:.55rem}
-  .hotspot span{display:none}
-  .mobile-picker{display:grid}
-  .hub-note{font-size:1rem;text-align:left;padding:0 .2rem}
-  .hub-stage{border-radius:.7rem}
-  .scene-ui{padding:.75rem;min-height:calc(100vh - 73px)}
-  .card{padding:.85rem;border-radius:.85rem}
+  html{font-size:18px}
+  #hub{padding:.35rem}
+  .hub-stage{border-radius:.65rem;aspect-ratio:1049/460}
+  .hub-img{top:-22%}
+  .hotspot{border-color:rgba(84,216,255,.04);background:transparent}
+  .hs-diamond,.hs-breathe,.hs-rain,.hs-miner,.hs-camp,.hs-biome{top:13%;height:78%}
+  .game-panel{padding-top:4.4rem}
+  .tap-zone{min-height:54svh}
+  .rain-input{padding-top:50svh}
+  .simple-panel{padding-top:55svh}
   .mine-grid,.biomes{grid-template-columns:1fr}
-  textarea{min-height:7rem;font-size:1.05rem}
-  .prompt{font-size:1.1rem}
 }
 @media(max-width:430px){
-  .title p{display:none}
-  .hub-stage{margin-inline:-.2rem}
-  .hotspot{min-height:36px}
-  .scene h2{font-size:1rem}
-  .scene-sub{font-size:1rem}
+  html{font-size:17px}
+  .hub-stage{aspect-ratio:1049/500}
+  .hub-img{top:-18%}
+  .back-hub{font-size:.95rem;padding:.65rem .75rem}
+  .sound-btn{width:3rem;height:3rem}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<div class="app">
-  <header class="topbar">
-    <a class="back" href="index.html#world" aria-label="Back to My World">←</a>
-    <div class="title"><h1>✦ MIND RESET HUB ✦</h1><p>Tap the picture to choose a reset.</p></div>
-    <div class="diamonds">💎 <span id="diamonds">250</span></div>
-  </header>
-
-  <main id="hub" class="screen active">
-    <div class="hub-wrap">
-      <p class="hub-note">This hub lives inside My World. Tap one of the cards in the image below, or use the simple buttons under it on smaller screens.</p>
-      <div class="hub-stage" aria-label="Mind Reset Hub interactive image">
-        <img class="hub-img" src="custom-backgrounds/hub.jpg" alt="Mind Reset Hub with clickable reset activities"/>
-        <button class="hotspot hs-diamond" onclick="openScene('diamond')" aria-label="Diamond Mind Reset"><span>Diamond Reset</span></button>
-        <button class="hotspot hs-breathe" onclick="openScene('breathe')" aria-label="Breathing Blocks"><span>Breathing Blocks</span></button>
-        <button class="hotspot hs-rain" onclick="openScene('rain')" aria-label="Rain Room Realm"><span>Rain Room</span></button>
-        <button class="hotspot hs-miner" onclick="openScene('miner')" aria-label="Thought Miner Cave"><span>Thought Miner</span></button>
-        <button class="hotspot hs-camp" onclick="openScene('campfire')" aria-label="Campfire Reflection"><span>Campfire</span></button>
-        <button class="hotspot hs-biome" onclick="openScene('biome')" aria-label="Biome Shift Portal"><span>Biome Portal</span></button>
-      </div>
-      <div class="mobile-picker">
-        <button class="pick" onclick="openScene('diamond')">💎 Diamond Mind Reset <span>Play</span></button>
-        <button class="pick" onclick="openScene('breathe')">🧱 Breathing Blocks <span>Play</span></button>
-        <button class="pick" onclick="openScene('rain')">🌧️ Rain Room Realm <span>Open</span></button>
-        <button class="pick" onclick="openScene('miner')">⛏️ Thought Miner Cave <span>Open</span></button>
-        <button class="pick" onclick="openScene('campfire')">🔥 Campfire Reflection <span>Open</span></button>
-        <button class="pick" onclick="openScene('biome')">🌀 Biome Shift Portal <span>Open</span></button>
-      </div>
+<main id="hub" class="screen active" aria-label="Mind Reset Hub">
+  <div class="hub-shell">
+    <div class="hub-stage" aria-label="Choose a Mind Reset activity">
+      <img class="hub-img" src="custom-backgrounds/hub.jpg" alt="Mind Reset Hub cards: free to play and premium realms"/>
+      <button class="hotspot hs-diamond" onclick="openScene('diamond')" aria-label="Play Diamond Mind Reset"></button>
+      <button class="hotspot hs-breathe" onclick="openScene('breathe')" aria-label="Play Breathing Blocks"></button>
+      <button class="hotspot hs-rain" onclick="openScene('rain')" aria-label="Open Rain Room Realm"></button>
+      <button class="hotspot hs-miner" onclick="openScene('miner')" aria-label="Open Thought Miner Cave"></button>
+      <button class="hotspot hs-camp" onclick="openScene('campfire')" aria-label="Open Campfire Reflection"></button>
+      <button class="hotspot hs-biome" onclick="openScene('biome')" aria-label="Open Biome Shift Portal"></button>
     </div>
-  </main>
+  </div>
+</main>
 
-  <section id="diamond" class="screen scene">
-    <img class="scene-img" src="custom-backgrounds/hub.jpg" alt="Diamond reset scene"/><div class="scrim"></div>
-    <div class="scene-ui"><SceneHead icon="💎" title="Diamond Mind Reset" sub="A quick reset to clear your mind."></SceneHead>
-      <div class="card"><div class="prompt">Name one small thing you can do next.</div><textarea maxlength="200" placeholder="Example: Drink water, ask for help, take five breaths..."></textarea><button class="primary" onclick="complete(5)">Save Reset 💎</button><div class="reward">💎 +5 Diamonds</div></div>
-    </div>
-  </section>
+<section id="diamond" class="screen scene" aria-label="Diamond Mind Reset">
+  <div class="starfield"></div>
+  <button class="back-hub" onclick="backHub()">← Hub</button>
+  <div class="game-panel">
+    <h1 class="game-title">Diamond Mind Reset</h1>
+    <p class="instructions">Tap as many diamonds as you can before time runs out.</p>
+    <div><span class="stat">💎 <span id="diamondScore">0</span></span><span class="stat">⏱️ <span id="diamondTime">20</span>s</span></div>
+    <div id="tapZone" class="tap-zone" onclick="tapEmptyDiamond(event)"></div>
+    <button id="startDiamond" class="primary" onclick="startDiamondGame()">Start</button>
+    <button id="stopDiamond" class="stop" onclick="stopDiamondGame()" disabled>Stop</button>
+    <div id="diamondResult" class="result"></div>
+  </div>
+</section>
 
-  <section id="breathe" class="screen scene">
-    <img class="scene-img" src="custom-backgrounds/hub.jpg" alt="Breathing blocks scene"/><div class="scrim"></div>
-    <div class="scene-ui"><SceneHead icon="🧱" title="Breathing Blocks" sub="Breathe with the glowing diamond."></SceneHead>
-      <div class="card"><div class="breathe-orb"></div><div class="prompt" id="breathText">Breathe in as it grows. Breathe out as it shrinks.</div><button class="primary" onclick="complete(5)">I Finished My Breaths 💎</button><div class="reward">💎 +5 Diamonds</div></div>
+<section id="breathe" class="screen scene" aria-label="Breathing Blocks">
+  <button class="back-hub" onclick="backHub()">← Hub</button>
+  <div class="breathe-area">
+    <div class="breathe-card">
+      <h1 class="game-title">Breathing Blocks</h1>
+      <p class="instructions" id="breathText">Breathe in as the block grows. Breathe out as it shrinks.</p>
+      <div id="breathBlock" class="breath-block" role="img" aria-label="Breathing block"></div>
+      <div class="progress"><i id="breathProgress"></i></div>
+      <p class="instructions" id="breathCount">Round 1 of 5</p>
+      <button id="startBreath" class="primary" onclick="startBreathing()">Start Breathing</button>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="rain" class="screen scene">
-    <img class="scene-img" src="custom-backgrounds/rain-room.jpg" alt="Rain room interactive image"/><div class="rain-layer"></div><div class="scrim"></div>
-    <div class="float-btns"><button class="sound" onclick="speak('What thought has been following you lately?')">🔊</button><button class="sound" onclick="toggleRain()">🌧️</button></div>
-    <div class="scene-ui"><SceneHead icon="🌧️" title="Rain Room Realm" sub="Let the rain wash away what feels heavy."></SceneHead>
-      <div class="card"><div class="prompt">What thought has been following you lately?</div><textarea maxlength="200" placeholder="Type your thoughts here..."></textarea><button class="primary" onclick="complete(10)">Share with the Rain 🌧️</button><div class="reward">💎 +10 Diamonds</div></div>
-    </div>
-  </section>
+<section id="rain" class="screen image-scene" aria-label="Rain Room Realm">
+  <img class="scene-img" src="custom-backgrounds/rain-room.jpg" alt="Rain Room Realm"/>
+  <div class="rain-layer"></div><div class="rain-layer soft"></div><div class="scene-shade"></div>
+  <button class="back-hub" onclick="backHub()">← Hub</button>
+  <button id="rainSoundBtn" class="sound-btn" onclick="toggleRainSound()">🔇</button>
+  <div class="rain-input">
+    <textarea maxlength="200" placeholder="Type your thoughts here..."></textarea>
+    <button class="primary" onclick="complete(10); clearText(this)">🌧️ Share with the rain</button>
+  </div>
+  <audio id="rainAudio" loop preload="auto" src="public:sounds:/ES_Weather, Thunder, Light Rain - Epidemic Sound.mp3"></audio>
+</section>
 
-  <section id="miner" class="screen scene">
-    <img class="scene-img" src="custom-backgrounds/miner.jpg" alt="Thought Miner Cave interactive image"/><div class="scrim"></div>
-    <div class="scene-ui"><SceneHead icon="⛏️" title="Thought Miner Cave" sub="Tap the heavy thoughts to uncover calmer reframes."></SceneHead>
-      <div class="card"><div class="mine-grid" id="mineGrid"></div><button class="primary" onclick="complete(15)">Collect Reframes 💎</button><div class="reward">💎 +15 Diamonds</div></div>
-    </div>
-  </section>
+<section id="miner" class="screen image-scene" aria-label="Thought Miner Cave">
+  <img class="scene-img" src="custom-backgrounds/miner.jpg" alt="Thought Miner Cave"/>
+  <div class="scene-shade"></div><button class="back-hub" onclick="backHub()">← Hub</button>
+  <div class="simple-panel"><div class="mine-grid" id="mineGrid"></div><button class="primary" style="width:100%;margin-top:.7rem" onclick="complete(15)">Collect Reframes 💎</button></div>
+</section>
 
-  <section id="campfire" class="screen scene">
-    <img class="scene-img" src="custom-backgrounds/campfire.jpg" alt="Campfire reflection interactive image"/><div class="fire-glow"></div><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i><div class="scrim"></div>
-    <div class="float-btns"><button class="sound" onclick="speak('What is one thing you want to let go of?')">🔊</button></div>
-    <div class="scene-ui"><SceneHead icon="🔥" title="Campfire Reflection" sub="Let it out. Let it burn. You are not alone."></SceneHead>
-      <div class="card"><div class="prompt">What is one thing you want to let go of?</div><textarea maxlength="200" placeholder="Type your answer here..."></textarea><button class="primary" onclick="burnNote(this)">Add it to the Fire 🔥</button><div class="reward">💎 +10 Diamonds</div></div>
-    </div>
-  </section>
+<section id="campfire" class="screen image-scene" aria-label="Campfire Reflection">
+  <img class="scene-img" src="custom-backgrounds/campfire.jpg" alt="Campfire Reflection"/>
+  <div class="fire-glow"></div><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i><div class="scene-shade"></div>
+  <button class="back-hub" onclick="backHub()">← Hub</button>
+  <div class="simple-panel"><textarea maxlength="200" placeholder="Type what you want to let go of..."></textarea><button class="primary" style="width:100%;margin-top:.7rem;background:linear-gradient(#c96b2b,#873114)" onclick="complete(10); clearText(this); toast('Released into the fire 🔥')">Add it to the fire 🔥</button></div>
+</section>
 
-  <section id="biome" class="screen scene">
-    <img class="scene-img" src="custom-backgrounds/biome.jpg" alt="Biome portal interactive image"/><div class="scrim"></div>
-    <div class="float-btns"><button class="sound" onclick="speak('Choose a biome and take a slow breath.')">🔊</button></div>
-    <div class="scene-ui"><SceneHead icon="🌀" title="Biome Shift Portal" sub="Choose a place to step into and relax."></SceneHead>
-      <div class="card"><div class="biomes">
-        <button class="biome sel" onclick="pickBiome(this,'Forest')">🌲 <b>Forest</b><br>Birds chirping, leaves rustling.</button>
-        <button class="biome" onclick="pickBiome(this,'Beach')">🏖️ <b>Beach</b><br>Soft ocean breeze.</button>
-        <button class="biome" onclick="pickBiome(this,'Snowy Peaks')">🏔️ <b>Snowy Peaks</b><br>Cool wind, quiet snow.</button>
-        <button class="biome" onclick="pickBiome(this,'Desert')">🌵 <b>Desert</b><br>Warm breeze, peaceful stillness.</button>
-        <button class="biome" onclick="pickBiome(this,'Mushroom Fields')">🍄 <b>Mushroom Fields</b><br>Dreamy and calm.</button>
-        <button class="biome" onclick="toast('Deep Caves is locked for now 🔒')">🔒 <b>Deep Caves</b><br>Locked.</button>
-      </div><button class="primary" id="enterBiome" onclick="complete(10)">Enter Forest 💎</button><div class="reward">💎 +10 Diamonds</div></div>
+<section id="biome" class="screen image-scene" aria-label="Biome Shift Portal">
+  <img class="scene-img" src="custom-backgrounds/biome.jpg" alt="Biome Shift Portal"/>
+  <div class="scene-shade"></div><button class="back-hub" onclick="backHub()">← Hub</button>
+  <div class="simple-panel">
+    <div class="biomes">
+      <button class="biome sel" onclick="pickBiome(this,'Forest')">🌲 <b>Forest</b><br>Birds and leaves.</button>
+      <button class="biome" onclick="pickBiome(this,'Beach')">🏖️ <b>Beach</b><br>Soft ocean breeze.</button>
+      <button class="biome" onclick="pickBiome(this,'Snowy Peaks')">🏔️ <b>Snowy Peaks</b><br>Quiet snow.</button>
+      <button class="biome" onclick="pickBiome(this,'Desert')">🌵 <b>Desert</b><br>Peaceful stillness.</button>
+      <button class="biome" onclick="pickBiome(this,'Mushroom Fields')">🍄 <b>Mushroom Fields</b><br>Dreamy and calm.</button>
+      <button class="biome" onclick="toast('Deep Caves is locked for now 🔒')">🔒 <b>Deep Caves</b><br>Locked.</button>
     </div>
-  </section>
-</div>
+    <button class="primary" id="enterBiome" style="width:100%;margin-top:.7rem;background:linear-gradient(#44a953,#236a2e)" onclick="complete(10)">Enter Forest 💎</button>
+  </div>
+</section>
+
 <div id="toast" class="toast"></div>
 <script>
-let diamonds = Number(localStorage.getItem('mindResetDiamonds') || 250);
-document.getElementById('diamonds').textContent = diamonds;
+let totalDiamonds = Number(localStorage.getItem('mindResetDiamonds') || 250);
 const heavy = [
   ["I'm not enough","I am enough as I am"],
   ["I always mess up","I'm learning and growing"],
   ["What if I fail?","One step at a time"],
   ["I can't handle this","I can handle challenges"],
   ["I'm not good at anything","I'm doing my best"],
-  ["This is too much","I can take one block at a time"]
+  ["This is too much","One block at a time"]
 ];
-function openScene(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);if(id==='miner') buildMine();}
-function backHub(){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('hub').classList.add('active');window.scrollTo(0,0)}
-document.querySelectorAll('SceneHead').forEach(el=>{
-  const icon=el.getAttribute('icon'), title=el.getAttribute('title'), sub=el.getAttribute('sub');
-  el.outerHTML = `<div class="scene-head"><button class="back" onclick="backHub()" aria-label="Back to Mind Reset Hub">←</button><div class="scene-icon">${icon}</div><div><h2>${title}</h2><div class="scene-sub">${sub}</div></div></div>`;
-});
-function complete(n){diamonds += n;localStorage.setItem('mindResetDiamonds',diamonds);document.getElementById('diamonds').textContent=diamonds;toast(`Nice reset. You earned ${n} diamonds 💎`)}
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(window._toast);window._toast=setTimeout(()=>t.classList.remove('show'),2200)}
-function speak(text){try{speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(text));}catch(e){toast(text)}}
-function toggleRain(){document.querySelector('#rain .rain-layer').style.display = document.querySelector('#rain .rain-layer').style.display==='none'?'block':'none'}
-function buildMine(){const g=document.getElementById('mineGrid'); if(g.children.length) return; heavy.forEach(([bad,good])=>{const b=document.createElement('button');b.className='block';b.textContent=bad;b.onclick=()=>{b.classList.add('mined');b.textContent=good};g.appendChild(b);});}
-function burnNote(btn){const ta=btn.parentElement.querySelector('textarea'); ta.value=''; complete(10); toast('Released into the fire 🔥');}
-function pickBiome(btn,name){document.querySelectorAll('.biome').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');document.getElementById('enterBiome').textContent=`Enter ${name} 💎`;toast(`${name} selected`)}
+
+function openScene(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  if(id==='miner') buildMine();
+  if(id==='breathe') resetBreathing();
+}
+function backHub(){
+  stopRainSound();
+  stopDiamondGame(false);
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('hub').classList.add('active');
+  window.scrollTo(0,0);
+}
+function complete(n){
+  totalDiamonds += n;
+  localStorage.setItem('mindResetDiamonds', totalDiamonds);
+  toast(`You earned ${n} diamonds 💎`);
+}
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  clearTimeout(window._toast);
+  window._toast=setTimeout(()=>t.classList.remove('show'),2400);
+}
+function clearText(btn){
+  const ta=btn.parentElement.querySelector('textarea');
+  if(ta) ta.value='';
+}
+
+/* Diamond game */
+let diamondTimer=null, diamondSpawner=null, diamondTime=20, diamondScore=0, diamondRunning=false;
+function startDiamondGame(){
+  const zone=document.getElementById('tapZone');
+  zone.innerHTML='';
+  diamondTime=20; diamondScore=0; diamondRunning=true;
+  document.getElementById('diamondScore').textContent='0';
+  document.getElementById('diamondTime').textContent='20';
+  document.getElementById('diamondResult').textContent='';
+  document.getElementById('startDiamond').disabled=true;
+  document.getElementById('stopDiamond').disabled=false;
+  spawnDiamond();
+  diamondSpawner=setInterval(spawnDiamond,650);
+  diamondTimer=setInterval(()=>{
+    diamondTime--;
+    document.getElementById('diamondTime').textContent=diamondTime;
+    if(diamondTime<=0) stopDiamondGame(true);
+  },1000);
+}
+function spawnDiamond(){
+  if(!diamondRunning) return;
+  const zone=document.getElementById('tapZone');
+  const d=document.createElement('button');
+  d.className='falling-diamond';
+  d.textContent='💎';
+  d.setAttribute('aria-label','Collect diamond');
+  d.style.left=Math.random()*88+'%';
+  d.style.top='-10px';
+  d.style.border='0';
+  d.style.background='transparent';
+  d.onclick=(e)=>{e.stopPropagation(); diamondScore++; document.getElementById('diamondScore').textContent=diamondScore; d.remove();};
+  zone.appendChild(d);
+  setTimeout(()=>d.remove(),2700);
+}
+function tapEmptyDiamond(){ if(diamondRunning) toast('Tap the falling diamonds 💎'); }
+function stopDiamondGame(show=true){
+  if(!diamondRunning && !diamondTimer && !diamondSpawner) return;
+  diamondRunning=false;
+  clearInterval(diamondTimer); clearInterval(diamondSpawner);
+  diamondTimer=null; diamondSpawner=null;
+  document.getElementById('startDiamond').disabled=false;
+  document.getElementById('stopDiamond').disabled=true;
+  document.querySelectorAll('.falling-diamond').forEach(d=>d.remove());
+  if(show){
+    totalDiamonds += diamondScore;
+    localStorage.setItem('mindResetDiamonds', totalDiamonds);
+    document.getElementById('diamondResult').textContent=`You earned ${diamondScore} diamonds!`;
+    toast(`Collected ${diamondScore} diamonds 💎`);
+  }
+}
+
+/* Breathing blocks */
+let breathTimer=null, breathRound=1;
+function resetBreathing(){
+  clearInterval(breathTimer);
+  breathTimer=null; breathRound=1;
+  document.getElementById('breathProgress').style.width='0%';
+  document.getElementById('breathCount').textContent='Round 1 of 5';
+  document.getElementById('breathText').textContent='Breathe in as the block grows. Breathe out as it shrinks.';
+  document.getElementById('breathBlock').classList.remove('done');
+  document.getElementById('startBreath').disabled=false;
+  document.getElementById('startBreath').textContent='Start Breathing';
+}
+function startBreathing(){
+  clearInterval(breathTimer);
+  document.getElementById('startBreath').disabled=true;
+  document.getElementById('breathBlock').classList.remove('done');
+  breathRound=1;
+  updateBreath();
+  breathTimer=setInterval(()=>{
+    breathRound++;
+    if(breathRound>5){
+      clearInterval(breathTimer);
+      document.getElementById('breathBlock').classList.add('done');
+      document.getElementById('breathText').textContent='Great work. Your breathing reset is complete.';
+      document.getElementById('breathCount').textContent='Complete';
+      document.getElementById('breathProgress').style.width='100%';
+      complete(5);
+      return;
+    }
+    updateBreath();
+  },6000);
+}
+function updateBreath(){
+  document.getElementById('breathCount').textContent=`Round ${breathRound} of 5`;
+  document.getElementById('breathProgress').style.width=`${((breathRound-1)/5)*100}%`;
+}
+
+/* Rain sound */
+function toggleRainSound(){
+  const audio=document.getElementById('rainAudio');
+  const btn=document.getElementById('rainSoundBtn');
+  if(audio.paused){
+    audio.volume=.55;
+    audio.play().then(()=>btn.textContent='🔊').catch(()=>toast('Tap again to turn on rain sound.'));
+  }else{
+    stopRainSound();
+  }
+}
+function stopRainSound(){
+  const audio=document.getElementById('rainAudio');
+  const btn=document.getElementById('rainSoundBtn');
+  if(audio){audio.pause(); audio.currentTime=0;}
+  if(btn) btn.textContent='🔇';
+}
+
+/* Other scenes */
+function buildMine(){
+  const g=document.getElementById('mineGrid');
+  if(g.children.length) return;
+  heavy.forEach(([bad,good])=>{
+    const b=document.createElement('button');
+    b.className='block';
+    b.textContent=bad;
+    b.onclick=()=>{b.classList.add('mined'); b.textContent=good;};
+    g.appendChild(b);
+  });
+}
+function pickBiome(btn,name){
+  document.querySelectorAll('.biome').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  document.getElementById('enterBiome').textContent=`Enter ${name} 💎`;
+}
 </script>
 </body>
 </html>
