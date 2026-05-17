@@ -347,7 +347,7 @@ textarea::placeholder{color:#d8d1de}
 .realm-card.breathing-card::before{transform:none;background-size:cover}
 .realm-card.breathing-card:hover::before,.realm-card.breathing-card:focus-visible::before{transform:scale(1.03)}
 .realm-card[aria-label="Open Rain Room Realm"]::before{
-  background-image:url('custom-backgrounds/rain-room-clean-scene.jpg');
+  background-image:url('custom-backgrounds/card-rain.png');
   background-size:cover;
   background-position:center center;
 }
@@ -493,6 +493,145 @@ textarea::placeholder{color:#d8d1de}
   }
 }
 
+
+/* Screenshot-match hub polish: safe, scoped overrides */
+#hub .hub-wrap{
+  width:min(836px,100%);
+  padding:30px 22px 64px;
+}
+#hub .hub-top{
+  display:grid;
+  grid-template-columns:72px 1fr 72px;
+  align-items:start;
+  gap:10px;
+  margin:0 auto 42px;
+}
+#hub .back-link{
+  width:54px;
+  height:58px;
+  border-radius:13px;
+  border:2px solid rgba(255,255,255,.28);
+  background:rgba(10,12,24,.72);
+  display:grid;
+  place-items:center;
+  color:#fff;
+  text-decoration:none;
+  font-family:var(--mc);
+  font-size:2.2rem;
+  line-height:1;
+  box-shadow:0 8px 22px rgba(0,0,0,.32), inset 0 0 0 1px rgba(255,255,255,.07);
+}
+#hub .hub-title{
+  text-align:center;
+  padding-top:1px;
+}
+#hub .hub-title h1{
+  font-family:var(--mc);
+  font-size:clamp(1.72rem,5.6vw,2.72rem);
+  line-height:1.1;
+  margin:0 0 17px;
+  letter-spacing:.015em;
+  color:#fff;
+  text-shadow:4px 4px 0 #000, 0 0 10px rgba(255,255,255,.15);
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+#hub .hub-title h1 span{
+  color:#ffd15c;
+  font-size:.88em;
+  text-shadow:0 0 14px rgba(255,200,75,.6);
+}
+#hub .hub-title p{
+  font-family:var(--ui);
+  font-size:clamp(1rem,2.9vw,1.28rem);
+  font-weight:900;
+  line-height:1.25;
+  color:#f5f1f6;
+  margin:0;
+  text-shadow:2px 2px 0 rgba(0,0,0,.55);
+}
+#hub .diamond-bank{display:none}
+#hub .card-labels{
+  width:100%;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:12px;
+  margin:0 auto 13px;
+  padding:0 64px 0 64px;
+}
+#hub .card-labels strong{
+  font-family:var(--mc);
+  font-size:clamp(.78rem,2.75vw,1.12rem);
+  line-height:1.1;
+  text-transform:uppercase;
+  letter-spacing:.01em;
+  text-shadow:3px 3px 0 #000;
+}
+#hub .free-label{
+  color:#26c9ff;
+  grid-column:1 / span 1;
+  text-align:left;
+}
+#hub .premium-label{
+  color:#ffc839;
+  grid-column:3 / span 1;
+  text-align:left;
+}
+#hub .card-grid{
+  width:100%;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px 12px;
+  margin:0 auto;
+}
+#hub .realm-card{
+  aspect-ratio:1/1.04;
+  border:0;
+  border-radius:16px;
+  overflow:hidden;
+  background:transparent;
+  box-shadow:none;
+  padding:0;
+}
+#hub .realm-card::before{
+  inset:0;
+  background-image:var(--img);
+  background-size:100% 100%;
+  background-position:center;
+  filter:none;
+  transition:transform .25s ease, filter .25s ease;
+}
+#hub .realm-card::after,
+#hub .realm-card .card-text,
+#hub .realm-card .locked-badge{
+  display:none !important;
+}
+#hub .realm-card:hover::before,
+#hub .realm-card:focus-visible::before{
+  transform:scale(1.025);
+  filter:brightness(1.05);
+}
+@media(max-width:720px){
+  #hub .hub-wrap{padding:24px 14px 42px}
+  #hub .hub-top{grid-template-columns:52px 1fr 52px;margin-bottom:34px;gap:6px}
+  #hub .back-link{width:44px;height:52px;font-size:1.75rem}
+  #hub .hub-title h1{font-size:clamp(1.32rem,6vw,2.05rem);margin-bottom:12px}
+  #hub .hub-title p{font-size:clamp(.9rem,3.3vw,1.08rem)}
+  #hub .card-labels{padding:0 33px;margin-bottom:10px;gap:8px}
+  #hub .card-grid{gap:8px}
+  #hub .realm-card{border-radius:12px}
+}
+@media(max-width:430px){
+  #hub .hub-wrap{padding-left:8px;padding-right:8px}
+  #hub .hub-top{grid-template-columns:42px 1fr 42px}
+  #hub .back-link{width:38px;height:46px;font-size:1.5rem}
+  #hub .hub-title h1{font-size:1.05rem}
+  #hub .hub-title p{font-size:.78rem}
+  #hub .card-labels{padding:0 18px}
+  #hub .card-labels strong{font-size:.55rem}
+  #hub .card-grid{gap:6px}
+}
+
 </style>
 </head>
 <body>
@@ -512,15 +651,15 @@ textarea::placeholder{color:#d8d1de}
       <strong class="premium-label">Premium Realms ♛</strong>
     </div>
     <div class="card-grid">
-      <button class="realm-card art-card" style="--img:url('custom-backgrounds/diamond-mind-reset-card.png')" onclick="openScene('diamond')" aria-label="Open Diamond Mind Reset"></button>
-      <button class="realm-card art-card breathing-card" style="--img:url('custom-backgrounds/breathing-block-card.png')" onclick="openScene('breathe')" aria-label="Open Breathing Blocks"></button>
-      <button class="realm-card" style="--img:url('custom-backgrounds/rain-room-clean-scene.jpg')" onclick="openScene('rain')" aria-label="Open Rain Room Realm"><span class="locked-badge">🔒</span><span class="card-text"><h2>Rain Room Realm</h2><p>Let rain carry heavy thoughts.</p></span></button>
-      <button class="realm-card" style="--img:url('custom-backgrounds/miner.jpg')" onclick="openScene('miner')" aria-label="Open Thought Miner Cave"><span class="locked-badge">🔒</span><span class="card-text"><h2>Thought Miner Cave</h2><p>Mine worries into reframes.</p></span></button>
-      <button class="realm-card" style="--img:url('custom-backgrounds/campfire.jpg')" onclick="openScene('campfire')" aria-label="Open Campfire Reflection"><span class="locked-badge">🔒</span><span class="card-text"><h2>Campfire Reflection</h2><p>Release it into the fire.</p></span></button>
-      <button class="realm-card" style="--img:url('custom-backgrounds/biome.jpg')" onclick="openScene('biome')" aria-label="Open Biome Shift Portal"><span class="locked-badge">🔒</span><span class="card-text"><h2>Biome Shift Portal</h2><p>Choose a calm place.</p></span></button>
-      <button class="realm-card" style="--img:url('custom-backgrounds/biome.jpg')" onclick="openScene('forest')" aria-label="Open Forest Whisper"><span class="card-text"><h2>Forest Whisper</h2><p>Ground with your senses.</p></span></button>
-      <button class="realm-card" style="--img:url('custom-backgrounds/campfire.jpg')" onclick="openScene('sunset')" aria-label="Open Sunset Reset"><span class="card-text"><h2>Sunset Reset</h2><p>Name what is safe now.</p></span></button>
-      <button class="realm-card" style="--img:url('custom-backgrounds/rain-room-reference.png')" onclick="openScene('cave')" aria-label="Open Deep Cave Calm"><span class="card-text"><h2>Deep Cave Calm</h2><p>Slow down one block at a time.</p></span></button>
+      <button class="realm-card art-card" style="--img:url('custom-backgrounds/card-diamond.png')" onclick="openScene('diamond')" aria-label="Open Diamond Mind Reset"></button>
+      <button class="realm-card art-card breathing-card" style="--img:url('custom-backgrounds/card-breathing.png')" onclick="openScene('breathe')" aria-label="Open Breathing Blocks"></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/card-rain.png')" onclick="openScene('rain')" aria-label="Open Rain Room Realm"><span class="locked-badge">🔒</span><span class="card-text"><h2>Rain Room Realm</h2><p>Let rain carry heavy thoughts.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/card-miner.png')" onclick="openScene('miner')" aria-label="Open Thought Miner Cave"><span class="locked-badge">🔒</span><span class="card-text"><h2>Thought Miner Cave</h2><p>Mine worries into reframes.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/card-campfire.png')" onclick="openScene('campfire')" aria-label="Open Campfire Reflection"><span class="locked-badge">🔒</span><span class="card-text"><h2>Campfire Reflection</h2><p>Release it into the fire.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/card-biome.png')" onclick="openScene('biome')" aria-label="Open Biome Shift Portal"><span class="locked-badge">🔒</span><span class="card-text"><h2>Biome Shift Portal</h2><p>Choose a calm place.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/card-forest.png')" onclick="openScene('forest')" aria-label="Open Forest Whisper"><span class="card-text"><h2>Forest Whisper</h2><p>Ground with your senses.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/card-sunset.png')" onclick="openScene('sunset')" aria-label="Open Sunset Reset"><span class="card-text"><h2>Sunset Reset</h2><p>Name what is safe now.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/card-cave.png')" onclick="openScene('cave')" aria-label="Open Deep Cave Calm"><span class="card-text"><h2>Deep Cave Calm</h2><p>Slow down one block at a time.</p></span></button>
     </div>
   </div>
 </main>
