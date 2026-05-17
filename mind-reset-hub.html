@@ -7,213 +7,238 @@
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet"/>
 <style>
 :root{
-  --diamond:#54d8ff;--gold:#ffd47a;--purple:#8b54ff;--green:#52d15d;
-  --text:#fffaf2;--muted:#d9d4e8;--line:rgba(255,255,255,.22);
-  --mc:'Press Start 2P',monospace;--ui:'Nunito',system-ui,sans-serif;
+  --bg:#030512;--panel:rgba(7,9,22,.82);--line:rgba(255,255,255,.26);
+  --text:#fffaf2;--muted:#d9d7e8;--diamond:#56d9ff;--gold:#ffd16f;--green:#62df72;
+  --purple:#a35dff;--mc:'Press Start 2P',monospace;--ui:'Nunito',system-ui,sans-serif;
 }
 *{box-sizing:border-box}
-html{font-size:19px}
-body{margin:0;min-height:100vh;background:#05050d;color:var(--text);font-family:var(--ui);overflow-x:hidden}
+html{font-size:18px}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--ui);overflow-x:hidden}
 button,textarea{font:inherit}
 button{cursor:pointer;-webkit-tap-highlight-color:transparent}
-.screen{display:none;min-height:100svh}
+.screen{display:none;min-height:100svh;position:relative;overflow:hidden}
 .screen.active{display:block}
-#hub{position:relative;background:#05050d;padding:clamp(.55rem,2vw,1rem);overflow:hidden}
-#hub .starfield{position:fixed;z-index:0}
-.hub-shell{position:relative;z-index:2}
-.hub-header{width:min(1120px,100%);margin:0 auto .7rem;display:grid;grid-template-columns:auto 1fr auto;gap:.8rem;align-items:center}
-.hub-close{border:2px solid var(--line);border-radius:.75rem;background:rgba(0,0,0,.62);color:#fff;text-decoration:none;padding:.75rem .9rem;font-size:1rem;font-weight:900;box-shadow:0 10px 30px rgba(0,0,0,.4)}
-.hub-copy{text-align:center}
-.hub-copy h1{font-family:var(--mc);font-size:clamp(1rem,4.8vw,1.75rem);line-height:1.35;margin:.1rem 0 .25rem;text-shadow:3px 3px 0 #000}
-.hub-copy p{font-size:clamp(1rem,3.6vw,1.25rem);font-weight:900;color:var(--muted);line-height:1.35;margin:0}
-.hub-spacer{width:4rem}
-.hub-shell{width:min(1120px,100%);margin:0 auto;padding-top:.2rem}
-.hub-stage{position:relative;width:100%;aspect-ratio:1049/420;overflow:hidden;border:2px solid rgba(108,211,255,.35);border-radius:1rem;background:#05050c;box-shadow:0 20px 60px rgba(0,0,0,.48)}
-.hub-img{position:absolute;left:0;top:-28.1%;width:100%;height:auto;display:block;user-select:none}
-.hotspot{position:absolute;border:2px solid rgba(84,216,255,.08);border-radius:.7rem;background:rgba(84,216,255,.015);transition:.15s;min-width:44px;min-height:44px}
-.hotspot:focus,.hotspot:hover{outline:none;border-color:var(--diamond);background:rgba(84,216,255,.13);box-shadow:0 0 22px rgba(84,216,255,.42)}
-.hs-diamond{left:2.5%;top:12%;width:17.6%;height:80%}.hs-breathe{left:21%;top:12%;width:16.7%;height:80%}.hs-rain{left:39%;top:12%;width:15.1%;height:80%}.hs-miner{left:54.6%;top:12%;width:15.1%;height:80%}.hs-camp{left:70.1%;top:12%;width:14.8%;height:80%}.hs-biome{left:85.2%;top:12%;width:14.3%;height:80%}
-.scene{position:relative;overflow:hidden;background:#06060f}
-.back-hub{position:fixed;left:max(.7rem,env(safe-area-inset-left));top:max(.7rem,env(safe-area-inset-top));z-index:30;border:2px solid var(--line);border-radius:.75rem;background:rgba(0,0,0,.62);color:#fff;padding:.7rem .85rem;font-size:1.05rem;font-weight:900;box-shadow:0 10px 30px rgba(0,0,0,.4)}
-.sound-btn{position:fixed;right:max(.7rem,env(safe-area-inset-right));top:max(.7rem,env(safe-area-inset-top));z-index:30;width:3.3rem;height:3.3rem;border-radius:.75rem;border:2px solid var(--line);background:rgba(0,0,0,.62);color:#fff;font-size:1.45rem}
-.game-panel{position:relative;z-index:10;width:min(760px,calc(100% - 1.2rem));margin:0 auto;padding:calc(env(safe-area-inset-top) + 4.7rem) 0 1rem;text-align:center}
-.game-title{font-family:var(--mc);font-size:clamp(1.1rem,5vw,1.8rem);line-height:1.35;margin:0 0 .65rem;text-shadow:3px 3px 0 #000}
-.instructions{font-size:clamp(1.1rem,4vw,1.45rem);line-height:1.35;font-weight:900;color:#f4f0ff;margin:.25rem auto .9rem;max-width:680px}
-.primary,.stop{border:2px solid rgba(255,255,255,.28);border-radius:.8rem;color:white;padding:1rem 1.15rem;font-size:clamp(1.05rem,4vw,1.35rem);font-weight:900;box-shadow:inset 2px 2px 0 rgba(255,255,255,.18),0 8px 0 rgba(0,0,0,.3)}
-.primary{background:linear-gradient(#2c8ddd,#10639b)}
-.stop{background:linear-gradient(#c35a32,#873114);margin-left:.4rem}
-.stat{display:inline-flex;align-items:center;gap:.4rem;margin:.4rem;padding:.65rem .9rem;border:2px solid var(--line);border-radius:.75rem;background:rgba(0,0,0,.56);font-size:1.15rem;font-weight:900}
-.starfield{position:absolute;inset:0;background:radial-gradient(circle at 15% 20%,rgba(84,216,255,.28),transparent 1px),radial-gradient(circle at 80% 12%,rgba(255,255,255,.7),transparent 1.2px),radial-gradient(circle at 50% 65%,rgba(151,101,255,.38),transparent 1.4px),radial-gradient(circle at 35% 78%,rgba(255,255,255,.55),transparent 1px),#05050d;background-size:90px 90px,130px 130px,160px 160px,115px 115px,auto;animation:drift 28s linear infinite}
-@keyframes drift{to{background-position:180px 90px,-130px 130px,160px -160px,-115px -115px,0 0}}
-.tap-zone{position:relative;min-height:min(58svh,520px);border:2px solid rgba(84,216,255,.24);border-radius:1rem;background:rgba(255,255,255,.035);overflow:hidden;touch-action:manipulation}
-.falling-diamond{position:absolute;font-size:2rem;filter:drop-shadow(0 0 12px rgba(84,216,255,.8));animation:fall 2.6s linear forwards}
-@keyframes fall{from{transform:translateY(-60px) scale(.9)}to{transform:translateY(620px) scale(1.05)}}
-.diamond-pop{position:absolute;pointer-events:none;font-size:2.6rem;filter:drop-shadow(0 0 18px rgba(84,216,255,.95));animation:diamondPop .42s ease-out forwards;z-index:5}
-@keyframes diamondPop{0%{transform:translate(-50%,-50%) scale(.75);opacity:1}70%{transform:translate(-50%,-50%) scale(1.75);opacity:1}100%{transform:translate(-50%,-50%) scale(2.05);opacity:0}}
-.result{font-size:1.35rem;font-weight:900;margin-top:.8rem;min-height:1.8rem}
-.breathe-area{min-height:100svh;background:radial-gradient(circle at 50% 35%,rgba(84,216,255,.18),transparent 36%),#05050d;display:grid;place-items:center;padding:4.8rem .7rem 1rem}
-.breathe-card{width:min(680px,100%);text-align:center}
-.breath-block{width:min(55vw,230px);height:min(55vw,230px);margin:1.4rem auto;border-radius:.6rem;background-image:linear-gradient(rgba(20,35,45,.16),rgba(20,35,45,.16)),url("custom-backgrounds/hub.jpg");background-size:610% auto;background-position:20.8% 43%;border:4px solid rgba(110,220,255,.5);box-shadow:0 0 45px rgba(84,216,255,.6),inset 5px 5px 0 rgba(255,255,255,.12);image-rendering:auto;animation:breathe 6s ease-in-out infinite}
-.breath-block.done{animation:none;filter:saturate(.8);box-shadow:0 0 20px rgba(84,216,255,.25)}
-@keyframes breathe{0%,100%{transform:scale(.78)}50%{transform:scale(1.13)}}
-.progress{height:1.1rem;border:2px solid var(--line);border-radius:1rem;background:rgba(0,0,0,.55);overflow:hidden;margin:.8rem auto;max-width:560px}
-.progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,#54d8ff,#8b54ff);transition:width .3s}
-.image-scene{min-height:100svh;background:#02030a}
-.scene-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.08) brightness(.9)}
-.scene-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.2) 45%,rgba(0,0,0,.45));pointer-events:none}
-.rain-layer{position:absolute;inset:-20%;pointer-events:none;opacity:.68;background-image:repeating-linear-gradient(92deg,rgba(120,190,255,0) 0 12px,rgba(120,190,255,.62) 13px 15px,rgba(120,190,255,0) 17px 25px);animation:rain 1.25s linear infinite}
-.rain-layer.soft{opacity:.38;filter:blur(.5px);animation-duration:1.75s}
-@keyframes rain{to{transform:translate3d(-46px,96px,0)}}
-.rain-input{position:relative;z-index:12;width:min(760px,calc(100% - 1.2rem));margin:0 auto;padding-top:calc(env(safe-area-inset-top) + 48svh)}
-.rain-input textarea{width:100%;min-height:7rem;border:2px solid rgba(255,255,255,.28);border-radius:.8rem;background:rgba(0,0,0,.68);color:#fff;padding:1rem;font-size:clamp(1.05rem,4vw,1.35rem);font-weight:900;resize:vertical}
-.rain-input .primary{width:100%;margin-top:.7rem;background:linear-gradient(#4d62bd,#28347b)}
-.fire-glow{pointer-events:none;position:absolute;left:18%;bottom:17%;width:25%;height:30%;z-index:3;background:radial-gradient(circle,rgba(255,196,70,.75),rgba(255,96,20,.34) 42%,transparent 72%);filter:blur(8px);animation:flicker .42s infinite alternate}
-@keyframes flicker{from{transform:scale(.94);opacity:.68}to{transform:scale(1.08);opacity:1}}
-.spark{position:absolute;width:6px;height:6px;background:#ffb04c;z-index:4;bottom:28%;left:28%;animation:spark 2.2s linear infinite}
-.spark:nth-of-type(2){left:35%;animation-delay:.4s}.spark:nth-of-type(3){left:24%;animation-delay:.8s}.spark:nth-of-type(4){left:31%;animation-delay:1.2s}
-@keyframes spark{0%{transform:translateY(0);opacity:0}20%{opacity:1}100%{transform:translateY(-220px);opacity:0}}
-.simple-panel{position:relative;z-index:12;width:min(760px,calc(100% - 1.2rem));margin:0 auto;padding-top:calc(env(safe-area-inset-top) + 58svh);padding-bottom:1rem}
-.simple-panel textarea{width:100%;min-height:6.5rem;border:2px solid rgba(255,255,255,.28);border-radius:.8rem;background:rgba(0,0,0,.68);color:#fff;padding:1rem;font-size:clamp(1.05rem,4vw,1.3rem);font-weight:900;resize:vertical}
-.mine-grid,.biomes{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem}
-.block,.biome{border:2px solid var(--line);border-radius:.75rem;background:rgba(0,0,0,.66);color:#fff;padding:.9rem;font-size:1rem;font-weight:900;min-height:4.8rem}
-.block.mined{background:linear-gradient(#8d6e47,#5a442d);border-color:#ffd47a;box-shadow:0 0 24px rgba(255,212,122,.72)}
-.biome.sel{border-color:#65e66d;box-shadow:0 0 20px rgba(82,209,93,.4)}
-.toast{position:fixed;left:50%;bottom:max(.8rem,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:100;background:#111;border:2px solid var(--diamond);border-radius:.75rem;padding:.8rem 1rem;font-weight:900;font-size:1rem;display:none;max-width:92%;text-align:center}
+.star-bg{position:absolute;inset:0;z-index:0;background:
+  radial-gradient(circle at 7% 19%,rgba(91,198,255,.9) 0 1.4px,transparent 2px),
+  radial-gradient(circle at 16% 57%,rgba(164,105,255,.8) 0 1.7px,transparent 2.5px),
+  radial-gradient(circle at 73% 14%,rgba(255,255,255,.85) 0 1.2px,transparent 2px),
+  radial-gradient(circle at 89% 75%,rgba(125,223,255,.75) 0 1.5px,transparent 2.3px),
+  radial-gradient(circle at 45% 82%,rgba(255,211,110,.65) 0 1.2px,transparent 2px),
+  radial-gradient(circle at 50% 35%,rgba(27,52,132,.38),transparent 40%),
+  #030512;
+  background-size:190px 190px,240px 240px,215px 215px,260px 260px,180px 180px,100% 100%,auto;
+  animation:starDrift 42s linear infinite}
+@keyframes starDrift{to{background-position:190px 120px,-240px 240px,215px -215px,-260px -160px,180px -180px,0 0,0 0}}
+.hub-wrap{position:relative;z-index:2;width:min(1120px,100%);margin:0 auto;padding:calc(env(safe-area-inset-top) + .75rem) clamp(.75rem,2vw,1.2rem) calc(env(safe-area-inset-bottom) + 1.1rem)}
+.hub-top{display:grid;grid-template-columns:auto 1fr auto;gap:.8rem;align-items:center;margin-bottom:1rem}
+.back-link,.back-hub,.sound-btn{border:2px solid var(--line);border-radius:18px;background:rgba(8,9,20,.76);color:#fff;box-shadow:inset 2px 2px 0 rgba(255,255,255,.08),0 12px 28px rgba(0,0,0,.45)}
+.back-link{display:inline-grid;place-items:center;width:72px;height:72px;text-decoration:none;font-size:2.2rem;font-weight:900}
+.hub-title{text-align:center}
+.hub-title h1{font-family:var(--mc);font-size:clamp(1.35rem,5.6vw,2.65rem);line-height:1.22;margin:.1rem 0 .45rem;text-shadow:4px 4px 0 #000;letter-spacing:.03em}
+.hub-title h1 span{color:var(--gold);font-size:.82em}
+.hub-title p{font-size:clamp(1rem,3.6vw,1.35rem);font-weight:900;line-height:1.3;color:#f1edf8;margin:0}
+.diamond-bank{justify-self:end;display:flex;align-items:center;gap:.5rem;border:2px solid var(--line);border-radius:16px;background:rgba(8,9,20,.78);padding:.8rem 1rem;font-size:1.25rem;font-weight:900;min-width:118px;justify-content:center}
+.card-labels{display:grid;grid-template-columns:2fr 1fr;gap:1.1rem;width:min(980px,100%);margin:0 auto .5rem}
+.card-labels strong{font-family:var(--mc);font-size:clamp(.75rem,2.6vw,1rem);line-height:1.4;text-transform:uppercase}
+.free-label{color:#47c9ff}.premium-label{color:var(--gold);text-align:center}
+.card-grid{width:min(980px,100%);margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.realm-card{position:relative;aspect-ratio:1/1;border:2px solid rgba(255,255,255,.27);border-radius:18px;overflow:hidden;background:#070914;color:#fff;padding:0;box-shadow:0 14px 34px rgba(0,0,0,.38);isolation:isolate}
+.realm-card:focus-visible{outline:4px solid var(--diamond);outline-offset:3px}
+.realm-card::before{content:"";position:absolute;inset:0;background-image:var(--img);background-size:cover;background-position:center;transition:transform .5s ease, filter .35s ease;filter:saturate(1.07) brightness(.92)}
+.realm-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.02) 30%,rgba(0,0,0,.78) 100%)}
+.realm-card:hover::before,.realm-card:focus-visible::before{transform:scale(1.06);filter:saturate(1.18) brightness(1.05)}
+.realm-card .card-text{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:1rem;text-align:left}
+.realm-card h2{font-family:var(--mc);font-size:clamp(.72rem,2.4vw,1rem);line-height:1.25;margin:0 0 .35rem;text-shadow:3px 3px 0 #000}
+.realm-card p{font-size:clamp(.9rem,2.5vw,1.04rem);line-height:1.2;margin:0;color:#f5f2ff;font-weight:900}
+.locked-badge{position:absolute;top:.65rem;right:.65rem;z-index:3;background:rgba(0,0,0,.6);border:2px solid rgba(255,209,111,.65);border-radius:12px;padding:.35rem .5rem;color:var(--gold);font-weight:900}
+.scene-bg-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.08) brightness(.78)}
+.scene-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.38) 52%,rgba(0,0,0,.72));z-index:1}
+.back-hub{position:fixed;z-index:50;left:max(.75rem,env(safe-area-inset-left));top:max(.75rem,env(safe-area-inset-top));min-width:64px;min-height:58px;padding:.7rem .9rem;font-size:1.05rem;font-weight:900}
+.sound-btn{position:fixed;z-index:50;right:max(.75rem,env(safe-area-inset-right));top:max(.75rem,env(safe-area-inset-top));width:60px;height:58px;font-size:1.35rem}
+.scene-panel{position:relative;z-index:4;width:min(760px,calc(100% - 1.2rem));margin:0 auto;padding:calc(env(safe-area-inset-top) + 5rem) 0 calc(env(safe-area-inset-bottom) + 1rem);text-align:center}
+.scene-title{font-family:var(--mc);font-size:clamp(1.15rem,5vw,2rem);line-height:1.3;margin:.2rem 0 .65rem;text-shadow:4px 4px 0 #000}
+.scene-copy{font-size:clamp(1.08rem,4vw,1.45rem);line-height:1.35;font-weight:900;color:#fff5f5;margin:.3rem auto 1rem;max-width:680px}
+.primary,.quiet-btn,.stop{border:2px solid rgba(255,255,255,.25);border-radius:16px;color:#fff;padding:1rem 1.15rem;font-weight:900;font-size:clamp(1.04rem,3.8vw,1.25rem);box-shadow:inset 2px 2px 0 rgba(255,255,255,.13),0 8px 0 rgba(0,0,0,.34)}
+.primary{background:linear-gradient(#2b91de,#105b91)}
+.stop{background:linear-gradient(#c46a40,#84371b)}
+.quiet-btn{background:rgba(0,0,0,.62)}
+.stats{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:.4rem 0 .7rem}
+.stat{display:inline-flex;align-items:center;gap:.35rem;border:2px solid var(--line);border-radius:14px;background:rgba(0,0,0,.54);padding:.62rem .85rem;font-weight:900;font-size:1.12rem}
+.diamond-field{position:relative;min-height:min(58svh,520px);border:2px solid rgba(86,217,255,.26);border-radius:22px;background:rgba(255,255,255,.035);overflow:hidden;touch-action:manipulation;box-shadow:inset 0 0 45px rgba(86,217,255,.08)}
+.bubble-diamond{position:absolute;border:0;background:radial-gradient(circle at 35% 28%,rgba(255,255,255,.9),rgba(86,217,255,.85) 36%,rgba(23,121,183,.9) 72%);width:58px;height:58px;border-radius:50%;box-shadow:0 0 22px rgba(86,217,255,.7),inset -7px -8px 12px rgba(0,20,60,.32);display:grid;place-items:center;font-size:1.75rem;animation:floaty 7s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-16px) scale(1.04)}}
+.pop{animation:pop .34s ease-out forwards!important}
+@keyframes pop{to{transform:scale(1.9);opacity:0;filter:blur(1px)}}
+.breath-stage{position:relative;display:grid;place-items:center;min-height:48svh;margin:1rem auto;border-radius:24px;background:radial-gradient(circle at 50% 42%,rgba(86,217,255,.18),transparent 45%),rgba(0,0,0,.3);border:2px solid rgba(86,217,255,.18)}
+.big-block{width:min(72vw,360px);height:min(72vw,360px);object-fit:contain;filter:drop-shadow(0 0 32px rgba(86,217,255,.75));animation:blockBreath 7s ease-in-out infinite}
+.big-block.paused{animation:none}
+@keyframes blockBreath{0%,100%{transform:scale(.82);filter:drop-shadow(0 0 18px rgba(86,217,255,.45))}50%{transform:scale(1.08);filter:drop-shadow(0 0 55px rgba(86,217,255,.95))}}
+.progress{height:1rem;border:2px solid var(--line);border-radius:999px;background:rgba(0,0,0,.55);overflow:hidden;margin:.8rem auto;max-width:560px}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--diamond),var(--purple));transition:width .3s}
+.rain-lines{position:absolute;inset:-20%;z-index:2;pointer-events:none;opacity:.68;background-image:repeating-linear-gradient(92deg,rgba(128,192,255,0) 0 12px,rgba(128,192,255,.58) 13px 15px,rgba(128,192,255,0) 17px 26px);animation:rain 1.35s linear infinite}
+.rain-lines.two{opacity:.35;filter:blur(.5px);animation-duration:1.9s}
+@keyframes rain{to{transform:translate3d(-52px,105px,0)}}
+.text-card{background:rgba(0,0,0,.62);border:2px solid rgba(255,255,255,.24);border-radius:22px;padding:1rem;backdrop-filter:blur(4px)}
+textarea{width:100%;min-height:7.5rem;border:2px solid rgba(255,255,255,.28);border-radius:16px;background:rgba(0,0,0,.68);color:#fff;padding:1rem;font-size:clamp(1.08rem,4vw,1.3rem);font-weight:900;resize:vertical}
+textarea::placeholder{color:#d8d1de}
+.mine-grid,.choice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem;margin-top:.8rem}
+.mine-block,.choice{border:2px solid rgba(255,255,255,.25);border-radius:16px;background:rgba(0,0,0,.62);color:#fff;padding:1rem;font-size:clamp(1rem,3.6vw,1.2rem);font-weight:900;min-height:5rem}
+.mine-block.done{background:linear-gradient(#9b7a51,#51402d);border-color:var(--gold);box-shadow:0 0 26px rgba(255,209,111,.65)}
+.choice.sel{border-color:var(--green);box-shadow:0 0 24px rgba(98,223,114,.42)}
+.fire-glow{position:absolute;z-index:2;left:39%;bottom:10%;width:28%;height:35%;background:radial-gradient(circle,rgba(255,199,70,.78),rgba(255,100,20,.36) 44%,transparent 72%);filter:blur(9px);animation:flicker .45s infinite alternate;pointer-events:none}
+@keyframes flicker{from{transform:scale(.95);opacity:.7}to{transform:scale(1.08);opacity:1}}
+.affirmation{font-size:clamp(1.25rem,5vw,1.75rem);font-weight:900;line-height:1.35;padding:1rem;border-radius:20px;background:rgba(0,0,0,.55);border:2px solid rgba(255,255,255,.22);min-height:5rem;display:grid;place-items:center}
+.toast{position:fixed;left:50%;bottom:max(.9rem,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:1000;background:#0b0d16;border:2px solid var(--diamond);border-radius:16px;padding:.8rem 1rem;font-weight:900;font-size:1rem;display:none;max-width:92%;text-align:center;box-shadow:0 14px 34px rgba(0,0,0,.45)}
 .toast.show{display:block}
-@media(max-width:760px){
-  html{font-size:18px}
-  .hub-header{grid-template-columns:auto 1fr;align-items:start;margin-bottom:.55rem}
-  .hub-copy{text-align:left}
-  .hub-spacer{display:none}
-  #hub{padding:.35rem}
-  .hub-stage{border-radius:.65rem;aspect-ratio:1049/460}
-  .hub-img{top:-22%}
-  .hotspot{border-color:rgba(84,216,255,.04);background:transparent}
-  .hs-diamond,.hs-breathe,.hs-rain,.hs-miner,.hs-camp,.hs-biome{top:13%;height:78%}
-  .game-panel{padding-top:4.4rem}
-  .tap-zone{min-height:54svh}
-  .rain-input{padding-top:50svh}
-  .simple-panel{padding-top:55svh}
-  .mine-grid,.biomes{grid-template-columns:1fr}
-}
-@media(max-width:430px){
+@media(max-width:780px){
   html{font-size:17px}
-  .hub-header{gap:.55rem}
-  .hub-close{padding:.65rem .75rem;font-size:.95rem}
-  .hub-stage{aspect-ratio:1049/500}
-  .hub-img{top:-18%}
-  .back-hub{font-size:.95rem;padding:.65rem .75rem}
-  .sound-btn{width:3rem;height:3rem}
+  .hub-top{grid-template-columns:auto 1fr;align-items:start}
+  .diamond-bank{grid-column:2;justify-self:start;padding:.55rem .8rem;min-width:auto}
+  .hub-title{text-align:left}
+  .back-link{width:58px;height:58px;font-size:1.8rem}
+  .card-labels{grid-template-columns:1fr 1fr}
+  .card-grid{gap:10px}
+  .realm-card{border-radius:14px}
+  .realm-card .card-text{padding:.72rem}
+  .realm-card p{display:none}
+}
+@media(max-width:560px){
+  .card-grid{grid-template-columns:1fr;gap:12px}
+  .realm-card{aspect-ratio:1/1}
+  .card-labels{display:none}
+  .realm-card p{display:block;font-size:1rem}
+  .scene-panel{padding-top:4.7rem}
+  .mine-grid,.choice-grid{grid-template-columns:1fr}
+  .diamond-field{min-height:55svh}
+  .bubble-diamond{width:64px;height:64px}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <main id="hub" class="screen active" aria-label="Mind Reset Hub">
-  <div class="starfield" aria-hidden="true"></div>
-  <div class="hub-header">
-    <a class="hub-close" href="index.html" aria-label="Back to My World">← Back</a>
-    <div class="hub-copy">
-      <h1>Mind Reset Hub</h1>
-      <p>Pick a quick calming activity. Tap a card to begin.</p>
+  <div class="star-bg" aria-hidden="true"></div>
+  <div class="hub-wrap">
+    <div class="hub-top">
+      <a class="back-link" href="index.html" aria-label="Back to My World">‹</a>
+      <div class="hub-title">
+        <h1><span>✦</span> Mind Reset Hub <span>✦</span></h1>
+        <p>Pick a place to reset your mind and find some peace.</p>
+      </div>
+      <div class="diamond-bank" aria-label="Diamonds"><span>💎</span><span id="bank">250</span></div>
     </div>
-    <div class="hub-spacer" aria-hidden="true"></div>
-  </div>
-  <div class="hub-shell">
-    <div class="hub-stage" aria-label="Choose a Mind Reset activity">
-      <img class="hub-img" src="custom-backgrounds/hub.jpg" alt="Mind Reset Hub cards: free to play and premium realms"/>
-      <button class="hotspot hs-diamond" onclick="openScene('diamond')" aria-label="Play Diamond Mind Reset"></button>
-      <button class="hotspot hs-breathe" onclick="openScene('breathe')" aria-label="Play Breathing Blocks"></button>
-      <button class="hotspot hs-rain" onclick="openScene('rain')" aria-label="Open Rain Room Realm"></button>
-      <button class="hotspot hs-miner" onclick="openScene('miner')" aria-label="Open Thought Miner Cave"></button>
-      <button class="hotspot hs-camp" onclick="openScene('campfire')" aria-label="Open Campfire Reflection"></button>
-      <button class="hotspot hs-biome" onclick="openScene('biome')" aria-label="Open Biome Shift Portal"></button>
+    <div class="card-labels" aria-hidden="true">
+      <strong class="free-label">Free to Play</strong>
+      <strong class="premium-label">Premium Realms ♛</strong>
+    </div>
+    <div class="card-grid">
+      <button class="realm-card" style="--img:url('custom-backgrounds/hub.jpg')" onclick="openScene('diamond')" aria-label="Open Diamond Mind Reset"><span class="card-text"><h2>Diamond Mind Reset</h2><p>Pop calming diamonds.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/breathing-block.png')" onclick="openScene('breathe')" aria-label="Open Breathing Blocks"><span class="card-text"><h2>Breathing Blocks</h2><p>Breathe with the glowing block.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/rain-room.jpg')" onclick="openScene('rain')" aria-label="Open Rain Room Realm"><span class="locked-badge">🔒</span><span class="card-text"><h2>Rain Room Realm</h2><p>Let rain carry heavy thoughts.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/miner.jpg')" onclick="openScene('miner')" aria-label="Open Thought Miner Cave"><span class="locked-badge">🔒</span><span class="card-text"><h2>Thought Miner Cave</h2><p>Mine worries into reframes.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/campfire.jpg')" onclick="openScene('campfire')" aria-label="Open Campfire Reflection"><span class="locked-badge">🔒</span><span class="card-text"><h2>Campfire Reflection</h2><p>Release it into the fire.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/biome.jpg')" onclick="openScene('biome')" aria-label="Open Biome Shift Portal"><span class="locked-badge">🔒</span><span class="card-text"><h2>Biome Shift Portal</h2><p>Choose a calm place.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/biome.jpg')" onclick="openScene('forest')" aria-label="Open Forest Whisper"><span class="card-text"><h2>Forest Whisper</h2><p>Ground with your senses.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/campfire.jpg')" onclick="openScene('sunset')" aria-label="Open Sunset Reset"><span class="card-text"><h2>Sunset Reset</h2><p>Name what is safe now.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/rain-room-reference.png')" onclick="openScene('cave')" aria-label="Open Deep Cave Calm"><span class="card-text"><h2>Deep Cave Calm</h2><p>Slow down one block at a time.</p></span></button>
     </div>
   </div>
 </main>
 
-<section id="diamond" class="screen scene" aria-label="Diamond Mind Reset">
-  <div class="starfield"></div>
-  <button class="back-hub" onclick="backHub()">← Hub</button>
-  <div class="game-panel">
-    <h1 class="game-title">Diamond Mind Reset</h1>
-    <p class="instructions">Tap as many diamonds as you can before time runs out.</p>
-    <div><span class="stat">💎 <span id="diamondScore">0</span></span><span class="stat">⏱️ <span id="diamondTime">25</span>s</span></div>
-    <div id="tapZone" class="tap-zone" onclick="tapEmptyDiamond(event)"></div>
-    <button id="startDiamond" class="primary" onclick="startDiamondGame()">Start</button>
-    <button id="stopDiamond" class="stop" onclick="stopDiamondGame()" disabled>Stop</button>
-    <div id="diamondResult" class="result"></div>
+<section id="diamond" class="screen">
+  <div class="star-bg"></div><button class="back-hub" onclick="backHub()">← Hub</button>
+  <div class="scene-panel">
+    <h1 class="scene-title">Diamond Mind Reset</h1>
+    <p class="scene-copy">Tap the glowing diamonds as they appear. This version is slower and softer, like popping bubble wrap.</p>
+    <div class="stats"><span class="stat">💎 <span id="diamondScore">0</span></span><span class="stat">⏱️ <span id="diamondTime">30</span>s</span></div>
+    <div id="diamondField" class="diamond-field" aria-label="Tap diamonds game"></div>
+    <div style="margin-top:.8rem"><button id="startDiamond" class="primary" onclick="startDiamondGame()">Start</button> <button id="stopDiamond" class="stop" onclick="stopDiamondGame(true)" disabled>Stop</button></div>
+    <div id="diamondResult" class="scene-copy" aria-live="polite"></div>
   </div>
 </section>
 
-<section id="breathe" class="screen scene" aria-label="Breathing Blocks">
-  <button class="back-hub" onclick="backHub()">← Hub</button>
-  <div class="breathe-area">
-    <div class="breathe-card">
-      <h1 class="game-title">Breathing Blocks</h1>
-      <p class="instructions" id="breathText">Breathe in as the block grows. Breathe out as it shrinks.</p>
-      <div id="breathBlock" class="breath-block" role="img" aria-label="Breathing block"></div>
-      <div class="progress"><i id="breathProgress"></i></div>
-      <p class="instructions" id="breathCount">Round 1 of 5</p>
-      <button id="startBreath" class="primary" onclick="startBreathing()">Start Breathing</button>
-    </div>
+<section id="breathe" class="screen">
+  <div class="star-bg"></div><button class="back-hub" onclick="backHub()">← Hub</button>
+  <div class="scene-panel">
+    <h1 class="scene-title">Breathing Blocks</h1>
+    <p class="scene-copy" id="breathPrompt">Breathe in as the block glows bigger. Breathe out as it gets smaller.</p>
+    <div class="breath-stage"><img class="big-block" id="bigBlock" src="custom-backgrounds/breathing-block.png" alt="Glowing Minecraft-style breathing block"/></div>
+    <div class="progress"><i id="breathProgress"></i></div>
+    <p class="scene-copy" id="breathRound">Ready for five slow rounds.</p>
+    <button id="startBreath" class="primary" onclick="startBreathing()">Start Breathing</button>
   </div>
 </section>
 
-<section id="rain" class="screen image-scene" aria-label="Rain Room Realm">
-  <img class="scene-img" src="custom-backgrounds/rain-room.jpg" alt="Rain Room Realm"/>
-  <div class="rain-layer"></div><div class="rain-layer soft"></div><div class="scene-shade"></div>
-  <button class="back-hub" onclick="backHub()">← Hub</button>
-  <button id="rainSoundBtn" class="sound-btn" onclick="toggleRainSound()">🔇</button>
-  <div class="rain-input">
-    <textarea maxlength="200" placeholder="Type your thoughts here..."></textarea>
-    <button class="primary" onclick="complete(10); clearText(this)">🌧️ Share with the rain</button>
+<section id="rain" class="screen">
+  <img class="scene-bg-img" src="custom-backgrounds/rain-room.jpg" alt="Minecraft inspired rain room"/>
+  <div class="rain-lines"></div><div class="rain-lines two"></div><div class="scene-shade"></div>
+  <button class="back-hub" onclick="backHub()">← Hub</button><button id="rainSoundBtn" class="sound-btn" onclick="toggleSound('rainAudio','rainSoundBtn')">🔇</button>
+  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 45svh)">
+    <div class="text-card"><h1 class="scene-title">Rain Room Realm</h1><p class="scene-copy">Write one thought that has been following you. Let the rain hold it for a moment.</p><textarea maxlength="220" placeholder="Type your thought here..."></textarea><button class="primary" style="width:100%;margin-top:.7rem;background:linear-gradient(#526ac9,#2b367e)" onclick="releaseText(this,'The rain helped lighten what you were carrying. +10 diamonds',10)">Share with the rain 🌧️</button></div>
   </div>
   <audio id="rainAudio" loop preload="auto" src="public:sounds:/ES_Weather, Thunder, Light Rain - Epidemic Sound.mp3"></audio>
 </section>
 
-<section id="miner" class="screen image-scene" aria-label="Thought Miner Cave">
-  <img class="scene-img" src="custom-backgrounds/miner.jpg" alt="Thought Miner Cave"/>
-  <div class="scene-shade"></div><button class="back-hub" onclick="backHub()">← Hub</button>
-  <div class="simple-panel"><div class="mine-grid" id="mineGrid"></div><button class="primary" style="width:100%;margin-top:.7rem" onclick="complete(15)">Collect Reframes 💎</button></div>
-</section>
-
-<section id="campfire" class="screen image-scene" aria-label="Campfire Reflection">
-  <img class="scene-img" src="custom-backgrounds/campfire.jpg" alt="Campfire Reflection"/>
-  <div class="fire-glow"></div><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i><div class="scene-shade"></div>
+<section id="miner" class="screen">
+  <img class="scene-bg-img" src="custom-backgrounds/miner.jpg" alt="Thought Miner Cave"/><div class="scene-shade"></div>
   <button class="back-hub" onclick="backHub()">← Hub</button>
-  <div class="simple-panel"><textarea maxlength="200" placeholder="Type what you want to let go of..."></textarea><button class="primary" style="width:100%;margin-top:.7rem;background:linear-gradient(#c96b2b,#873114)" onclick="complete(10); clearText(this); toast('Released into the fire 🔥')">Add it to the fire 🔥</button></div>
+  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 38svh)">
+    <div class="text-card"><h1 class="scene-title">Thought Miner Cave</h1><p class="scene-copy">Tap each heavy block to uncover a calmer reframe.</p><div class="mine-grid" id="mineGrid"></div><button class="primary" style="width:100%;margin-top:.8rem" onclick="earn(15,'You collected calmer thoughts. +15 diamonds')">Collect Reframes 💎</button></div>
+  </div>
 </section>
 
-<section id="biome" class="screen image-scene" aria-label="Biome Shift Portal">
-  <img class="scene-img" src="custom-backgrounds/biome.jpg" alt="Biome Shift Portal"/>
-  <div class="scene-shade"></div><button class="back-hub" onclick="backHub()">← Hub</button>
-  <div class="simple-panel">
-    <div class="biomes">
-      <button class="biome sel" onclick="pickBiome(this,'Forest')">🌲 <b>Forest</b><br>Birds and leaves.</button>
-      <button class="biome" onclick="pickBiome(this,'Beach')">🏖️ <b>Beach</b><br>Soft ocean breeze.</button>
-      <button class="biome" onclick="pickBiome(this,'Snowy Peaks')">🏔️ <b>Snowy Peaks</b><br>Quiet snow.</button>
-      <button class="biome" onclick="pickBiome(this,'Desert')">🌵 <b>Desert</b><br>Peaceful stillness.</button>
-      <button class="biome" onclick="pickBiome(this,'Mushroom Fields')">🍄 <b>Mushroom Fields</b><br>Dreamy and calm.</button>
-      <button class="biome" onclick="toast('Deep Caves is locked for now 🔒')">🔒 <b>Deep Caves</b><br>Locked.</button>
-    </div>
-    <button class="primary" id="enterBiome" style="width:100%;margin-top:.7rem;background:linear-gradient(#44a953,#236a2e)" onclick="complete(10)">Enter Forest 💎</button>
+<section id="campfire" class="screen">
+  <img class="scene-bg-img" src="custom-backgrounds/campfire.jpg" alt="Campfire Reflection"/><div class="fire-glow"></div><div class="scene-shade"></div>
+  <button class="back-hub" onclick="backHub()">← Hub</button><button id="fireSoundBtn" class="sound-btn" onclick="toggleSound('fireAudio','fireSoundBtn')">🔇</button>
+  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 43svh)">
+    <div class="text-card"><h1 class="scene-title">Campfire Reflection</h1><p class="scene-copy">Name something you are ready to set down. You do not have to carry it all right now.</p><textarea maxlength="220" placeholder="I want to let go of..."></textarea><button class="primary" style="width:100%;margin-top:.7rem;background:linear-gradient(#c86b2c,#843519)" onclick="releaseText(this,'Released into the fire. +10 diamonds',10)">Add it to the fire 🔥</button></div>
   </div>
+  <audio id="fireAudio" loop preload="auto" src="public:sounds:/ES_Fire, Burning, Fireplace, Outdoor, Seaside, Plank Firewood Burning Slow, Few Crackles, Seagulls, Birds, Boat In Background, Slight Distance - Epidemic Sound.mp3"></audio>
+</section>
+
+<section id="biome" class="screen">
+  <img class="scene-bg-img" src="custom-backgrounds/biome.jpg" alt="Biome Shift Portal"/><div class="scene-shade"></div>
+  <button class="back-hub" onclick="backHub()">← Hub</button>
+  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 34svh)">
+    <div class="text-card"><h1 class="scene-title">Biome Shift Portal</h1><p class="scene-copy">Choose the setting your body wants right now.</p><div class="choice-grid"><button class="choice sel" onclick="pickChoice(this,'Enter Forest')">🌲 Forest<br><small>Leaves and birds</small></button><button class="choice" onclick="pickChoice(this,'Enter Beach')">🌊 Beach<br><small>Waves and breeze</small></button><button class="choice" onclick="pickChoice(this,'Enter Snow')">❄️ Snow<br><small>Soft quiet</small></button><button class="choice" onclick="pickChoice(this,'Enter Desert')">🌵 Desert<br><small>Warm stillness</small></button></div><button id="choiceEnter" class="primary" style="width:100%;margin-top:.8rem;background:linear-gradient(#47a957,#236c31)" onclick="earn(10,'You stepped into a calmer biome. +10 diamonds')">Enter Forest 💎</button></div>
+  </div>
+</section>
+
+<section id="forest" class="screen">
+  <img class="scene-bg-img" src="custom-backgrounds/biome.jpg" alt="Forest Whisper"/><div class="scene-shade"></div>
+  <button class="back-hub" onclick="backHub()">← Hub</button><button id="forestSoundBtn" class="sound-btn" onclick="toggleSound('forestAudio','forestSoundBtn')">🔇</button>
+  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 40svh)">
+    <div class="text-card"><h1 class="scene-title">Forest Whisper</h1><p class="scene-copy">Tap each sense you can notice right now.</p><div class="choice-grid"><button class="choice" onclick="this.classList.toggle('sel')">👀 Something I see</button><button class="choice" onclick="this.classList.toggle('sel')">👂 Something I hear</button><button class="choice" onclick="this.classList.toggle('sel')">✋ Something I feel</button><button class="choice" onclick="this.classList.toggle('sel')">🌬️ One slow breath</button></div><button class="primary" style="width:100%;margin-top:.8rem" onclick="earn(8,'Grounding complete. +8 diamonds')">Complete Grounding 💎</button></div>
+  </div>
+  <audio id="forestAudio" loop preload="auto" src="public:sounds:/ES_Wind, General, Wind, Soft Tree Foliage - Epidemic Sound.mp3"></audio>
+</section>
+
+<section id="sunset" class="screen">
+  <img class="scene-bg-img" src="custom-backgrounds/campfire.jpg" alt="Sunset Reset"/><div class="scene-shade"></div>
+  <button class="back-hub" onclick="backHub()">← Hub</button>
+  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 42svh)">
+    <div class="text-card"><h1 class="scene-title">Sunset Reset</h1><p class="scene-copy">Let the day get smaller. Choose a gentle thought for tonight.</p><div class="affirmation" id="affirmation">I can take this one block at a time.</div><button class="primary" style="width:100%;margin-top:.8rem" onclick="newAffirmation()">New Gentle Thought</button></div>
+  </div>
+</section>
+
+<section id="cave" class="screen">
+  <img class="scene-bg-img" src="custom-backgrounds/rain-room-reference.png" alt="Deep Cave Calm"/><div class="scene-shade"></div>
+  <button class="back-hub" onclick="backHub()">← Hub</button><button id="caveSoundBtn" class="sound-btn" onclick="toggleSound('caveAudio','caveSoundBtn')">🔇</button>
+  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 40svh)">
+    <div class="text-card"><h1 class="scene-title">Deep Cave Calm</h1><p class="scene-copy">A quiet place for slow counting. Tap the crystals from 1 to 5.</p><div class="choice-grid"><button class="choice" onclick="crystal(this)">💠 1</button><button class="choice" onclick="crystal(this)">💠 2</button><button class="choice" onclick="crystal(this)">💠 3</button><button class="choice" onclick="crystal(this)">💠 4</button><button class="choice" onclick="crystal(this)">💠 5</button></div></div>
+  </div>
+  <audio id="caveAudio" loop preload="auto" src="public:sounds:/ES_Water, Drip, Reverberant Echo, Cave, Cavern - Epidemic Sound.mp3"></audio>
 </section>
 
 <div id="toast" class="toast"></div>
 <script>
-let totalDiamonds = Number(localStorage.getItem('mindResetDiamonds') || 250);
-const heavy = [
-  ["I'm not enough","I am enough as I am"],
-  ["I always mess up","I'm learning and growing"],
-  ["What if I fail?","One step at a time"],
-  ["I can't handle this","I can handle challenges"],
-  ["I'm not good at anything","I'm doing my best"],
-  ["This is too much","One block at a time"]
-];
+let bank=Number(localStorage.getItem('mindResetDiamonds') || 250);
+const bankEl=document.getElementById('bank');
+function syncBank(){ bankEl.textContent=bank; localStorage.setItem('mindResetDiamonds',bank); }
+syncBank();
 
 function openScene(id){
+  stopAllSounds(); stopDiamondGame(false);
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
@@ -221,170 +246,105 @@ function openScene(id){
   if(id==='breathe') resetBreathing();
 }
 function backHub(){
-  stopRainSound();
-  stopDiamondGame(false);
+  stopAllSounds(); stopDiamondGame(false);
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('hub').classList.add('active');
   window.scrollTo(0,0);
 }
-function complete(n){
-  totalDiamonds += n;
-  localStorage.setItem('mindResetDiamonds', totalDiamonds);
-  toast(`You earned ${n} diamonds 💎`);
-}
 function toast(msg){
   const t=document.getElementById('toast');
-  t.textContent=msg;
-  t.classList.add('show');
-  clearTimeout(window._toast);
-  window._toast=setTimeout(()=>t.classList.remove('show'),2400);
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(window._toast);window._toast=setTimeout(()=>t.classList.remove('show'),2600);
 }
-function clearText(btn){
-  const ta=btn.parentElement.querySelector('textarea');
-  if(ta) ta.value='';
-}
+function earn(n,msg){bank+=n;syncBank();toast(msg||`+${n} diamonds 💎`);}
 
-/* Diamond game */
-let diamondTimer=null, diamondSpawner=null, diamondTime=20, diamondScore=0, diamondRunning=false;
+/* Calm diamond pop game */
+let dTimer=null,dSpawner=null,dTime=30,dScore=0,dRunning=false;
 function startDiamondGame(){
-  const zone=document.getElementById('tapZone');
-  zone.innerHTML='';
-  diamondTime=25; diamondScore=0; diamondRunning=true;
+  const field=document.getElementById('diamondField'); field.innerHTML='';
+  dTime=30; dScore=0; dRunning=true;
   document.getElementById('diamondScore').textContent='0';
-  document.getElementById('diamondTime').textContent='25';
+  document.getElementById('diamondTime').textContent='30';
   document.getElementById('diamondResult').textContent='';
   document.getElementById('startDiamond').disabled=true;
   document.getElementById('stopDiamond').disabled=false;
-  spawnDiamond();
-  diamondSpawner=setInterval(spawnDiamond,950);
-  diamondTimer=setInterval(()=>{
-    diamondTime--;
-    document.getElementById('diamondTime').textContent=diamondTime;
-    if(diamondTime<=0) stopDiamondGame(true);
-  },1000);
+  for(let i=0;i<6;i++) setTimeout(spawnBubble,i*260);
+  dSpawner=setInterval(()=>{ for(let i=0;i<2;i++) setTimeout(spawnBubble,i*360); },1900);
+  dTimer=setInterval(()=>{ dTime--; document.getElementById('diamondTime').textContent=dTime; if(dTime<=0) stopDiamondGame(true); },1000);
 }
-function spawnDiamond(){
-  if(!diamondRunning) return;
-  const zone=document.getElementById('tapZone');
-  const d=document.createElement('button');
-  d.className='falling-diamond';
-  d.textContent='💎';
-  d.setAttribute('aria-label','Collect diamond');
-  d.style.left=Math.random()*88+'%';
-  d.style.top='-10px';
-  d.style.animationDuration='4.3s';
-  d.style.border='0';
-  d.style.background='transparent';
-  d.onclick=(e)=>{
-    e.stopPropagation();
-    diamondScore++;
-    document.getElementById('diamondScore').textContent=diamondScore;
-    popDiamond(zone, d);
-    d.remove();
-  };
-  zone.appendChild(d);
-  setTimeout(()=>d.remove(),4400);
+function spawnBubble(){
+  if(!dRunning) return;
+  const field=document.getElementById('diamondField');
+  const b=document.createElement('button');
+  b.className='bubble-diamond'; b.innerHTML='💎'; b.setAttribute('aria-label','Pop diamond');
+  b.style.left=Math.random()*82+'%'; b.style.top=Math.random()*78+'%';
+  b.style.animationDelay=(Math.random()*-3)+'s';
+  b.onclick=(e)=>{e.stopPropagation(); if(b.classList.contains('pop'))return; b.classList.add('pop'); dScore++; document.getElementById('diamondScore').textContent=dScore; setTimeout(()=>b.remove(),340);};
+  field.appendChild(b);
+  setTimeout(()=>{ if(b.parentNode && !b.classList.contains('pop')) b.remove(); },6200);
 }
-function popDiamond(zone, diamond){
-  const z=zone.getBoundingClientRect();
-  const d=diamond.getBoundingClientRect();
-  const pop=document.createElement('span');
-  pop.className='diamond-pop';
-  pop.textContent='💎';
-  pop.style.left=(d.left - z.left + d.width/2)+'px';
-  pop.style.top=(d.top - z.top + d.height/2)+'px';
-  zone.appendChild(pop);
-  setTimeout(()=>pop.remove(),450);
-}
-function tapEmptyDiamond(){ if(diamondRunning) toast('Tap the falling diamonds 💎'); }
-function stopDiamondGame(show=true){
-  if(!diamondRunning && !diamondTimer && !diamondSpawner) return;
-  diamondRunning=false;
-  clearInterval(diamondTimer); clearInterval(diamondSpawner);
-  diamondTimer=null; diamondSpawner=null;
-  document.getElementById('startDiamond').disabled=false;
-  document.getElementById('stopDiamond').disabled=true;
-  document.querySelectorAll('.falling-diamond').forEach(d=>d.remove());
-  if(show){
-    totalDiamonds += diamondScore;
-    localStorage.setItem('mindResetDiamonds', totalDiamonds);
-    document.getElementById('diamondResult').textContent=`You earned ${diamondScore} diamonds!`;
-    toast(`Collected ${diamondScore} diamonds 💎`);
-  }
+function stopDiamondGame(show){
+  clearInterval(dTimer); clearInterval(dSpawner); dTimer=null; dSpawner=null;
+  const was=dRunning; dRunning=false;
+  const start=document.getElementById('startDiamond'), stop=document.getElementById('stopDiamond');
+  if(start) start.disabled=false; if(stop) stop.disabled=true;
+  document.querySelectorAll('.bubble-diamond').forEach(b=>b.remove());
+  if(show && was){ bank+=dScore; syncBank(); document.getElementById('diamondResult').textContent=`You earned ${dScore} diamonds.`; toast(`You earned ${dScore} diamonds 💎`); }
 }
 
-/* Breathing blocks */
-let breathTimer=null, breathRound=1;
+/* Breathing */
+let breathTimer=null,breathRound=0;
 function resetBreathing(){
-  clearInterval(breathTimer);
-  breathTimer=null; breathRound=1;
+  clearInterval(breathTimer); breathTimer=null; breathRound=0;
   document.getElementById('breathProgress').style.width='0%';
-  document.getElementById('breathCount').textContent='Round 1 of 5';
-  document.getElementById('breathText').textContent='Breathe in as the block grows. Breathe out as it shrinks.';
-  document.getElementById('breathBlock').classList.remove('done');
+  document.getElementById('breathRound').textContent='Ready for five slow rounds.';
+  document.getElementById('breathPrompt').textContent='Breathe in as the block glows bigger. Breathe out as it gets smaller.';
+  document.getElementById('bigBlock').classList.remove('paused');
   document.getElementById('startBreath').disabled=false;
-  document.getElementById('startBreath').textContent='Start Breathing';
 }
 function startBreathing(){
-  clearInterval(breathTimer);
+  resetBreathing();
   document.getElementById('startBreath').disabled=true;
-  document.getElementById('breathBlock').classList.remove('done');
-  breathRound=1;
-  updateBreath();
   breathTimer=setInterval(()=>{
     breathRound++;
-    if(breathRound>5){
-      clearInterval(breathTimer);
-      document.getElementById('breathBlock').classList.add('done');
-      document.getElementById('breathText').textContent='Great work. Your breathing reset is complete.';
-      document.getElementById('breathCount').textContent='Complete';
-      document.getElementById('breathProgress').style.width='100%';
-      complete(5);
-      return;
-    }
-    updateBreath();
-  },6000);
-}
-function updateBreath(){
-  document.getElementById('breathCount').textContent=`Round ${breathRound} of 5`;
-  document.getElementById('breathProgress').style.width=`${((breathRound-1)/5)*100}%`;
+    document.getElementById('breathRound').textContent=`Round ${breathRound} of 5`;
+    document.getElementById('breathProgress').style.width=(breathRound/5*100)+'%';
+    if(breathRound>=5){ clearInterval(breathTimer); document.getElementById('bigBlock').classList.add('paused'); document.getElementById('breathPrompt').textContent='Breathing reset complete. Notice one place your body feels softer.'; document.getElementById('breathRound').textContent='Complete'; earn(5,'Breathing complete. +5 diamonds'); }
+  },7000);
 }
 
-/* Rain sound */
-function toggleRainSound(){
-  const audio=document.getElementById('rainAudio');
-  const btn=document.getElementById('rainSoundBtn');
-  if(audio.paused){
-    audio.volume=.55;
-    audio.play().then(()=>btn.textContent='🔊').catch(()=>toast('Tap again to turn on rain sound.'));
-  }else{
-    stopRainSound();
-  }
+/* Rain, fire, cave sounds */
+function toggleSound(audioId,btnId){
+  const a=document.getElementById(audioId), b=document.getElementById(btnId);
+  if(!a) return;
+  if(a.paused){ a.volume=.55; a.play().then(()=>b.textContent='🔊').catch(()=>toast('Tap once more to turn sound on.')); }
+  else{ a.pause(); a.currentTime=0; b.textContent='🔇'; }
 }
-function stopRainSound(){
-  const audio=document.getElementById('rainAudio');
-  const btn=document.getElementById('rainSoundBtn');
-  if(audio){audio.pause(); audio.currentTime=0;}
-  if(btn) btn.textContent='🔇';
+function stopAllSounds(){
+  document.querySelectorAll('audio').forEach(a=>{a.pause();a.currentTime=0});
+  document.querySelectorAll('.sound-btn').forEach(b=>b.textContent='🔇');
 }
 
-/* Other scenes */
+/* Reflective interactions */
+function releaseText(btn,msg,n){
+  const ta=btn.parentElement.querySelector('textarea');
+  if(ta) ta.value='';
+  earn(n,msg);
+}
+const heavy=[["I'm not enough","I am enough as I am"],["I always mess up","I'm learning and growing"],["What if I fail?","One step at a time"],["I can't handle this","I can handle challenges"],["I'm not good at anything","I'm doing my best"],["This is too much","One block at a time"]];
 function buildMine(){
-  const g=document.getElementById('mineGrid');
-  if(g.children.length) return;
-  heavy.forEach(([bad,good])=>{
-    const b=document.createElement('button');
-    b.className='block';
-    b.textContent=bad;
-    b.onclick=()=>{b.classList.add('mined'); b.textContent=good;};
-    g.appendChild(b);
-  });
+  const g=document.getElementById('mineGrid'); if(g.children.length) return;
+  heavy.forEach(([bad,good])=>{ const b=document.createElement('button'); b.className='mine-block'; b.textContent=bad; b.onclick=()=>{b.classList.add('done'); b.textContent=good;}; g.appendChild(b); });
 }
-function pickBiome(btn,name){
-  document.querySelectorAll('.biome').forEach(b=>b.classList.remove('sel'));
+function pickChoice(btn,label){
+  btn.parentElement.querySelectorAll('.choice').forEach(c=>c.classList.remove('sel'));
   btn.classList.add('sel');
-  document.getElementById('enterBiome').textContent=`Enter ${name} 💎`;
+  const enter=document.getElementById('choiceEnter'); if(enter) enter.textContent=label+' 💎';
 }
+const thoughts=['I can take this one block at a time.','I do not have to solve everything tonight.','A small breath is still progress.','I am allowed to pause and reset.','This moment can be gentler than the last one.'];
+function newAffirmation(){ document.getElementById('affirmation').textContent=thoughts[Math.floor(Math.random()*thoughts.length)]; earn(3,'Gentle thought saved. +3 diamonds');}
+let crystals=0;
+function crystal(btn){ if(btn.classList.contains('sel')) return; btn.classList.add('sel'); crystals++; if(crystals>=5){crystals=0; earn(8,'Deep cave calm complete. +8 diamonds'); setTimeout(()=>document.querySelectorAll('#cave .choice').forEach(c=>c.classList.remove('sel')),900);}}
 </script>
 </body>
 </html>
