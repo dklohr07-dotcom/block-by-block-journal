@@ -632,6 +632,129 @@ textarea::placeholder{color:#d8d1de}
   #hub .card-grid{gap:6px}
 }
 
+
+/* Mobile-friendly hub alignment patch */
+@media (max-width: 720px){
+  #hub .hub-wrap{
+    width:100%;
+    max-width:836px;
+    padding:calc(env(safe-area-inset-top) + 16px) clamp(8px,3vw,14px) calc(env(safe-area-inset-bottom) + 36px);
+  }
+  #hub .hub-top{
+    grid-template-columns:44px minmax(0,1fr) 44px;
+    align-items:start;
+    gap:6px;
+    margin-bottom:clamp(18px,5vw,28px);
+  }
+  #hub .back-link{
+    width:42px;
+    height:48px;
+    border-radius:12px;
+    font-size:1.45rem;
+  }
+  #hub .diamond-bank{
+    display:block;
+    visibility:hidden;
+    width:42px;
+    min-width:42px;
+    padding:0;
+  }
+  #hub .hub-title{
+    min-width:0;
+    overflow:visible;
+  }
+  #hub .hub-title h1{
+    white-space:normal;
+    overflow:visible;
+    text-wrap:balance;
+    font-size:clamp(1.12rem,7vw,1.75rem);
+    line-height:1.18;
+    margin:0 0 10px;
+    text-shadow:3px 3px 0 #000;
+  }
+  #hub .hub-title p{
+    max-width:100%;
+    overflow:visible;
+    font-size:clamp(.86rem,3.8vw,1.05rem);
+    line-height:1.22;
+    padding:0 .1rem;
+  }
+  #hub .card-labels{
+    display:grid !important;
+    grid-template-columns:1fr 1fr 1fr;
+    align-items:end;
+    width:100%;
+    padding:0;
+    margin:0 0 8px;
+    gap:8px;
+  }
+  #hub .card-labels .free-label{
+    grid-column:1 / span 2;
+    text-align:left;
+    padding-left:clamp(2px,7vw,40px);
+  }
+  #hub .card-labels .premium-label{
+    grid-column:3;
+    text-align:center;
+  }
+  #hub .card-labels strong{
+    font-size:clamp(.50rem,2.55vw,.72rem);
+    line-height:1.25;
+    white-space:nowrap;
+  }
+  #hub .card-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:clamp(6px,2vw,10px);
+    width:100%;
+  }
+  #hub .realm-card{
+    aspect-ratio:1/1;
+    min-width:0;
+    border-radius:clamp(10px,3vw,14px);
+  }
+  #hub .realm-card h2{
+    font-size:clamp(.46rem,2.35vw,.68rem);
+    line-height:1.2;
+    white-space:normal;
+    overflow-wrap:normal;
+  }
+  #hub .realm-card .card-text{
+    padding:.44rem .22rem .42rem;
+    text-align:center;
+  }
+  #hub .realm-card p,
+  #hub .locked-badge{
+    display:none !important;
+  }
+}
+@media (max-width: 380px){
+  #hub .hub-top{
+    grid-template-columns:38px minmax(0,1fr) 38px;
+  }
+  #hub .back-link{
+    width:36px;
+    height:44px;
+    font-size:1.25rem;
+  }
+  #hub .diamond-bank{
+    width:36px;
+    min-width:36px;
+  }
+  #hub .hub-title h1{
+    font-size:clamp(1rem,6.7vw,1.35rem);
+  }
+  #hub .hub-title p{
+    font-size:clamp(.78rem,3.5vw,.92rem);
+  }
+  #hub .card-labels strong{
+    font-size:clamp(.44rem,2.4vw,.58rem);
+  }
+  #hub .realm-card h2{
+    font-size:clamp(.40rem,2.15vw,.58rem);
+  }
+}
+
 </style>
 </head>
 <body>
