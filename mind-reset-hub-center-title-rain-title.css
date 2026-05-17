@@ -1,0 +1,84 @@
+/* Mind Reset Hub: centered title + Rain Room title patch
+   Upload this CSS and load it AFTER your existing Mind Reset Hub CSS. */
+
+/* Keep the main hub header truly centered */
+.mind-reset-header,
+.hub-header,
+.hero-header {
+  position: relative;
+  width: min(100%, 980px);
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+  padding-left: 12px;
+  padding-right: 12px;
+  box-sizing: border-box;
+}
+
+/* Center the title regardless of back button / layout items */
+.mind-reset-title,
+.hub-title,
+h1.mind-reset-title {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  transform: none !important;
+  left: auto !important;
+  right: auto !important;
+  position: relative;
+  font-size: clamp(18px, 6.2vw, 56px);
+}
+
+/* Keep description centered */
+.mind-reset-description,
+.mind-reset-subtitle,
+.hub-description,
+.hub-subtitle {
+  width: min(94vw, 820px);
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+}
+
+/* Rain Room title */
+.rain-room-title,
+.realm-title.rain-room-title {
+  position: absolute;
+  top: clamp(24px, 4vw, 44px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 8;
+  margin: 0;
+  color: #ffffff;
+  font-family: "Press Start 2P", system-ui, sans-serif;
+  font-size: clamp(18px, 4.3vw, 40px);
+  line-height: 1.1;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  text-align: center;
+  text-shadow: 0 5px 0 rgba(0, 0, 0, 0.55), 0 0 18px rgba(80, 160, 255, 0.4);
+  pointer-events: none;
+}
+
+.rain-room-scene,
+.realm-scene.rain-room-scene {
+  position: relative;
+}
+
+@media (max-width: 600px) {
+  .mind-reset-title,
+  .hub-title,
+  h1.mind-reset-title {
+    font-size: clamp(18px, 5.8vw, 30px);
+  }
+
+  .rain-room-title,
+  .realm-title.rain-room-title {
+    top: 92px;
+    font-size: clamp(16px, 5vw, 24px);
+  }
+}

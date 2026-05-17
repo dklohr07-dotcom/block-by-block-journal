@@ -1,20 +1,14 @@
-Mind Reset Hub exact-position patch
+Mind Reset Hub centered title + Rain Room title patch
 
-This upload-ready patch is designed to avoid changing the rest of your app.
+Upload-ready files:
+- mind-reset-hub-center-title-rain-title.css
+- rain-room-title-snippet.html
 
-Files:
-- mind-reset-hub-exact-position-fix.css
-- html-snippet.html
+How to apply:
+1. Upload mind-reset-hub-center-title-rain-title.css into the same folder as mind-reset-hub.html.
+2. In mind-reset-hub.html, link this CSS after your existing hub styles:
+   <link rel="stylesheet" href="mind-reset-hub-center-title-rain-title.css">
+3. Add the Rain Room title snippet inside the Rain Room Realm section:
+   <h2 class="rain-room-title">RAIN ROOM REALM</h2>
 
-Recommended upload:
-1. Add mind-reset-hub-exact-position-fix.css to the same folder as mind-reset-hub.html.
-2. In mind-reset-hub.html, add this link AFTER the current hub stylesheet:
-   <link rel="stylesheet" href="mind-reset-hub-exact-position-fix.css">
-3. If your existing title/label classes are different, replace only the heading and label area with html-snippet.html.
-
-What this fixes:
-- MIND RESET HUB stays centered and on one line.
-- Description stays centered.
-- FREE TO PLAY stays left and on one line.
-- PREMIUM REALMS ♛ stays right and on one line.
-- Text scales down on smaller screens instead of wrapping or drifting.
+This patch only changes the Mind Reset Hub title alignment and adds/stylizes the Rain Room Realm title.
