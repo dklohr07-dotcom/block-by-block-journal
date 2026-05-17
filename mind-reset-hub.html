@@ -443,6 +443,56 @@ textarea::placeholder{color:#d8d1de}
   .rain-share-btn{min-height:72px;font-size:1.2rem}
 }
 
+
+/* Safe patch: Rain Room zoom-out + exact screenshot spacing.
+   This only affects the Rain Room scene and does not touch the rest of the app. */
+.rain-scene{
+  background:#02050d;
+}
+.rain-scene .rain-clean-bg{
+  inset:auto auto auto 0;
+  top:0;
+  width:100%;
+  height:72svh;
+  object-fit:cover;
+  object-position:center top;
+  transform:scale(.88);
+  transform-origin:top center;
+  filter:saturate(1.08) brightness(.86) contrast(1.04);
+}
+.rain-scene .rain-lines{
+  height:72svh;
+  bottom:auto;
+  pointer-events:none;
+}
+.rain-scene .scene-shade{
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.03),rgba(0,0,0,.08) 44%,rgba(0,0,0,.76) 72%,#02050d 100%);
+}
+.rain-room-form{
+  width:min(706px,calc(100% - 2rem));
+  bottom:clamp(1.25rem,4.5vh,2rem);
+}
+.rain-room-form textarea{
+  min-height:clamp(8rem,18svh,9.6rem);
+}
+@media (max-width:720px){
+  .rain-scene .rain-clean-bg{
+    height:66svh;
+    transform:scale(.92);
+  }
+  .rain-scene .rain-lines{
+    height:66svh;
+  }
+  .rain-room-form{
+    width:calc(100% - 1.35rem);
+    bottom:max(1rem,env(safe-area-inset-bottom));
+  }
+  .rain-room-form textarea{
+    min-height:7.3rem;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -510,7 +560,7 @@ textarea::placeholder{color:#d8d1de}
     <p class="rain-helper">The rain can help lighten what you are carrying.</p>
   </div>
 
-  <audio id="rainAudio" loop preload="auto" src="public/sounds/rain-light.mp3"></audio>
+  <audio id="rainAudio" loop preload="auto" src="public/sounds/ES_Weather, Thunder, Light Rain - Epidemic Sound.mp3"></audio>
 </section>
 
 <section id="miner" class="screen">
