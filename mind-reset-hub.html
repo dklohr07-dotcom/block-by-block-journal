@@ -46,6 +46,10 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .realm-card:focus-visible{outline:4px solid var(--diamond);outline-offset:3px}
 .realm-card::before{content:"";position:absolute;inset:0;background-image:var(--img);background-size:cover;background-position:center;transition:transform .5s ease, filter .35s ease;filter:saturate(1.07) brightness(.92)}
 .realm-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.02) 30%,rgba(0,0,0,.78) 100%)}
+.realm-card.art-card::before{background-size:cover;background-position:center;filter:saturate(1.08) brightness(1)}
+.realm-card.art-card::after{display:none}
+.realm-card.breathing-card::before{background-size:cover;background-position:center;transform:scale(1.08)}
+.realm-card.breathing-card:hover::before,.realm-card.breathing-card:focus-visible::before{transform:scale(1.13)}
 .realm-card:hover::before,.realm-card:focus-visible::before{transform:scale(1.06);filter:saturate(1.18) brightness(1.05)}
 .realm-card .card-text{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:1rem;text-align:left}
 .realm-card h2{font-family:var(--mc);font-size:clamp(.72rem,2.4vw,1rem);line-height:1.25;margin:0 0 .35rem;text-shadow:3px 3px 0 #000}
@@ -69,8 +73,8 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 @keyframes floaty{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-16px) scale(1.04)}}
 .pop{animation:pop .34s ease-out forwards!important}
 @keyframes pop{to{transform:scale(1.9);opacity:0;filter:blur(1px)}}
-.breath-stage{position:relative;display:grid;place-items:center;min-height:48svh;margin:1rem auto;border-radius:24px;background:radial-gradient(circle at 50% 42%,rgba(86,217,255,.18),transparent 45%),rgba(0,0,0,.3);border:2px solid rgba(86,217,255,.18)}
-.big-block{width:min(72vw,360px);height:min(72vw,360px);object-fit:contain;filter:drop-shadow(0 0 32px rgba(86,217,255,.75));animation:blockBreath 7s ease-in-out infinite}
+.breath-stage{position:relative;display:grid;place-items:center;min-height:52svh;margin:1rem auto;border-radius:24px;background:radial-gradient(circle at 50% 42%,rgba(86,217,255,.22),transparent 48%),rgba(0,0,0,.32);border:2px solid rgba(86,217,255,.24);overflow:hidden}
+.big-block{width:min(94vw,620px);height:min(54svh,520px);object-fit:contain;filter:drop-shadow(0 0 38px rgba(86,217,255,.82));animation:blockBreath 7s ease-in-out infinite}
 .big-block.paused{animation:none}
 @keyframes blockBreath{0%,100%{transform:scale(.82);filter:drop-shadow(0 0 18px rgba(86,217,255,.45))}50%{transform:scale(1.08);filter:drop-shadow(0 0 55px rgba(86,217,255,.95))}}
 .progress{height:1rem;border:2px solid var(--line);border-radius:999px;background:rgba(0,0,0,.55);overflow:hidden;margin:.8rem auto;max-width:560px}
@@ -108,6 +112,8 @@ textarea::placeholder{color:#d8d1de}
   .card-labels{display:none}
   .realm-card p{display:block;font-size:1rem}
   .scene-panel{padding-top:4.7rem}
+  .breath-stage{min-height:46svh}
+  .big-block{width:min(98vw,520px);height:min(48svh,460px)}
   .mine-grid,.choice-grid{grid-template-columns:1fr}
   .diamond-field{min-height:55svh}
   .bubble-diamond{width:64px;height:64px}
@@ -132,8 +138,8 @@ textarea::placeholder{color:#d8d1de}
       <strong class="premium-label">Premium Realms ♛</strong>
     </div>
     <div class="card-grid">
-      <button class="realm-card" style="--img:url('custom-backgrounds/hub.jpg')" onclick="openScene('diamond')" aria-label="Open Diamond Mind Reset"><span class="card-text"><h2>Diamond Mind Reset</h2><p>Pop calming diamonds.</p></span></button>
-      <button class="realm-card" style="--img:url('custom-backgrounds/breathing-block.png')" onclick="openScene('breathe')" aria-label="Open Breathing Blocks"><span class="card-text"><h2>Breathing Blocks</h2><p>Breathe with the glowing block.</p></span></button>
+      <button class="realm-card art-card" style="--img:url('custom-backgrounds/diamond-mind-reset-card.png')" onclick="openScene('diamond')" aria-label="Open Diamond Mind Reset"></button>
+      <button class="realm-card art-card breathing-card" style="--img:url('custom-backgrounds/breathing-block-card.png')" onclick="openScene('breathe')" aria-label="Open Breathing Blocks"></button>
       <button class="realm-card" style="--img:url('custom-backgrounds/rain-room.jpg')" onclick="openScene('rain')" aria-label="Open Rain Room Realm"><span class="locked-badge">🔒</span><span class="card-text"><h2>Rain Room Realm</h2><p>Let rain carry heavy thoughts.</p></span></button>
       <button class="realm-card" style="--img:url('custom-backgrounds/miner.jpg')" onclick="openScene('miner')" aria-label="Open Thought Miner Cave"><span class="locked-badge">🔒</span><span class="card-text"><h2>Thought Miner Cave</h2><p>Mine worries into reframes.</p></span></button>
       <button class="realm-card" style="--img:url('custom-backgrounds/campfire.jpg')" onclick="openScene('campfire')" aria-label="Open Campfire Reflection"><span class="locked-badge">🔒</span><span class="card-text"><h2>Campfire Reflection</h2><p>Release it into the fire.</p></span></button>
@@ -162,7 +168,7 @@ textarea::placeholder{color:#d8d1de}
   <div class="scene-panel">
     <h1 class="scene-title">Breathing Blocks</h1>
     <p class="scene-copy" id="breathPrompt">Breathe in as the block glows bigger. Breathe out as it gets smaller.</p>
-    <div class="breath-stage"><img class="big-block" id="bigBlock" src="custom-backgrounds/breathing-block.png" alt="Glowing Minecraft-style breathing block"/></div>
+    <div class="breath-stage"><img class="big-block" id="bigBlock" src="custom-backgrounds/breathing-block-big.png" alt="Glowing Minecraft-style breathing block"/></div>
     <div class="progress"><i id="breathProgress"></i></div>
     <p class="scene-copy" id="breathRound">Ready for five slow rounds.</p>
     <button id="startBreath" class="primary" onclick="startBreathing()">Start Breathing</button>
