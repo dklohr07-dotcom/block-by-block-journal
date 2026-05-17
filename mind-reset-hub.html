@@ -18,8 +18,16 @@ button,textarea{font:inherit}
 button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .screen{display:none;min-height:100svh}
 .screen.active{display:block}
-#hub{background:radial-gradient(circle at 50% 0%,rgba(81,44,170,.28),transparent 45%),#05050d;padding:clamp(.55rem,2vw,1rem)}
-.hub-shell{width:min(1120px,100%);margin:0 auto;padding-top:clamp(.25rem,2vw,.8rem)}
+#hub{position:relative;background:#05050d;padding:clamp(.55rem,2vw,1rem);overflow:hidden}
+#hub .starfield{position:fixed;z-index:0}
+.hub-shell{position:relative;z-index:2}
+.hub-header{width:min(1120px,100%);margin:0 auto .7rem;display:grid;grid-template-columns:auto 1fr auto;gap:.8rem;align-items:center}
+.hub-close{border:2px solid var(--line);border-radius:.75rem;background:rgba(0,0,0,.62);color:#fff;text-decoration:none;padding:.75rem .9rem;font-size:1rem;font-weight:900;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.hub-copy{text-align:center}
+.hub-copy h1{font-family:var(--mc);font-size:clamp(1rem,4.8vw,1.75rem);line-height:1.35;margin:.1rem 0 .25rem;text-shadow:3px 3px 0 #000}
+.hub-copy p{font-size:clamp(1rem,3.6vw,1.25rem);font-weight:900;color:var(--muted);line-height:1.35;margin:0}
+.hub-spacer{width:4rem}
+.hub-shell{width:min(1120px,100%);margin:0 auto;padding-top:.2rem}
 .hub-stage{position:relative;width:100%;aspect-ratio:1049/420;overflow:hidden;border:2px solid rgba(108,211,255,.35);border-radius:1rem;background:#05050c;box-shadow:0 20px 60px rgba(0,0,0,.48)}
 .hub-img{position:absolute;left:0;top:-28.1%;width:100%;height:auto;display:block;user-select:none}
 .hotspot{position:absolute;border:2px solid rgba(84,216,255,.08);border-radius:.7rem;background:rgba(84,216,255,.015);transition:.15s;min-width:44px;min-height:44px}
@@ -39,7 +47,9 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 @keyframes drift{to{background-position:180px 90px,-130px 130px,160px -160px,-115px -115px,0 0}}
 .tap-zone{position:relative;min-height:min(58svh,520px);border:2px solid rgba(84,216,255,.24);border-radius:1rem;background:rgba(255,255,255,.035);overflow:hidden;touch-action:manipulation}
 .falling-diamond{position:absolute;font-size:2rem;filter:drop-shadow(0 0 12px rgba(84,216,255,.8));animation:fall 2.6s linear forwards}
-@keyframes fall{from{transform:translateY(-60px) scale(.9)}to{transform:translateY(620px) scale(1.1)}}
+@keyframes fall{from{transform:translateY(-60px) scale(.9)}to{transform:translateY(620px) scale(1.05)}}
+.diamond-pop{position:absolute;pointer-events:none;font-size:2.6rem;filter:drop-shadow(0 0 18px rgba(84,216,255,.95));animation:diamondPop .42s ease-out forwards;z-index:5}
+@keyframes diamondPop{0%{transform:translate(-50%,-50%) scale(.75);opacity:1}70%{transform:translate(-50%,-50%) scale(1.75);opacity:1}100%{transform:translate(-50%,-50%) scale(2.05);opacity:0}}
 .result{font-size:1.35rem;font-weight:900;margin-top:.8rem;min-height:1.8rem}
 .breathe-area{min-height:100svh;background:radial-gradient(circle at 50% 35%,rgba(84,216,255,.18),transparent 36%),#05050d;display:grid;place-items:center;padding:4.8rem .7rem 1rem}
 .breathe-card{width:min(680px,100%);text-align:center}
@@ -72,6 +82,9 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .toast.show{display:block}
 @media(max-width:760px){
   html{font-size:18px}
+  .hub-header{grid-template-columns:auto 1fr;align-items:start;margin-bottom:.55rem}
+  .hub-copy{text-align:left}
+  .hub-spacer{display:none}
   #hub{padding:.35rem}
   .hub-stage{border-radius:.65rem;aspect-ratio:1049/460}
   .hub-img{top:-22%}
@@ -85,6 +98,8 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 }
 @media(max-width:430px){
   html{font-size:17px}
+  .hub-header{gap:.55rem}
+  .hub-close{padding:.65rem .75rem;font-size:.95rem}
   .hub-stage{aspect-ratio:1049/500}
   .hub-img{top:-18%}
   .back-hub{font-size:.95rem;padding:.65rem .75rem}
@@ -95,6 +110,15 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 </head>
 <body>
 <main id="hub" class="screen active" aria-label="Mind Reset Hub">
+  <div class="starfield" aria-hidden="true"></div>
+  <div class="hub-header">
+    <a class="hub-close" href="index.html" aria-label="Back to My World">← Back</a>
+    <div class="hub-copy">
+      <h1>Mind Reset Hub</h1>
+      <p>Pick a quick calming activity. Tap a card to begin.</p>
+    </div>
+    <div class="hub-spacer" aria-hidden="true"></div>
+  </div>
   <div class="hub-shell">
     <div class="hub-stage" aria-label="Choose a Mind Reset activity">
       <img class="hub-img" src="custom-backgrounds/hub.jpg" alt="Mind Reset Hub cards: free to play and premium realms"/>
@@ -114,7 +138,7 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
   <div class="game-panel">
     <h1 class="game-title">Diamond Mind Reset</h1>
     <p class="instructions">Tap as many diamonds as you can before time runs out.</p>
-    <div><span class="stat">💎 <span id="diamondScore">0</span></span><span class="stat">⏱️ <span id="diamondTime">20</span>s</span></div>
+    <div><span class="stat">💎 <span id="diamondScore">0</span></span><span class="stat">⏱️ <span id="diamondTime">25</span>s</span></div>
     <div id="tapZone" class="tap-zone" onclick="tapEmptyDiamond(event)"></div>
     <button id="startDiamond" class="primary" onclick="startDiamondGame()">Start</button>
     <button id="stopDiamond" class="stop" onclick="stopDiamondGame()" disabled>Stop</button>
@@ -225,14 +249,14 @@ let diamondTimer=null, diamondSpawner=null, diamondTime=20, diamondScore=0, diam
 function startDiamondGame(){
   const zone=document.getElementById('tapZone');
   zone.innerHTML='';
-  diamondTime=20; diamondScore=0; diamondRunning=true;
+  diamondTime=25; diamondScore=0; diamondRunning=true;
   document.getElementById('diamondScore').textContent='0';
-  document.getElementById('diamondTime').textContent='20';
+  document.getElementById('diamondTime').textContent='25';
   document.getElementById('diamondResult').textContent='';
   document.getElementById('startDiamond').disabled=true;
   document.getElementById('stopDiamond').disabled=false;
   spawnDiamond();
-  diamondSpawner=setInterval(spawnDiamond,650);
+  diamondSpawner=setInterval(spawnDiamond,950);
   diamondTimer=setInterval(()=>{
     diamondTime--;
     document.getElementById('diamondTime').textContent=diamondTime;
@@ -248,11 +272,29 @@ function spawnDiamond(){
   d.setAttribute('aria-label','Collect diamond');
   d.style.left=Math.random()*88+'%';
   d.style.top='-10px';
+  d.style.animationDuration='4.3s';
   d.style.border='0';
   d.style.background='transparent';
-  d.onclick=(e)=>{e.stopPropagation(); diamondScore++; document.getElementById('diamondScore').textContent=diamondScore; d.remove();};
+  d.onclick=(e)=>{
+    e.stopPropagation();
+    diamondScore++;
+    document.getElementById('diamondScore').textContent=diamondScore;
+    popDiamond(zone, d);
+    d.remove();
+  };
   zone.appendChild(d);
-  setTimeout(()=>d.remove(),2700);
+  setTimeout(()=>d.remove(),4400);
+}
+function popDiamond(zone, diamond){
+  const z=zone.getBoundingClientRect();
+  const d=diamond.getBoundingClientRect();
+  const pop=document.createElement('span');
+  pop.className='diamond-pop';
+  pop.textContent='💎';
+  pop.style.left=(d.left - z.left + d.width/2)+'px';
+  pop.style.top=(d.top - z.top + d.height/2)+'px';
+  zone.appendChild(pop);
+  setTimeout(()=>pop.remove(),450);
 }
 function tapEmptyDiamond(){ if(diamondRunning) toast('Tap the falling diamonds 💎'); }
 function stopDiamondGame(show=true){
