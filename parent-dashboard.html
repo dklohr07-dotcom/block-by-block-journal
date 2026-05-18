@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Parent View | Block by Block</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/shared/bbb-wellness.css">
+</head><body><div class="bbb-bg"></div><div class="bbb-pixels"></div>
+<main class="bbb-wrap">
+<header class="bbb-top"><a class="bbb-brand" href="/wellness-world.html"><span class="bbb-logo"></span><span class="bbb-title">Parent View</span></a><nav class="bbb-nav"><a class="bbb-btn" href="/wellness-world.html">Child World</a><a class="bbb-btn" href="/safety.html">Safety</a></nav></header>
+<section class="bbb-card">
+ <h1>Progress without breaking trust.</h1>
+ <p class="bbb-muted">This dashboard shows patterns and skills practiced. Private journal text is not shown by default, so children can feel safe being honest.</p>
+ <div class="bbb-grid" id="stats"></div>
+</section>
+<section class="bbb-card" style="margin-top:16px">
+ <h2>Recent check-ins</h2>
+ <div id="logs" class="bbb-stack"></div>
+</section>
+</main>
+<script src="/shared/bbb-wellness.js"></script>
+<script>
+const s=BBBWellness.load();
+const skillNames={calm:"Calming",thoughts:"Thought reframing",courage:"Courage",sleep:"Sleep",gratitude:"Gratitude"};
+stats.innerHTML=[
+ ["XP",s.xp||0],["Diamonds",s.diamonds||0],["Current streak",(s.streak||0)+" day(s)"],
+ ...Object.entries(skillNames).map(([k,n])=>[n,s.skills?.[k]||0])
+].map(x=>`<article class="bbb-card"><h3>${x[0]}</h3><p style="font-size:2rem;margin:0">${x[1]}</p></article>`).join("");
+logs.innerHTML=(s.moodLogs||[]).slice(0,10).map(l=>`<div class="bbb-card"><div class="bbb-row"><strong>${l.emoji} ${l.label}</strong><span class="bbb-muted">${l.date}</span></div><p class="bbb-muted">Private reflection hidden.</p></div>`).join("") || "<p class='bbb-muted'>No check-ins yet.</p>";
+</script>
+</body></html>
