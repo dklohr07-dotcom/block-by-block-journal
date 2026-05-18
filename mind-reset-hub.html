@@ -365,15 +365,18 @@ textarea::placeholder{color:#d8d1de}
   padding: calc(env(safe-area-inset-top) + 30px) 22px calc(env(safe-area-inset-bottom) + 64px);
 }
 
-/* Top bar: back | title | spacer */
+/* Top bar: back button absolute so title truly centers over the full width */
 #hub .hub-top {
-  display: grid;
-  grid-template-columns: 72px 1fr 72px;
-  align-items: start;
-  gap: 10px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 64px;
   margin: 0 auto 42px;
 }
 #hub .back-link {
+  position: absolute;
+  left: 0; top: 0;
   width: 54px; height: 58px;
   border-radius: 13px;
   border: 2px solid rgba(255,255,255,.28);
@@ -385,8 +388,8 @@ textarea::placeholder{color:#d8d1de}
 }
 #hub .diamond-bank { display: none; }
 
-/* Title */
-#hub .hub-title { text-align: center; padding-top: 1px; }
+/* Title — centered over the full container */
+#hub .hub-title { text-align: center; padding-top: 1px; width: 100%; }
 #hub .hub-title h1 {
   font-family: var(--mc);
   font-size: clamp(1.72rem, 5.6vw, 2.72rem);
@@ -468,7 +471,7 @@ textarea::placeholder{color:#d8d1de}
 /* Tablet ≤ 720px */
 @media (max-width: 720px) {
   #hub .hub-wrap { padding: 24px 14px 42px; }
-  #hub .hub-top  { grid-template-columns: 52px 1fr 52px; margin-bottom: 34px; gap: 6px; }
+  #hub .hub-top  { margin-bottom: 34px; min-height: 56px; }
   #hub .back-link{ width: 44px; height: 52px; font-size: 1.75rem; }
   #hub .hub-title h1 { font-size: clamp(1.32rem, 6vw, 2.05rem); margin-bottom: 12px; white-space: normal; }
   #hub .hub-title p  { font-size: clamp(.9rem, 3.3vw, 1.08rem); }
@@ -480,7 +483,7 @@ textarea::placeholder{color:#d8d1de}
 /* Mobile ≤ 430px */
 @media (max-width: 430px) {
   #hub .hub-wrap { padding-left: 8px; padding-right: 8px; }
-  #hub .hub-top  { grid-template-columns: 42px 1fr 42px; }
+  #hub .hub-top  { min-height: 48px; margin-bottom: 24px; }
   #hub .back-link{ width: 38px; height: 46px; font-size: 1.5rem; }
   #hub .hub-title h1 { font-size: clamp(1rem, 6.7vw, 1.35rem); }
   #hub .hub-title p  { font-size: clamp(.78rem, 3.5vw, .92rem); }
@@ -490,7 +493,6 @@ textarea::placeholder{color:#d8d1de}
 
 /* Tiny ≤ 380px */
 @media (max-width: 380px) {
-  #hub .hub-top  { grid-template-columns: 36px 1fr 36px; }
   #hub .back-link{ width: 34px; height: 42px; font-size: 1.2rem; }
 }
 </style>
