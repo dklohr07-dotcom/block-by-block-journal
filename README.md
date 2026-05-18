@@ -147,22 +147,3 @@ async function initApp() {
 ## Latest launch patch
 
 This package includes remember-me login, clearer Premium welcome text, a functional homepage community signup form, and security hardening. If your Supabase database already exists, run `SUPABASE_COMMUNITY_MIGRATION.sql` once in the Supabase SQL Editor before testing the community form.
-
----
-
-## Wellness World Files Added
-
-This build now includes a playable Wellness World layer:
-
-```
-wellness-world.html              Main emotional wellness hub
-parent-dashboard.html            Parent-safe progress dashboard
-safety.html                      Youth safety and crisis guidance
-realms/mood-checkin.html         Daily emotional check-in
-realms/safe-base.html            Customizable refuge/base system
-realms/emotion-fishing.html      Feeling identification mini-game
-shared/bbb-wellness.css          Shared wellness UI system
-shared/bbb-wellness.js           Local progress, XP, diamonds, safety helpers
-```
-
-These files use localStorage for immediate playability and can later be connected to Supabase tables for persistent accounts.
