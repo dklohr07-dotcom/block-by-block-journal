@@ -1402,6 +1402,401 @@ select option{background:#222;}
 
 
 </style>
+
+<style id="minecraft-dashboard-homepage-redesign">
+/* Homepage dashboard redesign inspired by uploaded reference */
+body{
+  background:#081115 !important;
+}
+nav{
+  height:72px !important;
+  background:rgba(4,12,16,.96) !important;
+  border-bottom:1px solid rgba(126,200,50,.25) !important;
+  box-shadow:0 8px 28px rgba(0,0,0,.55) !important;
+}
+.nav-brand-icon{
+  border-radius:6px !important;
+  background:linear-gradient(145deg,#123,#2ef0d3) !important;
+}
+.nav-link.active{
+  background:transparent !important;
+  border-color:transparent !important;
+  border-bottom:4px solid var(--mc-green-bright) !important;
+}
+.nav-link.active::after{display:none !important;}
+.nav-cta{display:none !important;}
+
+#home{
+  min-height:calc(100vh - 72px);
+  background:
+    radial-gradient(circle at 20% 5%, rgba(71,141,45,.25), transparent 30%),
+    radial-gradient(circle at 90% 20%, rgba(77,208,225,.14), transparent 25%),
+    linear-gradient(180deg,#071014,#0b1518 45%,#070d10);
+}
+
+.dash-shell{
+  display:grid;
+  grid-template-columns:290px minmax(620px, 1fr) 360px;
+  gap:18px;
+  padding:16px;
+  max-width:1840px;
+  margin:0 auto;
+  align-items:start;
+}
+.side-card,.right-card,.daily-quests-panel,.achievements-panel{
+  background:linear-gradient(180deg,rgba(25,36,38,.94),rgba(10,18,20,.96));
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 10px 28px rgba(0,0,0,.38);
+  border-radius:6px;
+}
+.dash-sidebar,.dash-right{display:flex;flex-direction:column;gap:18px;}
+.side-card{padding:18px;}
+.side-heading,.right-card h3,.daily-quests-panel h2,.achievements-panel h2{
+  font-family:var(--font-mc);
+  font-size:.58rem;
+  line-height:1.7;
+  color:#fff;
+  text-shadow:2px 2px 0 #000;
+  margin-bottom:14px;
+}
+.side-link{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:#eee;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:10px 12px;
+  border-radius:4px;
+  font-size:1rem;
+  text-align:left;
+  cursor:pointer;
+  font-family:var(--font-ui);
+}
+.side-link:hover,.side-link.active{
+  background:linear-gradient(90deg,#2d7d24,#22611e);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18);
+}
+.streak-card{
+  position:relative;
+  min-height:230px;
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:44px 1fr;
+  gap:12px;
+}
+.streak-icon{font-size:2.2rem;}
+.streak-days{
+  font-family:var(--font-mc);
+  color:#9cf35a;
+  font-size:1.5rem;
+  margin:8px 0;
+}
+.streak-days small{font-size:.55rem;color:#fff;}
+.streak-card p{color:#f0f0f0;font-size:1rem;}
+.grass-corner{
+  position:absolute;
+  right:12px;
+  bottom:8px;
+  font-size:3.6rem;
+  filter:drop-shadow(0 8px 10px rgba(0,0,0,.7));
+}
+
+.dash-main{display:flex;flex-direction:column;gap:14px;min-width:0;}
+.dash-hero{
+  min-height:280px;
+  border-radius:8px;
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:48% 52%;
+  align-items:center;
+  padding:20px 28px;
+  background:
+    linear-gradient(90deg,rgba(0,0,0,.08),rgba(0,0,0,.55)),
+    radial-gradient(circle at 48% 45%, #ffd36b 0 5%, transparent 6%),
+    linear-gradient(160deg,#294e27 0 30%,#1e6c64 55%,#14341f 100%);
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:inset 0 -80px 130px rgba(0,0,0,.35),0 10px 26px rgba(0,0,0,.32);
+}
+.hero-character{
+  font-size:7rem;
+  text-align:center;
+  filter:drop-shadow(0 18px 16px rgba(0,0,0,.75));
+}
+.dash-hero-copy h1{
+  font-family:var(--font-mc);
+  font-size:1.25rem;
+  line-height:1.6;
+  color:#fff;
+  text-shadow:3px 3px 0 #000;
+  margin-bottom:10px;
+}
+.dash-hero-copy p{
+  color:#fff;
+  font-size:1.1rem;
+  margin-bottom:18px;
+  text-shadow:1px 1px 0 #000;
+}
+.quote-box{
+  max-width:500px;
+  background:rgba(0,0,0,.34);
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:6px;
+  color:#fff;
+  padding:16px 20px;
+  font-size:.95rem;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+}
+.quote-box span{color:#d7ffd0;}
+
+.daily-quests-panel{padding:18px;}
+.quest-card-row{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(120px,1fr));
+  gap:14px;
+}
+.mini-quest-card{
+  min-height:245px;
+  position:relative;
+  border:2px solid rgba(180,220,145,.28);
+  background:linear-gradient(180deg,rgba(69,85,58,.74),rgba(30,42,33,.94));
+  color:#fff;
+  border-radius:4px;
+  padding:18px 14px 14px;
+  text-align:center;
+  cursor:pointer;
+  box-shadow:inset 2px 2px 0 rgba(255,255,255,.08),inset -2px -2px 0 rgba(0,0,0,.55),0 8px 18px rgba(0,0,0,.35);
+}
+.mini-quest-card:hover{filter:brightness(1.12);}
+.quest-num{
+  position:absolute;
+  top:-2px;
+  left:-2px;
+  width:42px;height:42px;
+  background:#4d922c;
+  border:2px solid #8ee66a;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mc);
+}
+.quest-emoji{font-size:3.6rem;display:block;margin:12px 0 10px;}
+.mini-quest-card strong{
+  display:block;
+  color:#aaff55;
+  font-family:var(--font-mc);
+  font-size:.58rem;
+  line-height:1.55;
+  margin-bottom:8px;
+}
+.mini-quest-card p{font-size:.9rem;line-height:1.35;color:#f8f8f8;min-height:46px;}
+.mini-quest-card em{
+  display:block;
+  margin-top:14px;
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.25);
+  padding:7px;
+  font-style:normal;
+  font-weight:900;
+  font-size:.8rem;
+}
+.mini-quest-card.completed em{
+  color:#9cff5c;
+  border-color:#72d44c;
+}
+.dashboard-quest-modal{
+  margin-top:15px;
+  background:#e8d5a3;
+  border:3px solid #a08040;
+  box-shadow:3px 3px 0 rgba(0,0,0,.3);
+  padding:1rem;
+}
+.dashboard-quest-modal textarea{width:100%;margin-top:.5rem;}
+.modal-actions{display:flex;gap:.5rem;margin-top:.5rem;flex-wrap:wrap;}
+.xp-reward-row{
+  display:grid;
+  grid-template-columns:1fr 250px;
+  gap:16px;
+  align-items:center;
+  margin-top:18px;
+}
+.xp-bar-large{
+  color:#eee;
+}
+.xp-bar-large span{color:#b4ff70;font-weight:900;}
+.xp-track,.mini-xp{
+  height:18px;
+  border:1px solid rgba(255,255,255,.25);
+  background:#111b1b;
+  border-radius:3px;
+  overflow:hidden;
+  margin:8px 0;
+}
+.xp-fill,.mini-xp div,#sidebarXPBar{
+  height:100%;
+  width:35%;
+  background:linear-gradient(90deg,#58c837,#8af052);
+}
+.xp-labels{display:flex;justify-content:space-between;color:#eee;font-size:.82rem;}
+.daily-reward{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  color:#b2ff55;
+  font-family:var(--font-mc);
+  font-size:.55rem;
+  line-height:1.6;
+}
+.daily-reward:first-letter{font-size:3rem;}
+
+.tool-row{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:10px;
+}
+.tool-tile{
+  min-height:178px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:5px;
+  padding:12px;
+  color:#fff;
+  text-align:center;
+  cursor:pointer;
+  background:rgba(22,34,32,.95);
+  box-shadow:inset 1px 1px 0 rgba(255,255,255,.08),0 8px 16px rgba(0,0,0,.28);
+}
+.tool-tile span{font-size:2.5rem;display:block;}
+.tool-tile strong{
+  display:block;
+  font-family:var(--font-mc);
+  font-size:.42rem;
+  color:#b2ff55;
+  line-height:1.55;
+  margin-bottom:6px;
+}
+.tool-tile p{font-size:.72rem;line-height:1.35;color:#eee;min-height:48px;}
+.tool-tile em{
+  display:block;
+  margin-top:10px;
+  padding:7px;
+  background:rgba(111,199,62,.28);
+  font-style:normal;
+  font-weight:900;
+  font-size:.72rem;
+}
+.tool-tile.yellow{border-color:rgba(249,168,37,.45);}
+.tool-tile.blue{border-color:rgba(77,208,225,.45);}
+.tool-tile.purple{border-color:rgba(202,116,255,.45);}
+.tool-tile.green{border-color:rgba(126,200,50,.45);}
+.tool-tile.teal{border-color:rgba(0,200,200,.45);}
+.tool-tile.lime{border-color:rgba(160,255,100,.45);}
+
+.achievements-panel{padding:18px;}
+.achievement-row{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:16px;
+}
+.achievement{
+  display:grid;
+  grid-template-columns:54px 1fr;
+  gap:8px;
+  align-items:center;
+}
+.achievement span{font-size:3rem;grid-row:span 2;}
+.achievement strong{color:#9cff5c;font-size:.9rem;}
+.achievement p{font-size:.82rem;color:#fff;line-height:1.25;}
+
+.right-card{padding:18px;}
+.builder-flex{
+  display:grid;
+  grid-template-columns:130px 1fr;
+  gap:16px;
+  align-items:center;
+}
+.builder-avatar{
+  font-size:4.6rem;
+  text-align:center;
+  line-height:1;
+  filter:drop-shadow(0 8px 10px #000);
+}
+.level-num{
+  color:#8cff5c;
+  font-family:var(--font-mc);
+  line-height:1.5;
+}
+.mini-xp{height:20px;width:100%;}
+.stat-list{
+  border-top:1px solid rgba(255,255,255,.12);
+  margin-top:16px;
+  padding-top:14px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.stat-list div{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  color:#eee;
+  font-size:.86rem;
+}
+.stat-list b{color:#8cff5c;}
+.pixel-moods{
+  display:flex;
+  gap:12px;
+  margin:12px 0;
+}
+.pixel-moods button{
+  width:42px;height:42px;
+  font-size:1.4rem;
+  background:#202b2b;
+  border:2px solid rgba(255,255,255,.18);
+  cursor:pointer;
+}
+.pixel-moods button.selected{
+  outline:4px solid #7eff4f;
+  background:#345b28;
+}
+.parchment{
+  background:linear-gradient(180deg,#e0bd78,#c99a53);
+  color:#2b1703;
+  padding:24px;
+  font-size:1.05rem;
+  box-shadow:inset 0 0 0 3px rgba(80,40,10,.25), 8px 8px 0 rgba(0,0,0,.18);
+}
+.parchment span{font-size:.9rem;}
+.rewards-card{position:relative;min-height:150px;}
+.rewards-card .chest{
+  position:absolute;
+  right:18px;
+  bottom:12px;
+  font-size:3.6rem;
+}
+.wide{width:65%;}
+
+@media(max-width:1400px){
+  .dash-shell{grid-template-columns:250px minmax(600px,1fr);}
+  .dash-right{grid-column:1 / -1;display:grid;grid-template-columns:repeat(4,1fr);}
+  .tool-row{grid-template-columns:repeat(3,1fr);}
+}
+@media(max-width:980px){
+  .dash-shell{grid-template-columns:1fr;padding:10px;}
+  .dash-sidebar,.dash-right{display:grid;grid-template-columns:1fr;}
+  .quest-card-row{grid-template-columns:repeat(2,1fr);}
+  .tool-row{grid-template-columns:repeat(2,1fr);}
+  .achievement-row{grid-template-columns:repeat(2,1fr);}
+  .dash-hero{grid-template-columns:1fr;text-align:center;}
+}
+@media(max-width:560px){
+  nav{height:auto !important;flex-wrap:wrap;padding:10px !important;}
+  .nav-links{overflow-x:auto;width:100%;order:3;}
+  .quest-card-row,.tool-row,.achievement-row{grid-template-columns:1fr;}
+  .xp-reward-row{grid-template-columns:1fr;}
+  .dash-hero-copy h1{font-size:.82rem;}
+}
+</style>
+
 </head>
 <body>
 
@@ -1486,11 +1881,11 @@ select option{background:#222;}
   </div>
 
   <div class="nav-links">
-    <div class="nav-link active" onclick="goTo('home')"><span class="nl-icon">🏠</span><span class="nl-label">HOME</span></div>
+    <div class="nav-link active" onclick="goTo('home')"><span class="nl-icon">🏰</span><span class="nl-label">DASHBOARD</span></div>
     <div class="nav-link" onclick="goTo('journal')"><span class="nl-icon">📖</span><span class="nl-label">JOURNAL</span></div>
-    <div class="nav-link" onclick="goTo('progress')"><span class="nl-icon">🟢</span><span class="nl-label">MOOD</span></div>
-    <div class="nav-link" onclick="goTo('world')"><span class="nl-icon">🌍</span><span class="nl-label">MY WORLD</span></div>
-    <div class="nav-link" onclick="goTo('account')"><span class="nl-icon">🎒</span><span class="nl-label">ACCOUNT</span></div>
+    <div class="nav-link" onclick="goTo('tools')"><span class="nl-icon">🗡️</span><span class="nl-label">TOOLS</span></div>
+    <div class="nav-link" onclick="goTo('progress')"><span class="nl-icon">📊</span><span class="nl-label">PROGRESS</span></div>
+    <div class="nav-link" onclick="goTo('journal')"><span class="nl-icon">⭐</span><span class="nl-label">VAULT</span></div><div class="nav-link" onclick="goTo('inspiration')"><span class="nl-icon">🏆</span><span class="nl-label">INSPIRATION</span></div>
   </div>
 
   <!-- User pill — shown when logged in -->
@@ -1507,303 +1902,187 @@ select option{background:#222;}
 <!-- ════════════════════════════════════════════════
      HOME PAGE
 ════════════════════════════════════════════════ -->
+
 <div id="home" class="section active">
+  <!-- hidden compatibility hooks for existing JavaScript -->
+  <div id="homeUserStrip" style="display:none"></div>
+  <span id="homeUsername" style="display:none">BUILDER</span>
+  <span id="homePremiumBadge" style="display:none"></span>
+  <span id="heroReminder" style="display:none">Diamonds are found under pressure.</span>
+  <div id="tickerInner" style="display:none"></div>
+  <div id="upgradeBanner" style="display:none"></div>
+  <div id="qbList" style="display:none"></div>
+  <span id="qbProgressLabel" style="display:none">0 / 0 complete</span>
+  <span id="qbProgressFill" style="display:none"></span>
+  <span id="moodResp" style="display:none"></span>
 
-  <!-- USER WELCOME STRIP — shown when logged in -->
-  <div id="homeUserStrip" style="display:none;background:#111;border-bottom:2px solid #1a3000;padding:.55rem 1.2rem;align-items:center;gap:.7rem;flex-wrap:wrap;">
-    <span style="font-size:1.1rem;">⛏️</span>
-    <span style="font-family:var(--font-mc);font-size:.38rem;color:var(--mc-green-bright);text-shadow:1px 1px 0 #000;">WELCOME BACK, <span id="homeUsername">ADVENTURER</span>!</span>
-    <span id="homePremiumBadge" style="display:none;font-family:var(--font-mc);font-size:.26rem;background:var(--mc-gold-dark);color:#fff;border:2px solid var(--mc-gold);padding:.12rem .4rem;text-shadow:1px 1px 0 #000;">💎 PREMIUM</span>
-    <div style="margin-left:auto;display:flex;gap:.5rem;align-items:center;">
-      <button onclick="goTo('account')" style="font-family:var(--font-mc);font-size:.26rem;background:transparent;border:2px solid #333;color:#666;padding:.2rem .5rem;cursor:pointer;line-height:1.8;">ACCOUNT</button>
-      <button onclick="signOut()" style="font-family:var(--font-mc);font-size:.26rem;background:#2a0a0a;border:2px solid #6b1a1a;color:#ff7070;padding:.2rem .5rem;cursor:pointer;line-height:1.8;">🚪 SIGN OUT</button>
-    </div>
-  </div>
-
-  <!-- HERO BANNER -->
-  <div class="hero">
-    <div class="hero-text">
-      <div class="hero-eyebrow">An anti-anxiety journal inspired by Minecraft — backed by proven therapy techniques to help you feel better, think stronger, and become your best self.</div>
-      <h1 class="hero-h1">
-        BUILD CALM.<br>
-        BUILD CONFIDENCE.<br>
-        BUILD <span>YOUR FUTURE.</span>
-      </h1>
-      <div class="hero-btns">
-        <button class="hero-btn hero-btn-primary" onclick="goTo('journal')">⛏️ START JOURNALING</button>
-        <button class="hero-btn hero-btn-secondary" onclick="goTo('world')">🗺️ ENTER MY WORLD</button>
+  <div class="dash-shell">
+    <aside class="dash-sidebar">
+      <div class="side-card main-menu-card">
+        <div class="side-heading">⛏️ MAIN MENU</div>
+        <button class="side-link active" onclick="goTo('home')">🪓 <span>Dashboard</span></button>
+        <button class="side-link" onclick="goTo('journal')">🏆 <span>Daily Quests</span></button>
+        <button class="side-link" onclick="goTo('journal')">📖 <span>Journal Entries</span></button>
+        <button class="side-link" onclick="goTo('progress')">📖 <span>Mood Tracker</span></button>
+        <button class="side-link" onclick="goTo('tools')">🐊 <span>CBT Tools</span></button>
+        <button class="side-link" onclick="goTo('tools')">🧭 <span>ACT Compass</span></button>
+        <button class="side-link" onclick="goTo('journal')">🏰 <span>Gratitude Vault</span></button>
+        <button class="side-link" onclick="goTo('tools')">🏆 <span>Confidence Builder</span></button>
+        <button class="side-link" onclick="goTo('tasks')">📦 <span>Habit Tracker</span></button>
+        <button class="side-link" onclick="window.location.href='mind-reset-hub.html'">💎 <span>Breathing Exercises</span></button>
+        <button class="side-link" onclick="goTo('progress')">⭐ <span>Achievements</span></button>
+        <button class="side-link" onclick="goTo('account')">⚙️ <span>Settings</span></button>
       </div>
-    </div>
-    <div class="hero-reminder">
-      <div class="hero-reminder-title">TODAY'S REMINDER</div>
-      <div class="hero-reminder-gem">💎</div>
-      <div class="hero-reminder-text" id="heroReminder">You are not your thoughts. You are your potential.</div>
-      <div class="hero-reminder-heart">❤️</div>
-    </div>
-    <div class="hero-spacer" style="width:100%;"></div>
-  </div>
 
-  <!-- INSPIRATION TICKER -->
-  <div class="ticker">
-    <div class="ticker-inner" id="tickerInner"></div>
-  </div>
-
-  <!-- CORE PATHS — simplified world doors -->
-  <div class="features core-paths">
-    <div class="feature-card" onclick="goTo('journal')">
-      <div class="fc-icon" style="background:#1a2a0a;border-color:var(--mc-green);">📖</div>
-      <div class="fc-title">JOURNAL</div>
-      <div class="fc-desc">Open your Book &amp; Quill, write freely, and build your story block by block.</div>
-    </div>
-    <div class="feature-card" onclick="goTo('progress')">
-      <div class="fc-icon" style="background:#2a0a0a;border-color:var(--mc-redstone);">🟢</div>
-      <div class="fc-title">MOOD BIOME</div>
-      <div class="fc-desc">Check in, spot patterns, and understand the emotional weather of your world.</div>
-    </div>
-    <div class="feature-card" onclick="goTo('world')">
-      <div class="fc-icon" style="background:#0a1d2a;border-color:var(--mc-diamond);">🌍</div>
-      <div class="fc-title">MY WORLD</div>
-      <div class="fc-desc">Find tools, quests, inspiration, milestones, and your growth map in one hub.</div>
-    </div>
-    <div class="feature-card" onclick="goTo('account')">
-      <div class="fc-icon" style="background:#2a1a0a;border-color:var(--mc-gold);">🎒</div>
-      <div class="fc-title">INVENTORY</div>
-      <div class="fc-desc">Manage your plan, profile, newsletter, and account settings from one place.</div>
-    </div>
-  </div>
-
-  <!-- MAIN BODY: Quest Panel + Journey Sidebar -->
-  <div class="home-body">
-
-    <!-- LEFT: Today's Journal Quest -->
-    <div class="quest-panel">
-      <div class="quest-header">
-        <div class="quest-header-icon">🌿</div>
+      <div class="side-card streak-card">
+        <div class="streak-icon">🔥</div>
         <div>
-          <h2>TODAY'S JOURNAL QUEST</h2>
-          <p>Take a moment to check in with yourself and complete today's challenges.</p>
+          <div class="side-heading">DAILY STREAK</div>
+          <div class="streak-days"><span id="statStreak">12</span> <small>DAYS</small></div>
+          <p>Keep going! You're building something amazing.</p>
         </div>
+        <div class="grass-corner">🟩</div>
       </div>
+    </aside>
 
-      <div class="quest-steps">
-        <div class="quest-step" onclick="openQuest(0,this)">
-          <div class="qs-icon">📋</div>
-          <div class="qs-num">1.</div>
-          <div class="qs-title">CHECK IN</div>
-          <div class="qs-desc">How are you feeling right now?</div>
+    <main class="dash-main">
+      <section class="dash-hero">
+        <div class="hero-character">🧍‍♂️🐺</div>
+        <div class="dash-hero-copy">
+          <h1>Welcome back, Builder! 🐊</h1>
+          <p>You are stronger than you think.<br>One block at a time.</p>
+          <div class="quote-box">“Diamonds are found under pressure.”<br><span>Your growth is happening.</span></div>
         </div>
-        <div class="quest-step" onclick="openQuest(1,this)">
-          <div class="qs-icon">☁️</div>
-          <div class="qs-num">2.</div>
-          <div class="qs-title">CHALLENGE THOUGHTS</div>
-          <div class="qs-desc">What's a worry you can reframe?</div>
-        </div>
-        <div class="quest-step" onclick="openQuest(2,this)">
-          <div class="qs-icon">🎯</div>
-          <div class="qs-num">3.</div>
-          <div class="qs-title">SET INTENTION</div>
-          <div class="qs-desc">What's one small goal for today?</div>
-        </div>
-        <div class="quest-step" onclick="openQuest(3,this)">
-          <div class="qs-icon">❤️</div>
-          <div class="qs-num">4.</div>
-          <div class="qs-title">GRATITUDE</div>
-          <div class="qs-desc">List three things you're grateful for.</div>
-        </div>
-        <div class="quest-step" onclick="openQuest(4,this)">
-          <div class="qs-icon">📦</div>
-          <div class="qs-num">5.</div>
-          <div class="qs-title">WIN THE DAY</div>
-          <div class="qs-desc">Celebrate progress, no matter how small!</div>
-        </div>
-      </div>
+      </section>
 
-      <!-- Quest modal area -->
-      <div id="questModal" style="display:none;background:#e8d5a3;border:3px solid #a08040;box-shadow:3px 3px 0 rgba(0,0,0,.3);padding:1rem;margin-bottom:.8rem;">
-        <div style="font-family:var(--font-mc);font-size:.38rem;color:#2a1400;margin-bottom:.5rem;line-height:1.6;" id="questModalTitle"></div>
-        <textarea id="questModalText" rows="3" style="width:100%;background:#d4b483;border-color:#8a6030;color:#1a0800;font-size:.92rem;" placeholder="Write your thoughts here..."></textarea>
-        <div style="margin-top:.5rem;display:flex;gap:.5rem;">
-          <button class="mc-btn mc-btn-green mc-btn-sm" onclick="completeQuest()">✓ COMPLETE (+10 XP)</button>
-          <button class="mc-btn mc-btn-gray mc-btn-sm" onclick="closeQuestModal()">✕ CLOSE</button>
+      <section class="daily-quests-panel">
+        <h2>DAILY JOURNAL QUESTS</h2>
+        <div class="quest-card-row">
+          <button class="mini-quest-card completed" onclick="openQuest(0,this)">
+            <span class="quest-num">1</span>
+            <span class="quest-emoji">📝</span>
+            <strong>CHECK IN</strong>
+            <p>How are you feeling right now?</p>
+            <em>✓ COMPLETED</em>
+          </button>
+          <button class="mini-quest-card" onclick="openQuest(1,this)">
+            <span class="quest-num">2</span>
+            <span class="quest-emoji">☁️</span>
+            <strong>CHALLENGE THOUGHTS</strong>
+            <p>Find one worry and reframe it.</p>
+            <em>START</em>
+          </button>
+          <button class="mini-quest-card" onclick="openQuest(2,this)">
+            <span class="quest-num">3</span>
+            <span class="quest-emoji">🎯</span>
+            <strong>SET INTENTION</strong>
+            <p>What's one small goal for today?</p>
+            <em>START</em>
+          </button>
+          <button class="mini-quest-card" onclick="openQuest(3,this)">
+            <span class="quest-num">4</span>
+            <span class="quest-emoji">❤️</span>
+            <strong>GRATITUDE VAULT</strong>
+            <p>List three things you're grateful for.</p>
+            <em>START</em>
+          </button>
+          <button class="mini-quest-card" onclick="openQuest(4,this)">
+            <span class="quest-num">5</span>
+            <span class="quest-emoji">📦</span>
+            <strong>VICTORY BLOCK</strong>
+            <p>Celebrate one win from today!</p>
+            <em>START</em>
+          </button>
         </div>
-      </div>
 
-      <div class="quest-quote">
-        <div class="qq-avatar">🪨</div>
-        <div class="qq-text">"It's okay to dig a little deeper. Diamonds are found under pressure."</div>
-        <div class="qq-gem">💎</div>
-      </div>
-
-      <!-- DIAMOND MIND RESET GAME — Free signature reset -->
-      <div style="margin-top:1rem;" id="diamondGameSection">
-        <div class="diamond-game-wrap" id="diamondGameWrap">
-          <!-- Lock overlay shown for free users -->
-          <div class="game-lock-overlay" id="gameOverlay" style="display:none;">
-            <div class="lock-icon">💎</div>
-            <div class="lock-title">MIND RESET GAME</div>
-            <div class="lock-desc">Tap diamonds to collect them and reset your mind. A quick calm-down tool — free for everyone.</div>
-            <a href="/pricing.html" class="lock-btn">🔓 UNLOCK WITH PREMIUM</a>
-          </div>
-          <!-- Game UI -->
-          <div class="diamond-game-header">
-            <div class="diamond-game-title">💎 DIAMOND MIND RESET</div>
-            <div class="diamond-game-stats">
-              <div class="dg-stat">💎 <span id="dgScore">0</span></div>
-              <div class="dg-stat">⏱ <span id="dgTimer">60</span>s</div>
-              <div class="dg-stat">🔥 <span id="dgStreak">0</span></div>
-            </div>
-          </div>
-          <canvas id="diamondCanvas" width="600" height="220"></canvas>
-          <div class="diamond-game-footer">
-            <div class="dg-msg" id="dgMsg">Tap diamonds to collect them. Focus on the present moment. 💚</div>
-            <button class="dg-btn" onclick="startDiamondGame()" id="dgStartBtn">▶ START</button>
-            <button class="dg-btn" onclick="resetDiamondGame()" style="margin-left:.4rem;">↺ RESET</button>
+        <div id="questModal" class="dashboard-quest-modal" style="display:none;">
+          <div id="questModalTitle"></div>
+          <textarea id="questModalText" rows="3" placeholder="Write your thoughts here..."></textarea>
+          <div class="modal-actions">
+            <button class="mc-btn mc-btn-green mc-btn-sm" onclick="completeQuest()">✓ COMPLETE (+10 XP)</button>
+            <button class="mc-btn mc-btn-gray mc-btn-sm" onclick="closeQuestModal()">✕ CLOSE</button>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- RIGHT: Your Journey Sidebar -->
-    <div class="journey-panel">
-      <div class="journey-title">
-        <div class="jt-icon">🌿</div>
-        YOUR JOURNEY
-      </div>
-
-      <!-- Sidebar username + plan badge (shown when logged in) -->
-      <div id="sidebarUserRow" style="display:none;align-items:center;gap:.5rem;flex-wrap:wrap;padding:.5rem 0 .3rem;border-bottom:2px solid #222;margin-bottom:.6rem;">
-        <span style="font-size:1rem;">⛏️</span>
-        <span id="sidebarUsername" style="font-family:var(--font-mc);font-size:.38rem;color:var(--mc-green-bright);text-shadow:1px 1px 0 #000;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
-        <span id="sidebarPremiumPill" style="display:none;font-family:var(--font-mc);font-size:.22rem;background:var(--mc-gold-dark);color:#fff;border:1px solid var(--mc-gold);padding:.1rem .35rem;text-shadow:1px 1px 0 #000;white-space:nowrap;">💎</span>
-      </div>
-
-      <div class="journey-level-row">
-        <div>
-          <div class="journey-level-num" id="sidebarLevel">LEVEL 1</div>
-          <div class="journey-level-name" id="sidebarLevelName">Seedling</div>
+        <div class="xp-reward-row">
+          <div class="xp-bar-large">
+            <span>+50 XP for each quest completed!</span>
+            <div class="xp-track"><div class="xp-fill"></div></div>
+            <div class="xp-labels"><b>0 XP</b><b>250 XP</b><b>500 XP</b><b>750 XP</b><b>1000 XP</b></div>
+          </div>
+          <div class="daily-reward">📦 <strong>Daily Reward<br>1000 XP</strong></div>
         </div>
-        <div class="journey-avatar-pixel" id="sidebarAvatar">🧑</div>
-      </div>
+      </section>
 
-      <div class="xp-bar-wrap"><div class="xp-bar-fill" id="sidebarXPBar" style="width:0%"></div></div>
-      <div class="xp-label" id="sidebarXPLabel">0 / 50 XP</div>
+      <section class="tool-row">
+        <button class="tool-tile yellow" onclick="goTo('tools')"><span>🧱</span><strong>CBT CRAFTING TABLE</strong><p>Identify negative thoughts and craft balanced, helpful ones.</p><em>OPEN TOOL</em></button>
+        <button class="tool-tile blue" onclick="goTo('tools')"><span>🧭</span><strong>ACT COMPASS</strong><p>Focus on what matters and take action toward your values.</p><em>OPEN TOOL</em></button>
+        <button class="tool-tile purple" onclick="goTo('journal')"><span>💠</span><strong>GRATITUDE VAULT</strong><p>Store good moments and things you're thankful for.</p><em>OPEN VAULT</em></button>
+        <button class="tool-tile green" onclick="goTo('tools')"><span>🗡️</span><strong>CONFIDENCE BUILDER</strong><p>Daily exercises to build self-belief and inner strength.</p><em>START NOW</em></button>
+        <button class="tool-tile teal" onclick="window.location.href='mind-reset-hub.html'"><span>🧪</span><strong>BREATH &amp; RESET</strong><p>Quick breathing exercises to calm your mind and body.</p><em>BREATHE</em></button>
+        <button class="tool-tile lime" onclick="goTo('tasks')"><span>🟩</span><strong>HABIT TRACKER</strong><p>Build healthy habits and track your progress.</p><em>TRACK HABITS</em></button>
+      </section>
 
-      <div class="journey-stats">
-        <div class="jstat">
-          <div class="jstat-icon">📖</div>
-          <div class="jstat-label">JOURNAL ENTRIES</div>
-          <div class="jstat-val" id="statEntries">0</div>
+      <section class="achievements-panel">
+        <h2>RECENT ACHIEVEMENTS</h2>
+        <div class="achievement-row">
+          <div class="achievement"><span>🛡️</span><strong>First Step</strong><p>Log your first journal entry</p></div>
+          <div class="achievement"><span>🔥</span><strong>Streak Master</strong><p>7 days in a row</p></div>
+          <div class="achievement"><span>💜</span><strong>Thought Crafter</strong><p>Reframe 10 thoughts</p></div>
+          <div class="achievement"><span>🏅</span><strong>Gratitude Keeper</strong><p>Add 20 gratitude notes</p></div>
+          <div class="achievement"><span>💎</span><strong>Confidence Boost</strong><p>Complete 10 exercises</p></div>
+          <div class="achievement"><span>💠</span><strong>Diamond Mindset</strong><p>Reach level 10</p></div>
         </div>
-        <div class="jstat">
-          <div class="jstat-icon">📅</div>
-          <div class="jstat-label">DAYS IN A ROW</div>
-          <div class="jstat-val gold" id="statStreak">0</div>
-        </div>
-        <div class="jstat">
-          <div class="jstat-icon">💎</div>
-          <div class="jstat-label">DIAMONDS EARNED</div>
-          <div class="jstat-val diamond" id="statDiamonds">0</div>
-        </div>
-        <div class="jstat">
-          <div class="jstat-icon">📈</div>
-          <div class="jstat-label">MOOD TREND</div>
-          <div class="jstat-val green" id="statMoodTrend">—</div>
-        </div>
-      </div>
+      </section>
+    </main>
 
-      <div class="journey-quote">
-        "You don't have to be great to start, but you have to start to be great."
-        <strong>– Zig Ziglar</strong>
+    <aside class="dash-right">
+      <div class="right-card builder-card">
+        <h3>YOUR BUILDER STATS</h3>
+        <div class="builder-flex">
+          <div class="builder-avatar">🧍‍♂️<br>🗡️</div>
+          <div>
+            <div class="level-num" id="sidebarLevel">LEVEL 12</div>
+            <div id="sidebarLevelName">Confident Crafter</div>
+            <div class="mini-xp"><div id="sidebarXPBar"></div></div>
+            <small id="sidebarXPLabel">350 / 700 XP</small>
+          </div>
+        </div>
+        <div class="stat-list">
+          <div>📖 JOURNAL ENTRIES <b id="statEntries">48</b></div>
+          <div>📅 DAYS IN A ROW <b>12</b></div>
+          <div>💎 DIAMONDS EARNED <b id="statDiamonds">126</b></div>
+          <div>🏆 ACHIEVEMENTS <b>8</b></div>
+          <div style="display:none">📈 <span id="statMoodTrend">Good</span></div>
+        </div>
       </div>
 
-      <!-- Quick mood in sidebar -->
-      <div class="mood-check">
-        <div class="mood-check-title">CURRENT BIOME — HOW ARE YOU?</div>
-        <div class="mood-row">
-          <div class="mood-btn" onclick="pickMood(this,'😰','Anxious')">😰</div>
-          <div class="mood-btn" onclick="pickMood(this,'😔','Sad')">😔</div>
-          <div class="mood-btn" onclick="pickMood(this,'😐','Meh')">😐</div>
-          <div class="mood-btn" onclick="pickMood(this,'🙂','Okay')">🙂</div>
-          <div class="mood-btn" onclick="pickMood(this,'😊','Good')">😊</div>
-          <div class="mood-btn" onclick="pickMood(this,'🌟','EPIC')">🌟</div>
+      <div class="right-card mood-panel">
+        <h3>MOOD TRACKER</h3>
+        <p>Today's Mood</p>
+        <div class="pixel-moods">
+          <button onclick="pickMood(this,'😡','Angry')">😡</button>
+          <button onclick="pickMood(this,'😟','Anxious')">😟</button>
+          <button onclick="pickMood(this,'😐','Meh')">😐</button>
+          <button class="selected" onclick="pickMood(this,'🙂','Okay')">🙂</button>
+          <button onclick="pickMood(this,'😊','Good')">😊</button>
         </div>
-        <div class="mood-resp" id="moodResp"></div>
+        <small>How are you feeling today?</small>
       </div>
 
-      <!-- Plan status + account management -->
-      <div id="sidebarPlanBox" style="margin-top:1rem;border:2px solid #2a2a2a;padding:.8rem;background:#111;">
-        <div style="font-family:var(--font-mc);font-size:.38rem;color:#666;margin-bottom:.5rem;line-height:1.8;">YOUR PLAN</div>
-        <div id="sidebarPlanName" style="font-family:var(--font-mc);font-size:.5rem;color:var(--mc-green-bright);text-shadow:1px 1px 0 #000;margin-bottom:.6rem;line-height:1.6;">🌱 FREE</div>
-        <div id="sidebarUpgradeBtn" style="display:none;">
-          <a href="/pricing.html" style="display:block;text-align:center;font-family:var(--font-mc);font-size:.38rem;background:var(--mc-gold-dark);border:2px solid var(--mc-gold);color:#fff;text-decoration:none;padding:.5rem;text-shadow:1px 1px 0 #000;line-height:1.8;box-shadow:inset 1px 1px 0 rgba(255,255,255,.2),2px 2px 0 rgba(0,0,0,.5);transition:filter .12s;" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter=''">💎 UPGRADE — $29.99/YR</a>
-          <div style="font-size:.8rem;color:#444;text-align:center;margin-top:.4rem;font-weight:700;">Unlimited everything · Cancel anytime</div>
-        </div>
-        <div id="sidebarManageBtn" style="display:none;flex-direction:column;gap:.4rem;">
-          <button onclick="manageBilling()" style="font-family:var(--font-mc);font-size:.35rem;background:#1a1a1a;border:2px solid #3a3a3a;color:#888;padding:.45rem;cursor:pointer;line-height:1.8;width:100%;text-shadow:1px 1px 0 #000;transition:all .12s;" onmouseover="this.style.borderColor='#666';this.style.color='#bbb'" onmouseout="this.style.borderColor='#3a3a3a';this.style.color='#888'">⚙️ MANAGE / CANCEL</button>
-        </div>
-        <!-- Sign out button — shown when logged in -->
-        <div id="sidebarSignOutBtn" style="display:none;margin-top:.5rem;">
-          <button onclick="signOut()" style="font-family:var(--font-mc);font-size:.3rem;background:#2a0a0a;border:2px solid #6b1a1a;color:#ff7070;padding:.4rem;cursor:pointer;line-height:1.8;width:100%;text-shadow:1px 1px 0 #000;transition:all .12s;">🚪 SIGN OUT</button>
-        </div>
+      <div class="right-card inspiration-card">
+        <h3>INSPIRATION CORNER</h3>
+        <div class="parchment">“Believe you can and you’re halfway there.”<br><br><span>– Theodore Roosevelt</span></div>
       </div>
-    </div>
+
+      <div class="right-card rewards-card">
+        <h3>LEVEL UP REWARDS</h3>
+        <p>Keep earning XP to unlock epic rewards!</p>
+        <div class="mini-xp wide"><div></div></div>
+        <span class="chest">📦</span>
+      </div>
+    </aside>
   </div>
-
-  <!-- QUEST BOARD — enticing task preview on home page -->
-  <div style="padding:1rem 1.5rem 0;" id="homeQuestBoard">
-    <div class="quest-board">
-      <div class="quest-board-header">
-        <div class="qb-title">⚔️ MY ACTIVE QUESTS</div>
-        <button class="qb-add-btn" onclick="goTo('tasks');tTab('add')">➕ ADD QUEST</button>
-      </div>
-      <div class="quest-board-body" id="qbList">
-        <!-- Rendered by JS -->
-      </div>
-      <div class="quest-board-footer">
-        <div class="qb-progress-wrap">
-          <div class="qb-progress-label">TODAY'S QUEST PROGRESS: <span id="qbProgressLabel">0 / 0 complete</span></div>
-          <div class="qb-progress-bar"><div class="qb-progress-fill" id="qbProgressFill" style="width:0%"></div></div>
-        </div>
-        <a class="qb-view-all" onclick="goTo('tasks');tTab('list')">VIEW ALL →</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- PREMIUM UPGRADE BANNER (shown to free users) -->
-  <div id="upgradeBanner" style="display:none;background:linear-gradient(90deg,#1a1200,#2a1800);border-top:3px solid var(--mc-gold);border-bottom:3px solid var(--mc-gold);padding:1rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
-    <div style="font-size:2rem;">💎</div>
-    <div style="flex:1;">
-      <div style="font-family:var(--font-mc);font-size:.5rem;color:var(--mc-gold);text-shadow:2px 2px 0 #000;margin-bottom:.2rem;line-height:1.6;">UNLOCK PREMIUM — $29.99/YEAR</div>
-      <div style="font-size:1rem;color:#aaa;font-weight:700;">Unlimited journaling · Full CBT/ACT toolkit · Advanced mood charts · PDF export · Parent dashboard · All achievements</div>
-    </div>
-    <a href="/pricing.html" style="font-family:var(--font-mc);font-size:.42rem;background:var(--mc-gold-dark);border:2px solid var(--mc-gold);color:#fff;text-decoration:none;padding:.6rem 1.1rem;text-shadow:1px 1px 0 #000;line-height:1.6;box-shadow:inset 2px 2px 0 rgba(255,255,255,.2),3px 3px 0 rgba(0,0,0,.6);white-space:nowrap;transition:filter .12s;" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter=''">GET PREMIUM →</a>
-  </div>
-
-  <!-- COMING SOON / NEWSLETTER BAR -->
-  <div class="community-bar">
-    <div class="cb-icon">🟩</div>
-    <div class="cb-text">
-      <div class="cb-title">COMING SOON — NEWSLETTER</div>
-      <div class="cb-desc">The world is expanding. Get new prompts, inspiration, and future community updates in your inbox.</div>
-    </div>
-    <div class="cb-form">
-      <input type="text" class="cb-input" placeholder="Your name"/>
-      <input type="email" class="cb-input" id="communityEmail" placeholder="Your email" autocomplete="email"/>
-      <button class="cb-btn" onclick="joinCommunity()">SIGN UP ›</button>
-    </div>
-  </div>
-
-  <!-- FOOTER -->
-  <footer>
-    <span>© 2024 Block By Block Journal. All rights reserved.</span>
-    <span class="footer-motto"><span class="footer-heart">❤️</span> You matter. Your story matters. Your future matters.</span>
-    <div class="footer-links">
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms of Use</a>
-      <a href="/pricing.html">Plans</a>
-      <a href="#" onclick="manageBilling();return false;">Manage Subscription</a>
-    </div>
-  </footer>
 </div>
 
 
