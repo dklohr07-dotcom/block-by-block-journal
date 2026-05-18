@@ -756,40 +756,41 @@ textarea::placeholder{color:#d8d1de}
 }
 
 
-/* FINAL PATCH: keep the Mind Reset Hub title centered and on one line on every screen size. */
-#hub .hub-top{
-  grid-template-columns:clamp(36px,10vw,72px) minmax(0,1fr) clamp(36px,10vw,72px) !important;
-  align-items:start !important;
-}
-#hub .hub-title{
-  text-align:center !important;
-  justify-self:center !important;
-  width:100% !important;
-  min-width:0 !important;
-}
-#hub .hub-title h1{
-  display:block !important;
-  width:100% !important;
-  max-width:100% !important;
-  text-align:center !important;
-  white-space:nowrap !important;
-  text-wrap:nowrap !important;
-  overflow:visible !important;
-  font-size:clamp(.62rem,4.7vw,2.72rem) !important;
-  line-height:1.15 !important;
-  letter-spacing:.005em !important;
-}
-#hub .hub-title p{
-  text-align:center !important;
-  margin-left:auto !important;
-  margin-right:auto !important;
-}
-@media(max-width:430px){
-  #hub .hub-title h1{
-    font-size:clamp(.58rem,4.55vw,1.05rem) !important;
-    text-shadow:2px 2px 0 #000 !important;
-  }
-}
+    .hub-topbar{
+      flex-wrap:nowrap;
+      align-items:center;
+    }
+    .hub-copy{
+      flex:1;
+      text-align:center;
+      min-width:0;
+    }
+    .hub-copy h1{
+      width:100%;
+      text-align:center;
+      white-space:nowrap;
+      font-size:clamp(1.4rem,4vw,2.6rem);
+      line-height:1.1;
+      margin:0 auto;
+    }
+    .hub-copy p{
+      text-align:center;
+      margin-left:auto;
+      margin-right:auto;
+      max-width:700px;
+      font-size:clamp(.85rem,2vw,1rem);
+    }
+    .card-labels{
+      display:flex !important;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:nowrap;
+      gap:1rem;
+    }
+    .free-label,.premium-label{
+      white-space:nowrap;
+      font-size:clamp(.8rem,1.8vw,1rem);
+    }
 
 </style>
 </head>
