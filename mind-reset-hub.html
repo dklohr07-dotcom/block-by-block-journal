@@ -755,44 +755,51 @@ textarea::placeholder{color:#d8d1de}
   }
 }
 
-
-    .hub-topbar{
-      flex-wrap:nowrap;
-      align-items:center;
-    }
-    .hub-copy{
-      flex:1;
-      text-align:center;
-      min-width:0;
-    }
-    .hub-copy h1{
-      width:100%;
-      text-align:center;
-      white-space:nowrap;
-      font-size:clamp(1.4rem,4vw,2.6rem);
-      line-height:1.1;
-      margin:0 auto;
-    }
-    .hub-copy p{
-      text-align:center;
-      margin-left:auto;
-      margin-right:auto;
-      max-width:700px;
-      font-size:clamp(.85rem,2vw,1rem);
-    }
-    .card-labels{
-      display:flex !important;
-      justify-content:space-between;
-      align-items:center;
-      flex-wrap:nowrap;
-      gap:1rem;
-    }
-    .free-label,.premium-label{
-      white-space:nowrap;
-      font-size:clamp(.8rem,1.8vw,1rem);
-    }
-
 </style>
+
+<style id="mind-reset-center-fix">
+/* Center all content on Mind Reset Hub */
+body,
+main,
+.main-content,
+.page-content,
+.realm-container,
+.realm-grid,
+.section,
+.portal-section {
+    text-align: center !important;
+}
+
+h1, h2, h3, h4, p, span {
+    text-align: center !important;
+}
+
+.title,
+.page-title,
+.hero-title {
+    white-space: nowrap !important;
+    width: 100% !important;
+    text-align: center !important;
+    font-size: clamp(1.8rem, 4vw, 3.2rem) !important;
+}
+
+.free-to-play,
+.premium-realms,
+.badge,
+.label {
+    white-space: nowrap !important;
+    display: inline-block !important;
+    text-align: center !important;
+}
+
+.realm-card,
+.portal-card,
+.card {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+</style>
+
 </head>
 <body>
 <main id="hub" class="screen active" aria-label="Mind Reset Hub">
