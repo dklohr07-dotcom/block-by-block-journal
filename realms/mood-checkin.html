@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mood Check-in | Block by Block</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/shared/bbb-wellness.css">
+</head><body><div class="bbb-bg"></div><div class="bbb-pixels"></div>
+<main class="bbb-wrap">
+<header class="bbb-top"><a class="bbb-brand" href="/wellness-world.html"><span class="bbb-logo"></span><span class="bbb-title">Mood Check-in</span></a><nav class="bbb-nav"><a class="bbb-btn" href="/wellness-world.html">World</a><a class="bbb-btn" href="/realms/safe-base.html">Safe Base</a></nav></header>
+<section class="bbb-hero">
+ <div class="bbb-card">
+  <h1>Pick the block that matches your feeling.</h1>
+  <p class="bbb-muted">Naming a feeling is a real skill. It gives your brain a handle to hold.</p>
+  <div class="bbb-moodgrid" id="moods">
+   <button class="bbb-mood" data-label="calm" data-emoji="😌">😌</button>
+   <button class="bbb-mood" data-label="happy" data-emoji="🙂">🙂</button>
+   <button class="bbb-mood" data-label="worried" data-emoji="😟">😟</button>
+   <button class="bbb-mood" data-label="angry" data-emoji="😠">😠</button>
+   <button class="bbb-mood" data-label="sad" data-emoji="😢">😢</button>
+  </div>
+  <label style="display:block;margin-top:16px;font-weight:900">Optional story shard</label>
+  <textarea class="bbb-input" id="note" placeholder="What happened? What do you need right now?"></textarea>
+  <div id="warning" style="display:none;margin-top:12px"></div>
+  <button class="bbb-btn primary" id="save" style="margin-top:14px">Save check-in and earn diamonds</button>
+ </div>
+ <aside class="bbb-card">
+  <div class="bbb-companion" data-bbb-companion>🪨</div>
+  <h2>Try this tiny reset</h2>
+  <p class="bbb-muted">Look around and find 3 colors, 2 sounds, and 1 thing your body is touching. That is grounding.</p>
+  <div class="bbb-row"><span class="bbb-chip">XP <b data-bbb-xp></b></span><span class="bbb-chip">💎 <b data-bbb-diamonds></b></span></div>
+ </aside>
+</section>
+</main>
+<script src="/shared/bbb-wellness.js"></script>
+<script>
+let selected={label:"calm",emoji:"😌"};
+document.querySelectorAll(".bbb-mood").forEach(b=>b.onclick=()=>{document.querySelectorAll(".bbb-mood").forEach(x=>x.classList.remove("active"));b.classList.add("active");selected={label:b.dataset.label,emoji:b.dataset.emoji}});
+document.querySelector(".bbb-mood").classList.add("active");
+note.addEventListener("input",()=>{warning.style.display=BBBWellness.crisisCheck(note.value)?"block":"none";warning.innerHTML=BBBWellness.safetyBox()});
+save.onclick=()=>{BBBWellness.checkin(selected.label,selected.emoji,note.value); setTimeout(()=>location.href="/wellness-world.html",700)}
+</script>
+</body></html>

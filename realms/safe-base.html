@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Safe Base | Block by Block</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/shared/bbb-wellness.css">
+</head><body><div class="bbb-bg"></div><div class="bbb-pixels"></div>
+<main class="bbb-wrap">
+<header class="bbb-top"><a class="bbb-brand" href="/wellness-world.html"><span class="bbb-logo"></span><span class="bbb-title">Safe Base</span></a><nav class="bbb-nav"><a class="bbb-btn" href="/realms/mood-checkin.html">Check-in</a><a class="bbb-btn" href="/wellness-world.html">World</a></nav></header>
+<section class="bbb-hero">
+ <div class="bbb-card">
+  <h1 id="baseName">My Safe Base</h1>
+  <p class="bbb-muted">This is your refuge. Add blocks by practicing skills, then use them to build a place that feels safe.</p>
+  <div class="bbb-blocks" id="blocks"></div>
+  <div class="bbb-row" style="margin-top:16px"><button class="bbb-btn primary" id="addGarden">Plant gratitude garden</button><button class="bbb-btn gold" id="addLantern">Place truth lantern</button><button class="bbb-btn" id="rename">Rename base</button></div>
+ </div>
+ <aside class="bbb-card">
+  <div class="bbb-companion" data-bbb-companion>🪨</div>
+  <h2>Base inventory</h2>
+  <p class="bbb-muted">Diamonds: <b data-bbb-diamonds>0</b>. XP: <b data-bbb-xp>0</b>.</p>
+  <p class="bbb-muted">Prompt: “A safe place for me has…”</p>
+  <textarea class="bbb-input" id="baseNote" placeholder="Add one thing that helps you feel safe."></textarea>
+  <button class="bbb-btn primary" id="saveNote" style="margin-top:12px">Save memory block</button>
+ </aside>
+</section>
+</main>
+<script src="/shared/bbb-wellness.js"></script>
+<script>
+const colors={grass:"#62df72",wood:"#9b6b35",water:"#56d9ff",flower:"#ff8cc7",lantern:"#ffd16f",garden:"#3fc46a",stone:"#8a96a3",crystal:"#b88cff"};
+function render(){const s=BBBWellness.load();baseName.textContent=s.base?.name||"My Safe Base";blocks.innerHTML=(s.base?.blocks||[]).map(b=>`<div class="bbb-block" title="${b}" style="--c:${colors[b]||colors.stone}"></div>`).join("")}
+function addBlock(type,skill){const s=BBBWellness.load();s.base.blocks.push(type);BBBWellness.save(s);BBBWellness.quest(type==="garden"?"Planted a gratitude garden":"Placed a truth lantern",skill,12,6);render()}
+addGarden.onclick=()=>addBlock("garden","gratitude"); addLantern.onclick=()=>addBlock("lantern","thoughts");
+rename.onclick=()=>{const s=BBBWellness.load();const n=prompt("Name your Safe Base",s.base.name);if(n){s.base.name=n.slice(0,40);BBBWellness.save(s);render()}};
+saveNote.onclick=()=>{if(BBBWellness.crisisCheck(baseNote.value)){alert("This sounds really serious. Please tell a trusted adult now, and use 988 in the U.S. or Canada if you need immediate support.")} BBBWellness.quest("Saved a memory block","calm",10,5); baseNote.value=""}
+render();
+</script>
+</body></html>

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Emotion Fishing | Block by Block</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/shared/bbb-wellness.css">
+<style>
+.pond{min-height:330px;border-radius:24px;border:3px solid rgba(255,255,255,.2);background:radial-gradient(circle at 50% 35%,rgba(86,217,255,.5),rgba(18,69,95,.9) 45%,#092334 100%);position:relative;overflow:hidden}
+.fish{position:absolute;font-size:2.8rem;cursor:pointer;transition:transform .2s}
+.fish:hover{transform:scale(1.12)}
+.ripple{position:absolute;border:2px solid rgba(255,255,255,.5);border-radius:50%;animation:r 1.2s ease-out forwards}
+@keyframes r{to{transform:scale(4);opacity:0}}
+</style></head><body><div class="bbb-bg"></div><div class="bbb-pixels"></div>
+<main class="bbb-wrap">
+<header class="bbb-top"><a class="bbb-brand" href="/wellness-world.html"><span class="bbb-logo"></span><span class="bbb-title">Emotion Fishing</span></a><nav class="bbb-nav"><a class="bbb-btn" href="/wellness-world.html">World</a><a class="bbb-btn" href="/realms/safe-base.html">Safe Base</a></nav></header>
+<section class="bbb-hero">
+ <div class="bbb-card">
+  <h1>Catch a feeling fish.</h1>
+  <p class="bbb-muted">When you catch one, name what it might need. Feelings are messages, not monsters.</p>
+  <div class="pond" id="pond"></div>
+ </div>
+ <aside class="bbb-card">
+  <h2 id="caught">No fish caught yet</h2>
+  <p class="bbb-muted" id="prompt">Tap a fish swimming in the pond.</p>
+  <div class="bbb-stack" id="choices"></div>
+ </aside>
+</section>
+</main>
+<script src="/shared/bbb-wellness.js"></script>
+<script>
+const fish=[["🐟","worry","a slow breath"],["🐠","sadness","kindness"],["🐡","anger","space"],["🦈","fear","a safe adult"],["🪼","overwhelm","one small step"]];
+function swim(){pond.innerHTML=""; fish.forEach((f,i)=>{const b=document.createElement("button");b.className="fish";b.textContent=f[0];b.style.left=(8+Math.random()*78)+"%";b.style.top=(12+Math.random()*65)+"%";b.onclick=(e)=>catchFish(e,f);pond.appendChild(b)})}
+function catchFish(e,f){caught.textContent=`Caught ${f[1]} ${f[0]}`;prompt.textContent=`This feeling may need ${f[2]}. What will you try?`;choices.innerHTML=["Take 3 breaths","Ask for help","Write one sentence","Rest for one minute"].map(c=>`<button class="bbb-btn primary" onclick="complete('${c}')">${c}</button>`).join("");const r=document.createElement("span");r.className="ripple";r.style.left=e.offsetX+"px";r.style.top=e.offsetY+"px";pond.appendChild(r)}
+function complete(c){BBBWellness.quest("Caught and cared for a feeling","calm",14,7); setTimeout(swim,500)}
+swim(); setInterval(swim,6500);
+</script>
+</body></html>
