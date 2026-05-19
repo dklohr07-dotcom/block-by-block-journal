@@ -147,6 +147,7 @@ nav{
 ════════════════════════════════════════════════ */
 .section{display:none;min-height:calc(100vh - 58px);}
 .section.active{display:block;}
+#home.section.active{display:flex !important;flex-direction:column;}
 
 /* ════════════════════════════════════════════════
    HOME — HERO (matches reference scenic banner)
@@ -1429,8 +1430,10 @@ select option{background:#222;}
   padding: 0 0 1.5rem 0;
   overflow-y: auto;
   position: sticky;
-  top: 58px;            /* stick below top nav */
+  top: 58px;
   height: calc(100vh - 58px);
+  align-self: flex-start;
+  z-index: 10;
 }
 
 /* ── MAIN MENU heading ── */
@@ -1499,9 +1502,265 @@ select option{background:#222;}
 
 /* ── Scrollable content column ── */
 .home-content-col {
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+
+/* ════════════════════════════════════════════════
+   BUILDER STATS PANEL (replaces journey-panel)
+════════════════════════════════════════════════ */
+.journey-panel {
+  background: var(--panel-mid);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.bs-header {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: .9rem;
+  padding-bottom: .6rem;
+  border-bottom: 2px solid #2a2a2a;
+}
+.bs-icon { font-size: 1rem; }
+.bs-title {
+  font-family: var(--font-mc);
+  font-size: .42rem;
+  color: #aaa;
+  text-shadow: 1px 1px 0 #000;
+  line-height: 1.6;
+  letter-spacing: .04em;
+}
+.bs-level-row {
+  display: flex;
+  align-items: flex-end;
+  gap: .8rem;
+  margin-bottom: .8rem;
+}
+.bs-character {
+  flex-shrink: 0;
+  image-rendering: pixelated;
+  filter: drop-shadow(2px 4px 6px rgba(0,0,0,.8));
+}
+.bs-info {
+  flex: 1;
+  min-width: 0;
+}
+.bs-level-num {
+  font-family: var(--font-mc);
+  font-size: 1.5rem;
+  color: var(--mc-green-bright);
+  text-shadow: 2px 2px 0 #002200;
+  line-height: 1;
+  margin-bottom: .15rem;
+}
+.bs-level-name {
+  font-size: .95rem;
+  color: #aaa;
+  font-weight: 800;
+  margin-bottom: .4rem;
+}
+.bs-xp-bar-wrap {
+  height: 12px;
+  background: #000;
+  border: 2px solid #333;
+  box-shadow: var(--bevel-in);
+  overflow: hidden;
+  margin-bottom: .2rem;
+}
+.bs-xp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4a9a1f, #7ec832);
+  box-shadow: 0 0 6px #7ec832;
+  transition: width .5s steps(20);
+  position: relative;
+}
+.bs-xp-bar-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(90deg, rgba(255,255,255,.2) 0px, rgba(255,255,255,.2) 2px, transparent 2px, transparent 6px);
+}
+.bs-xp-label {
+  font-family: var(--font-mc);
+  font-size: .38rem;
+  color: #666;
+}
+.bs-stats {
+  display: flex;
+  flex-direction: column;
+  border-top: 2px solid #2a2a2a;
+  margin-top: .4rem;
+}
+.bs-stat {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .5rem 0;
+  border-bottom: 1px solid #2a2a2a;
+}
+.bs-stat:last-child { border-bottom: none; }
+.bs-stat-icon { font-size: 1.1rem; width: 22px; text-align: center; flex-shrink: 0; }
+.bs-stat-label {
+  font-family: var(--font-mc);
+  font-size: .34rem;
+  color: #777;
+  flex: 1;
+  line-height: 1.6;
+}
+.bs-stat-val {
+  font-family: var(--font-mc);
+  font-size: .52rem;
+  color: #fff;
+  text-shadow: var(--shadow-hard);
+}
+.bs-stat-val.green { color: var(--mc-green-bright); }
+.bs-stat-val.gold  { color: var(--mc-gold); }
+.bs-stat-val.diamond { color: var(--mc-diamond); }
+
+/* ════════════════════════════════════════════════
+   DAILY JOURNAL QUESTS
+════════════════════════════════════════════════ */
+.quest-panel {
+  background: var(--mc-parch-light);
+  border-right: 3px solid #111;
+  padding: 1.2rem;
+  flex: 1;
+}
+.djq-header {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  margin-bottom: 1rem;
+}
+.djq-header-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.djq-title {
+  font-family: var(--font-mc);
+  font-size: .7rem;
+  color: #fff;
+  text-shadow: 2px 2px 0 #000;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* 5-card quest row */
+.djq-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: .55rem;
+  margin-bottom: .8rem;
+}
+@media (max-width: 900px) {
+  .djq-row { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .djq-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Each card */
+.djq-card {
+  background: #1e2d1a;
+  border: 2px solid #3d5c2a;
+  border-radius: 2px;
+  padding: .75rem .6rem .65rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .3rem;
+  cursor: pointer;
+  transition: border-color .12s, transform .1s;
+  position: relative;
+}
+.djq-card:hover {
+  border-color: #7ec832;
+  transform: translateY(-2px);
+}
+.djq-card.done {
+  border-color: #5a9e2f;
+  background: #1a2f14;
+}
+
+/* Number badge */
+.djq-num {
+  position: absolute;
+  top: .4rem;
+  left: .4rem;
+  width: 18px;
+  height: 18px;
+  background: #5a9e2f;
+  color: #fff;
+  font-family: var(--font-mc);
+  font-size: .35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.djq-card.done .djq-num {
+  background: #3d6b1e;
+}
+
+/* Icon */
+.djq-icon {
+  font-size: 2rem;
+  margin-top: 1.2rem;
+  margin-bottom: .2rem;
+  display: block;
+}
+
+/* Quest name */
+.djq-name {
+  font-family: var(--font-mc);
+  font-size: .38rem;
+  color: var(--mc-green-bright);
+  line-height: 1.5;
+  margin-bottom: .1rem;
+}
+.djq-card.done .djq-name {
+  color: #7ec832;
+}
+
+/* Quest description */
+.djq-desc {
+  font-size: .85rem;
+  color: #9aad8a;
+  font-weight: 700;
+  line-height: 1.4;
+  flex: 1;
+  margin-bottom: .4rem;
+}
+
+/* START / COMPLETED button */
+.djq-btn {
+  width: 100%;
+  font-family: var(--font-mc);
+  font-size: .34rem;
+  padding: .4rem .3rem;
+  background: #111;
+  border: 2px solid #5a9e2f;
+  color: #aaa;
+  cursor: pointer;
+  text-align: center;
+  line-height: 1.6;
+  transition: background .12s, color .12s;
+}
+.djq-btn:hover { background: #5a9e2f; color: #fff; }
+.djq-btn-done {
+  background: #1a3a0a;
+  border-color: #5a9e2f;
+  color: var(--mc-green-bright);
 }
 
 </style>
@@ -1625,31 +1884,31 @@ select option{background:#222;}
         <span class="hnav-icon">🪓</span>Dashboard
       </div>
 
-      <div class="hnav-item" onclick="goTo('journal');tTab&&tTab('quests')">
+      <div class="hnav-item" onclick="goTo('journal')">
         <span class="hnav-icon">🏅</span>Daily Quests
       </div>
 
-      <div class="hnav-item" onclick="goTo('journal');tTab&&tTab('entries')">
+      <div class="hnav-item" onclick="goTo('journal');jTab&&jTab('entries')">
         <span class="hnav-icon">📔</span>Journal Entries
       </div>
 
-      <div class="hnav-item" onclick="goTo('progress');tTab&&tTab('mood')">
+      <div class="hnav-item" onclick="goTo('progress')">
         <span class="hnav-icon">📗</span>Mood Tracker
       </div>
 
-      <div class="hnav-item" onclick="goTo('tools');tTab&&tTab('cbt')">
+      <div class="hnav-item" onclick="goTo('tools');toolTab&&toolTab('cbt')">
         <span class="hnav-icon">🎯</span>CBT Tools
       </div>
 
-      <div class="hnav-item" onclick="goTo('tools');tTab&&tTab('act')">
+      <div class="hnav-item" onclick="goTo('tools');toolTab&&toolTab('act')">
         <span class="hnav-icon">🧿</span>ACT Compass
       </div>
 
-      <div class="hnav-item" onclick="goTo('vault')">
+      <div class="hnav-item" onclick="goTo('world')">
         <span class="hnav-icon">💝</span>Gratitude Vault
       </div>
 
-      <div class="hnav-item" onclick="goTo('tools');tTab&&tTab('confidence')">
+      <div class="hnav-item" onclick="goTo('tools');toolTab&&toolTab('calm')">
         <span class="hnav-icon">🥇</span>Confidence Builder
       </div>
 
@@ -1661,7 +1920,7 @@ select option{background:#222;}
         <span class="hnav-icon">💠</span>Breathing Exercises
       </div>
 
-      <div class="hnav-item" onclick="goTo('progress');tTab&&tTab('achievements')">
+      <div class="hnav-item" onclick="goTo('progress')">
         <span class="hnav-icon">⭐</span>Achievements
       </div>
 
@@ -1743,74 +2002,89 @@ select option{background:#222;}
 
     <!-- LEFT: Today's Journal Quest -->
     <div class="quest-panel">
-      <div class="quest-header">
-        <div class="quest-header-icon">🌿</div>
-        <div>
-          <h2>TODAY'S JOURNAL QUEST</h2>
-          <p>Take a moment to check in with yourself and complete today's challenges.</p>
+      <!-- ══ DAILY JOURNAL QUESTS HEADER ═════════════════════ -->
+      <div class="djq-header">
+        <div class="djq-header-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="20" height="20" fill="#5A9E2F"/>
+            <rect x="0" y="0" width="20" height="4" fill="#7EC832"/>
+            <rect x="0" y="16" width="20" height="4" fill="#3D6B1E"/>
+            <rect x="4" y="4" width="4" height="4" fill="#8B5E1A"/>
+            <rect x="12" y="4" width="4" height="4" fill="#8B5E1A"/>
+          </svg>
         </div>
+        <h2 class="djq-title">DAILY JOURNAL QUESTS</h2>
       </div>
 
-      <div class="quest-steps">
-        <div class="quest-step" onclick="openQuest(0,this)">
-          <div class="qs-icon">📋</div>
-          <div class="qs-num">1.</div>
-          <div class="qs-title">CHECK IN</div>
-          <div class="qs-desc">How are you feeling right now?</div>
+      <!-- ══ 5-CARD QUEST ROW ═════════════════════════════════ -->
+      <div class="djq-row" id="djqRow">
+
+        <!-- Card 1: CHECK IN — completed -->
+        <div class="djq-card done" onclick="openQuest(0,this)">
+          <div class="djq-num">1</div>
+          <div class="djq-icon">📋</div>
+          <div class="djq-name">CHECK IN</div>
+          <div class="djq-desc">How are you feeling right now?</div>
+          <button class="djq-btn djq-btn-done">✓ COMPLETED</button>
         </div>
-        <div class="quest-step" onclick="openQuest(1,this)">
-          <div class="qs-icon">☁️</div>
-          <div class="qs-num">2.</div>
-          <div class="qs-title">CHALLENGE THOUGHTS</div>
-          <div class="qs-desc">What's a worry you can reframe?</div>
+
+        <!-- Card 2: CHALLENGE THOUGHTS -->
+        <div class="djq-card" onclick="openQuest(1,this)">
+          <div class="djq-num">2</div>
+          <div class="djq-icon">☁️</div>
+          <div class="djq-name">CHALLENGE THOUGHTS</div>
+          <div class="djq-desc">Find one worry and reframe it.</div>
+          <button class="djq-btn">START</button>
         </div>
-        <div class="quest-step" onclick="openQuest(2,this)">
-          <div class="qs-icon">🎯</div>
-          <div class="qs-num">3.</div>
-          <div class="qs-title">SET INTENTION</div>
-          <div class="qs-desc">What's one small goal for today?</div>
+
+        <!-- Card 3: SET INTENTION -->
+        <div class="djq-card" onclick="openQuest(2,this)">
+          <div class="djq-num">3</div>
+          <div class="djq-icon">🎯</div>
+          <div class="djq-name">SET INTENTION</div>
+          <div class="djq-desc">What's one small goal for today?</div>
+          <button class="djq-btn">START</button>
         </div>
-        <div class="quest-step" onclick="openQuest(3,this)">
-          <div class="qs-icon">❤️</div>
-          <div class="qs-num">4.</div>
-          <div class="qs-title">GRATITUDE</div>
-          <div class="qs-desc">List three things you're grateful for.</div>
+
+        <!-- Card 4: GRATITUDE VAULT -->
+        <div class="djq-card" onclick="openQuest(3,this)">
+          <div class="djq-num">4</div>
+          <div class="djq-icon">❤️</div>
+          <div class="djq-name">GRATITUDE VAULT</div>
+          <div class="djq-desc">List three things you're grateful for.</div>
+          <button class="djq-btn">START</button>
         </div>
-        <div class="quest-step" onclick="openQuest(4,this)">
-          <div class="qs-icon">📦</div>
-          <div class="qs-num">5.</div>
-          <div class="qs-title">WIN THE DAY</div>
-          <div class="qs-desc">Celebrate progress, no matter how small!</div>
+
+        <!-- Card 5: VICTORY BLOCK -->
+        <div class="djq-card" onclick="openQuest(4,this)">
+          <div class="djq-num">5</div>
+          <div class="djq-icon">🏆</div>
+          <div class="djq-name">VICTORY BLOCK</div>
+          <div class="djq-desc">Celebrate one win from today!</div>
+          <button class="djq-btn">START</button>
         </div>
+
       </div>
 
       <!-- Quest modal area -->
-      <div id="questModal" style="display:none;background:#e8d5a3;border:3px solid #a08040;box-shadow:3px 3px 0 rgba(0,0,0,.3);padding:1rem;margin-bottom:.8rem;">
-        <div style="font-family:var(--font-mc);font-size:.38rem;color:#2a1400;margin-bottom:.5rem;line-height:1.6;" id="questModalTitle"></div>
-        <textarea id="questModalText" rows="3" style="width:100%;background:#d4b483;border-color:#8a6030;color:#1a0800;font-size:.92rem;" placeholder="Write your thoughts here..."></textarea>
+      <div id="questModal" style="display:none;background:#1e2d1a;border:2px solid #5a9e2f;padding:1rem;margin-top:.8rem;">
+        <div style="font-family:var(--font-mc);font-size:.38rem;color:var(--mc-green-bright);margin-bottom:.5rem;line-height:1.6;" id="questModalTitle"></div>
+        <textarea id="questModalText" rows="3" style="width:100%;background:#111;border:2px solid #3d6b1e;color:#ddd;font-size:.92rem;padding:.5rem;" placeholder="Write your thoughts here..."></textarea>
         <div style="margin-top:.5rem;display:flex;gap:.5rem;">
           <button class="mc-btn mc-btn-green mc-btn-sm" onclick="completeQuest()">✓ COMPLETE (+10 XP)</button>
           <button class="mc-btn mc-btn-gray mc-btn-sm" onclick="closeQuestModal()">✕ CLOSE</button>
         </div>
       </div>
 
-      <div class="quest-quote">
-        <div class="qq-avatar">🪨</div>
-        <div class="qq-text">"It's okay to dig a little deeper. Diamonds are found under pressure."</div>
-        <div class="qq-gem">💎</div>
-      </div>
-
-      <!-- DIAMOND MIND RESET GAME — Free signature reset -->
+      <!-- Diamond game section -->
       <div style="margin-top:1rem;" id="diamondGameSection">
         <div class="diamond-game-wrap" id="diamondGameWrap">
-          <!-- Lock overlay shown for free users -->
           <div class="game-lock-overlay" id="gameOverlay" style="display:none;">
             <div class="lock-icon">💎</div>
             <div class="lock-title">MIND RESET GAME</div>
-            <div class="lock-desc">Tap diamonds to collect them and reset your mind. A quick calm-down tool — free for everyone.</div>
+            <div class="lock-desc">Tap diamonds to collect them and reset your mind.</div>
             <a href="/pricing.html" class="lock-btn">🔓 UNLOCK WITH PREMIUM</a>
           </div>
-          <!-- Game UI -->
           <div class="diamond-game-header">
             <div class="diamond-game-title">💎 DIAMOND MIND RESET</div>
             <div class="diamond-game-stats">
@@ -1827,63 +2101,109 @@ select option{background:#222;}
           </div>
         </div>
       </div>
-    </div>
+    </div></div>
 
     <!-- RIGHT: Your Journey Sidebar -->
     <div class="journey-panel">
-      <div class="journey-title">
-        <div class="jt-icon">🌿</div>
-        YOUR JOURNEY
+      <!-- ══ BUILDER STATS PANEL ══════════════════════════════ -->
+
+      <!-- Panel title row -->
+      <div class="bs-header">
+        <span class="bs-icon">⛏️</span>
+        <span class="bs-title">YOUR BUILDER STATS</span>
       </div>
 
-      <!-- Sidebar username + plan badge (shown when logged in) -->
-      <div id="sidebarUserRow" style="display:none;align-items:center;gap:.5rem;flex-wrap:wrap;padding:.5rem 0 .3rem;border-bottom:2px solid #222;margin-bottom:.6rem;">
-        <span style="font-size:1rem;">⛏️</span>
-        <span id="sidebarUsername" style="font-family:var(--font-mc);font-size:.38rem;color:var(--mc-green-bright);text-shadow:1px 1px 0 #000;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
-        <span id="sidebarPremiumPill" style="display:none;font-family:var(--font-mc);font-size:.22rem;background:var(--mc-gold-dark);color:#fff;border:1px solid var(--mc-gold);padding:.1rem .35rem;text-shadow:1px 1px 0 #000;white-space:nowrap;">💎</span>
+      <!-- Level row: character + level info -->
+      <div class="bs-level-row">
+        <!-- Pixel-art Minecraft Steve SVG -->
+        <div class="bs-character">
+          <svg width="88" height="100" viewBox="0 0 88 100" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated">
+            <!-- Head -->
+            <rect x="24" y="0" width="40" height="40" fill="#F4B57A"/>
+            <!-- Hair / helmet top -->
+            <rect x="24" y="0" width="40" height="8" fill="#4FAAD4"/>
+            <rect x="24" y="0" width="8" height="16" fill="#4FAAD4"/>
+            <rect x="56" y="0" width="8" height="16" fill="#4FAAD4"/>
+            <!-- Eyes -->
+            <rect x="30" y="14" width="8" height="8" fill="#fff"/>
+            <rect x="50" y="14" width="8" height="8" fill="#fff"/>
+            <rect x="32" y="16" width="4" height="4" fill="#5B3B10"/>
+            <rect x="52" y="16" width="4" height="4" fill="#5B3B10"/>
+            <!-- Mouth -->
+            <rect x="32" y="26" width="4" height="4" fill="#5B3B10"/>
+            <rect x="52" y="26" width="4" height="4" fill="#5B3B10"/>
+            <rect x="36" y="30" width="16" height="4" fill="#5B3B10"/>
+            <!-- Beard shadow -->
+            <rect x="28" y="34" width="32" height="6" fill="#C8924A"/>
+            <!-- Body — diamond armor (cyan) -->
+            <rect x="16" y="40" width="56" height="36" fill="#4DD0E1"/>
+            <!-- Armor lines -->
+            <rect x="16" y="40" width="56" height="4" fill="#1FAAC0"/>
+            <rect x="16" y="68" width="56" height="4" fill="#1FAAC0"/>
+            <rect x="36" y="40" width="4" height="36" fill="#1FAAC0"/>
+            <rect x="48" y="40" width="4" height="36" fill="#1FAAC0"/>
+            <!-- Chest plate highlight -->
+            <rect x="20" y="44" width="20" height="20" fill="#3BBECE" opacity="0.5"/>
+            <rect x="48" y="44" width="20" height="20" fill="#3BBECE" opacity="0.5"/>
+            <!-- Arms -->
+            <rect x="0" y="40" width="16" height="36" fill="#4DD0E1"/>
+            <rect x="72" y="40" width="16" height="36" fill="#4DD0E1"/>
+            <rect x="0" y="40" width="16" height="4" fill="#1FAAC0"/>
+            <rect x="72" y="40" width="16" height="4" fill="#1FAAC0"/>
+            <!-- Skin on lower arms -->
+            <rect x="0" y="68" width="16" height="8" fill="#F4B57A"/>
+            <rect x="72" y="68" width="16" height="8" fill="#F4B57A"/>
+            <!-- Sword in right hand -->
+            <rect x="4" y="52" width="4" height="32" fill="#C0C0C0"/>
+            <rect x="0" y="60" width="12" height="4" fill="#8B5A1A"/>
+            <rect x="4" y="48" width="4" height="8" fill="#81D4FA"/>
+            <!-- Legs -->
+            <rect x="16" y="76" width="24" height="24" fill="#1A5E8C"/>
+            <rect x="48" y="76" width="24" height="24" fill="#1A5E8C"/>
+            <!-- Boots -->
+            <rect x="16" y="92" width="24" height="8" fill="#1565C0"/>
+            <rect x="48" y="92" width="24" height="8" fill="#1565C0"/>
+            <!-- Grass block beneath feet -->
+            <rect x="8" y="96" width="72" height="4" fill="#5A9E2F" rx="1"/>
+            <rect x="8" y="100" width="72" height="0" fill="#3D6B1E"/>
+          </svg>
+        </div>
+
+        <!-- Level & XP info -->
+        <div class="bs-info">
+          <div class="bs-level-num" id="sidebarLevel">LEVEL 1</div>
+          <div class="bs-level-name" id="sidebarLevelName">Seedling</div>
+          <div class="bs-xp-bar-wrap"><div class="bs-xp-bar-fill" id="sidebarXPBar" style="width:0%"></div></div>
+          <div class="bs-xp-label" id="sidebarXPLabel">0 / 50 XP</div>
+        </div>
       </div>
 
-      <div class="journey-level-row">
-        <div>
-          <div class="journey-level-num" id="sidebarLevel">LEVEL 1</div>
-          <div class="journey-level-name" id="sidebarLevelName">Seedling</div>
+      <!-- Stat rows -->
+      <div class="bs-stats">
+        <div class="bs-stat">
+          <div class="bs-stat-icon">📖</div>
+          <div class="bs-stat-label">JOURNAL ENTRIES</div>
+          <div class="bs-stat-val green" id="statEntries">0</div>
         </div>
-        <div class="journey-avatar-pixel" id="sidebarAvatar">🧑</div>
-      </div>
-
-      <div class="xp-bar-wrap"><div class="xp-bar-fill" id="sidebarXPBar" style="width:0%"></div></div>
-      <div class="xp-label" id="sidebarXPLabel">0 / 50 XP</div>
-
-      <div class="journey-stats">
-        <div class="jstat">
-          <div class="jstat-icon">📖</div>
-          <div class="jstat-label">JOURNAL ENTRIES</div>
-          <div class="jstat-val" id="statEntries">0</div>
+        <div class="bs-stat">
+          <div class="bs-stat-icon">📅</div>
+          <div class="bs-stat-label">DAYS IN A ROW</div>
+          <div class="bs-stat-val gold" id="statStreak">0</div>
         </div>
-        <div class="jstat">
-          <div class="jstat-icon">📅</div>
-          <div class="jstat-label">DAYS IN A ROW</div>
-          <div class="jstat-val gold" id="statStreak">0</div>
+        <div class="bs-stat">
+          <div class="bs-stat-icon">💎</div>
+          <div class="bs-stat-label">DIAMONDS EARNED</div>
+          <div class="bs-stat-val diamond" id="statDiamonds">0</div>
         </div>
-        <div class="jstat">
-          <div class="jstat-icon">💎</div>
-          <div class="jstat-label">DIAMONDS EARNED</div>
-          <div class="jstat-val diamond" id="statDiamonds">0</div>
-        </div>
-        <div class="jstat">
-          <div class="jstat-icon">📈</div>
-          <div class="jstat-label">MOOD TREND</div>
-          <div class="jstat-val green" id="statMoodTrend">—</div>
+        <div class="bs-stat">
+          <div class="bs-stat-icon">🏆</div>
+          <div class="bs-stat-label">ACHIEVEMENTS</div>
+          <div class="bs-stat-val gold" id="statAchievements">0</div>
         </div>
       </div>
 
-      <div class="journey-quote">
-        "You don't have to be great to start, but you have to start to be great."
-        <strong>– Zig Ziglar</strong>
-      </div>
-
-      <!-- Quick mood in sidebar -->
-      <div class="mood-check">
+      <!-- Quick mood -->
+      <div class="mood-check" style="margin-top:.8rem;">
         <div class="mood-check-title">CURRENT BIOME — HOW ARE YOU?</div>
         <div class="mood-row">
           <div class="mood-btn" onclick="pickMood(this,'😰','Anxious')">😰</div>
@@ -1896,24 +2216,21 @@ select option{background:#222;}
         <div class="mood-resp" id="moodResp"></div>
       </div>
 
-      <!-- Plan status + account management -->
-      <div id="sidebarPlanBox" style="margin-top:1rem;border:2px solid #2a2a2a;padding:.8rem;background:#111;">
-        <div style="font-family:var(--font-mc);font-size:.38rem;color:#666;margin-bottom:.5rem;line-height:1.8;">YOUR PLAN</div>
+      <!-- Account section -->
+      <div id="sidebarPlanBox" style="margin-top:.8rem;border:2px solid #2a2a2a;padding:.8rem;background:#111;">
+        <div style="font-family:var(--font-mc);font-size:.38rem;color:#666;margin-bottom:.4rem;line-height:1.8;">YOUR PLAN</div>
         <div id="sidebarPlanName" style="font-family:var(--font-mc);font-size:.5rem;color:var(--mc-green-bright);text-shadow:1px 1px 0 #000;margin-bottom:.6rem;line-height:1.6;">🌱 FREE</div>
         <div id="sidebarUpgradeBtn" style="display:none;">
-          <a href="/pricing.html" style="display:block;text-align:center;font-family:var(--font-mc);font-size:.38rem;background:var(--mc-gold-dark);border:2px solid var(--mc-gold);color:#fff;text-decoration:none;padding:.5rem;text-shadow:1px 1px 0 #000;line-height:1.8;box-shadow:inset 1px 1px 0 rgba(255,255,255,.2),2px 2px 0 rgba(0,0,0,.5);transition:filter .12s;" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter=''">💎 UPGRADE — $29.99/YR</a>
-          <div style="font-size:.8rem;color:#444;text-align:center;margin-top:.4rem;font-weight:700;">Unlimited everything · Cancel anytime</div>
+          <a href="/pricing.html" style="display:block;text-align:center;font-family:var(--font-mc);font-size:.38rem;background:var(--mc-gold-dark);border:2px solid var(--mc-gold);color:#fff;text-decoration:none;padding:.5rem;text-shadow:1px 1px 0 #000;line-height:1.8;">💎 UPGRADE — $29.99/YR</a>
         </div>
         <div id="sidebarManageBtn" style="display:none;flex-direction:column;gap:.4rem;">
-          <button onclick="manageBilling()" style="font-family:var(--font-mc);font-size:.35rem;background:#1a1a1a;border:2px solid #3a3a3a;color:#888;padding:.45rem;cursor:pointer;line-height:1.8;width:100%;text-shadow:1px 1px 0 #000;transition:all .12s;" onmouseover="this.style.borderColor='#666';this.style.color='#bbb'" onmouseout="this.style.borderColor='#3a3a3a';this.style.color='#888'">⚙️ MANAGE / CANCEL</button>
+          <button onclick="manageBilling()" style="font-family:var(--font-mc);font-size:.35rem;background:#1a1a1a;border:2px solid #3a3a3a;color:#888;padding:.45rem;cursor:pointer;line-height:1.8;width:100%;">⚙️ MANAGE / CANCEL</button>
         </div>
-        <!-- Sign out button — shown when logged in -->
         <div id="sidebarSignOutBtn" style="display:none;margin-top:.5rem;">
-          <button onclick="signOut()" style="font-family:var(--font-mc);font-size:.3rem;background:#2a0a0a;border:2px solid #6b1a1a;color:#ff7070;padding:.4rem;cursor:pointer;line-height:1.8;width:100%;text-shadow:1px 1px 0 #000;transition:all .12s;">🚪 SIGN OUT</button>
+          <button onclick="signOut()" style="font-family:var(--font-mc);font-size:.3rem;background:#2a0a0a;border:2px solid #6b1a1a;color:#ff7070;padding:.4rem;cursor:pointer;line-height:1.8;width:100%;">🚪 SIGN OUT</button>
         </div>
       </div>
     </div>
-  </div>
 
   <!-- QUEST BOARD — enticing task preview on home page -->
   <div style="padding:1rem 1.5rem 0;" id="homeQuestBoard">
@@ -2920,7 +3237,7 @@ function renderSidebar(){
   setEl('statEntries',S.entries.length);
   setEl('statStreak',calcStreak());
   setEl('statDiamonds',Math.floor(S.xp/10));
-  setEl('statMoodTrend',getMoodTrend());
+  setEl('statAchievements',getMoodTrend());
 }
 function calcStreak(){
   if(!S.entries.length)return 0;
