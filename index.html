@@ -1505,6 +1505,30 @@ select option{background:#222;}
   <div class="nav-cta" onclick="goTo('journal')"><span class="nl-icon">⛏️</span><span>START</span></div>
 </nav>
 
+<!-- Minecraft Chest Side Menu -->
+<aside class="mc-side-menu" aria-label="Main chest menu">
+  <div class="mc-side-title">
+    <span class="mc-side-title-icon">🧰</span>
+    <span>CHEST MENU</span>
+  </div>
+  <div class="mc-side-xp">
+    <span>LVL</span>
+    <div class="mc-side-xp-bar"><i></i></div>
+  </div>
+  <div class="mc-side-slots">
+    <button class="nav-link mc-side-slot active" onclick="goTo('home')"><span class="nl-icon">🏠</span><span class="nl-label">Home Base</span></button>
+    <button class="nav-link mc-side-slot" onclick="goTo('journal')"><span class="nl-icon">📖</span><span class="nl-label">Journal Quest</span></button>
+    <button class="nav-link mc-side-slot" onclick="goTo('progress')"><span class="nl-icon">❤️</span><span class="nl-label">Mood Hearts</span></button>
+    <button class="nav-link mc-side-slot" onclick="goTo('world')"><span class="nl-icon">🗺️</span><span class="nl-label">My World</span></button>
+    <button class="nav-link mc-side-slot" onclick="goTo('tools')"><span class="nl-icon">⚔️</span><span class="nl-label">Tools</span></button>
+    <button class="nav-link mc-side-slot" onclick="goTo('account')"><span class="nl-icon">🎒</span><span class="nl-label">Inventory</span></button>
+  </div>
+  <div class="mc-side-footer">
+    <span>💎</span> Mine calm, one block at a time.
+  </div>
+</aside>
+
+
 <!-- ════════════════════════════════════════════════
      HOME PAGE
 ════════════════════════════════════════════════ -->
@@ -1534,12 +1558,6 @@ select option{background:#222;}
         <button class="hero-btn hero-btn-primary" onclick="goTo('journal')">⛏️ START JOURNALING</button>
         <button class="hero-btn hero-btn-secondary" onclick="goTo('world')">🗺️ ENTER MY WORLD</button>
       </div>
-    </div>
-    <div class="hero-reminder">
-      <div class="hero-reminder-title">TODAY'S REMINDER</div>
-      <div class="hero-reminder-gem">💎</div>
-      <div class="hero-reminder-text" id="heroReminder">You are not your thoughts. You are your potential.</div>
-      <div class="hero-reminder-heart">❤️</div>
     </div>
     <div class="hero-spacer" style="width:100%;"></div>
   </div>
