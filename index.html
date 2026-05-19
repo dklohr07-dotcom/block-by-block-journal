@@ -142,105 +142,6 @@ nav{
 .nav-cta:hover{filter:brightness(1.2);}
 .nav-cta .nl-icon{font-size:1.1rem;}
 
-
-/* ════════════════════════════════════════════════
-   LEFT MAIN MENU DROPDOWN — Minecraft-style drawer
-════════════════════════════════════════════════ */
-.menu-toggle{
-  display:flex;align-items:center;gap:.55rem;
-  background:#172126;
-  border:2px solid #2d3b40;
-  box-shadow:var(--bevel-out),2px 2px 0 rgba(0,0,0,.7);
-  padding:.45rem .75rem;
-  font-family:var(--font-mc);
-  font-size:.46rem;
-  color:#fff;
-  text-shadow:2px 2px 0 #000;
-  cursor:pointer;
-  line-height:1.4;
-  white-space:nowrap;
-}
-.menu-toggle:hover{filter:brightness(1.15);}
-.menu-toggle-icon{font-size:1.1rem;line-height:1;}
-.main-menu-panel{
-  position:fixed;
-  top:58px;
-  left:10px;
-  width:min(360px,calc(100vw - 20px));
-  z-index:350;
-  background:linear-gradient(180deg,rgba(22,32,36,.98),rgba(7,19,22,.98));
-  border:3px solid #223239;
-  border-radius:0 0 10px 10px;
-  box-shadow:inset 2px 2px 0 rgba(255,255,255,.08),inset -2px -2px 0 rgba(0,0,0,.65),0 14px 30px rgba(0,0,0,.55);
-  overflow:hidden;
-  transform-origin:top left;
-  opacity:0;
-  transform:translateY(-10px) scale(.98);
-  pointer-events:none;
-  transition:opacity .16s ease,transform .16s ease;
-}
-.main-menu-panel.open{
-  opacity:1;
-  transform:translateY(0) scale(1);
-  pointer-events:auto;
-}
-.main-menu-header{
-  display:flex;align-items:center;gap:.85rem;
-  padding:1rem 1.1rem;
-  border-bottom:3px solid rgba(0,0,0,.45);
-  background:rgba(255,255,255,.03);
-  font-family:var(--font-mc);
-  font-size:.62rem;
-  color:#fff;
-  text-shadow:2px 2px 0 #000;
-}
-.main-menu-header span:first-child{font-size:1.3rem;}
-.main-menu-list{padding:.55rem;}
-.main-menu-item{
-  width:100%;
-  display:flex;align-items:center;gap:.85rem;
-  padding:.72rem .9rem;
-  border:2px solid transparent;
-  border-radius:7px;
-  background:transparent;
-  color:#e9eef0;
-  font-family:var(--font-ui);
-  font-size:1.05rem;
-  font-weight:800;
-  text-align:left;
-  text-shadow:2px 2px 0 #000;
-  cursor:pointer;
-  transition:background .14s ease,border-color .14s ease,transform .14s ease;
-}
-.main-menu-item:hover,
-.main-menu-item.active{
-  background:linear-gradient(180deg,#2f812a,#1f641f);
-  border-color:#3f9d37;
-  box-shadow:inset 2px 2px 0 rgba(255,255,255,.2),inset -2px -2px 0 rgba(0,0,0,.5);
-}
-.main-menu-item:active{transform:translateY(1px);}
-.main-menu-item .mi-icon{
-  width:34px;
-  display:inline-flex;
-  justify-content:center;
-  font-size:1.25rem;
-  line-height:1;
-  flex-shrink:0;
-}
-.menu-backdrop{
-  position:fixed;
-  inset:58px 0 0 0;
-  z-index:300;
-  background:rgba(0,0,0,.18);
-  display:none;
-}
-.menu-backdrop.open{display:block;}
-@media(max-width:900px){
-  .nav-brand-text,.nav-links{display:none;}
-  .menu-toggle{font-size:.42rem;}
-  .main-menu-panel{left:8px;width:calc(100vw - 16px);}
-}
-
 /* ════════════════════════════════════════════════
    SECTIONS
 ════════════════════════════════════════════════ */
@@ -1500,6 +1401,109 @@ select option{background:#222;}
 
 
 
+
+/* ════════════════════════════════════════════════
+   LEFT NAV MENU  (matches screenshot design)
+════════════════════════════════════════════════ */
+#home.section.active {
+  display: flex;
+  flex-direction: column;
+}
+.home-with-menu {
+  display: grid;
+  grid-template-columns: 235px 1fr;
+  min-height: calc(100vh - 58px);
+  flex: 1;
+}
+@media (max-width: 820px) {
+  .home-with-menu { grid-template-columns: 1fr; }
+  .home-left-nav  { display: none; }
+}
+
+/* ── Sidebar shell ── */
+.home-left-nav {
+  background: #1c1c1c;
+  border-right: 3px solid #111;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 1.5rem 0;
+  overflow-y: auto;
+  position: sticky;
+  top: 58px;            /* stick below top nav */
+  height: calc(100vh - 58px);
+}
+
+/* ── MAIN MENU heading ── */
+.hnav-header {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  padding: 1.1rem 1.1rem .85rem;
+  border-bottom: 2px solid #2a2a2a;
+}
+.hnav-header-pickaxe {
+  font-size: 1.25rem;
+  line-height: 1;
+  transform: rotate(-30deg);
+  display: inline-block;
+}
+.hnav-header-text {
+  font-family: var(--font-ui);
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: #cccccc;
+  letter-spacing: .02em;
+}
+
+/* ── Nav items ── */
+.hnav-list {
+  display: flex;
+  flex-direction: column;
+  padding: .55rem 0;
+  flex: 1;
+}
+.hnav-item {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  padding: .72rem 1.1rem;
+  font-family: var(--font-ui);
+  font-weight: 800;
+  font-size: 1.08rem;
+  color: #bbbbbb;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: background .12s, color .12s, border-color .12s;
+  user-select: none;
+  text-decoration: none;
+}
+.hnav-item:hover {
+  background: #252525;
+  color: #e8e8e8;
+}
+.hnav-item.active {
+  background: #2d5a1b;          /* dark green fill */
+  color: #ffffff;
+  border-left-color: #7ec832;   /* bright green stripe */
+}
+.hnav-item.active .hnav-icon {
+  filter: drop-shadow(0 0 4px rgba(126,200,50,.5));
+}
+.hnav-icon {
+  font-size: 1.3rem;
+  width: 28px;
+  text-align: center;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+/* ── Scrollable content column ── */
+.home-content-col {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
 </style>
 </head>
 <body>
@@ -1576,9 +1580,6 @@ select option{background:#222;}
 
 <!-- ════ NAVIGATION ════════════════════════════════ -->
 <nav>
-  <button class="menu-toggle" id="mainMenuToggle" type="button" onclick="toggleMainMenu(event)" aria-expanded="false" aria-controls="mainMenuPanel">
-    <span class="menu-toggle-icon">⛏️</span><span>MAIN MENU</span>
-  </button>
   <div class="nav-brand" onclick="goTo('home')">
     <div class="nav-brand-icon">💎</div>
     <div class="nav-brand-text">
@@ -1606,30 +1607,73 @@ select option{background:#222;}
   <div class="nav-cta" onclick="goTo('journal')"><span class="nl-icon">⛏️</span><span>START</span></div>
 </nav>
 
-<div class="menu-backdrop" id="mainMenuBackdrop" onclick="closeMainMenu()"></div>
-<aside class="main-menu-panel" id="mainMenuPanel" aria-label="Main menu">
-  <div class="main-menu-header"><span>⛏️</span><span>MAIN MENU</span></div>
-  <div class="main-menu-list">
-    <button class="main-menu-item active" type="button" onclick="menuGo('home')" data-target="home"><span class="mi-icon">🏠</span><span>Dashboard</span></button>
-    <button class="main-menu-item" type="button" onclick="menuGo('tasks')" data-target="tasks"><span class="mi-icon">🗞️</span><span>Daily Quests</span></button>
-    <button class="main-menu-item" type="button" onclick="menuGo('journal')" data-target="journal"><span class="mi-icon">📖</span><span>Journal Entries</span></button>
-    <button class="main-menu-item" type="button" onclick="menuGo('progress')" data-target="progress"><span class="mi-icon">📖</span><span>Mood Tracker</span></button>
-    <button class="main-menu-item" type="button" onclick="menuGo('tools')" data-target="tools"><span class="mi-icon">🟩</span><span>CBT Tools</span></button>
-    <button class="main-menu-item" type="button" onclick="menuGo('tools')" data-target="tools"><span class="mi-icon">🧭</span><span>ACT Compass</span></button>
-    <button class="main-menu-item" type="button" onclick="menuGo('inspiration')" data-target="inspiration"><span class="mi-icon">💎</span><span>Gratitude Vault</span></button>
-    <button class="main-menu-item" type="button" onclick="menuGo('inspiration')" data-target="inspiration"><span class="mi-icon">🏆</span><span>Confidence Builder</span></button>
-    <button class="main-menu-item" type="button" onclick="menuGo('tasks')" data-target="tasks"><span class="mi-icon">🧰</span><span>Habit Tracker</span></button>
-    <button class="main-menu-item" type="button" onclick="menuGo('tools')" data-target="tools"><span class="mi-icon">💠</span><span>Breathing Exercises</span></button>
-    <button class="main-menu-item" type="button" onclick="menuGo('world')" data-target="world"><span class="mi-icon">⭐</span><span>Achievements</span></button>
-    <button class="main-menu-item" type="button" onclick="menuGo('account')" data-target="account"><span class="mi-icon">⚙️</span><span>Settings</span></button>
-  </div>
-</aside>
-
-
 <!-- ════════════════════════════════════════════════
      HOME PAGE
 ════════════════════════════════════════════════ -->
 <div id="home" class="section active">
+<div class="home-with-menu">
+
+  <!-- ═══ LEFT NAVIGATION MENU ═══════════════════════════════════════ -->
+  <nav class="home-left-nav" aria-label="Main menu">
+    <div class="hnav-header">
+      <span class="hnav-header-pickaxe">⛏️</span>
+      <span class="hnav-header-text">MAIN MENU</span>
+    </div>
+    <div class="hnav-list">
+
+      <div class="hnav-item active" onclick="goTo('home')">
+        <span class="hnav-icon">🪓</span>Dashboard
+      </div>
+
+      <div class="hnav-item" onclick="goTo('journal');tTab&&tTab('quests')">
+        <span class="hnav-icon">🏅</span>Daily Quests
+      </div>
+
+      <div class="hnav-item" onclick="goTo('journal');tTab&&tTab('entries')">
+        <span class="hnav-icon">📔</span>Journal Entries
+      </div>
+
+      <div class="hnav-item" onclick="goTo('progress');tTab&&tTab('mood')">
+        <span class="hnav-icon">📗</span>Mood Tracker
+      </div>
+
+      <div class="hnav-item" onclick="goTo('tools');tTab&&tTab('cbt')">
+        <span class="hnav-icon">🎯</span>CBT Tools
+      </div>
+
+      <div class="hnav-item" onclick="goTo('tools');tTab&&tTab('act')">
+        <span class="hnav-icon">🧿</span>ACT Compass
+      </div>
+
+      <div class="hnav-item" onclick="goTo('vault')">
+        <span class="hnav-icon">💝</span>Gratitude Vault
+      </div>
+
+      <div class="hnav-item" onclick="goTo('tools');tTab&&tTab('confidence')">
+        <span class="hnav-icon">🥇</span>Confidence Builder
+      </div>
+
+      <div class="hnav-item" onclick="goTo('tasks')">
+        <span class="hnav-icon">🗃️</span>Habit Tracker
+      </div>
+
+      <div class="hnav-item" onclick="window.location.href='mind-reset-hub.html'">
+        <span class="hnav-icon">💠</span>Breathing Exercises
+      </div>
+
+      <div class="hnav-item" onclick="goTo('progress');tTab&&tTab('achievements')">
+        <span class="hnav-icon">⭐</span>Achievements
+      </div>
+
+      <div class="hnav-item" onclick="goTo('account')">
+        <span class="hnav-icon">⚙️</span>Settings
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- ═══ MAIN CONTENT COLUMN ════════════════════════════════════════ -->
+  <div class="home-content-col">
 
   <!-- USER WELCOME STRIP — shown when logged in -->
   <div id="homeUserStrip" style="display:none;background:#111;border-bottom:2px solid #1a3000;padding:.55rem 1.2rem;align-items:center;gap:.7rem;flex-wrap:wrap;">
@@ -1644,7 +1688,7 @@ select option{background:#222;}
 
   <!-- HERO BANNER -->
   <div class="hero">
-    <div class="hero-text" style="margin-left:auto;max-width:620px;padding-right:4rem;z-index:2;">
+    <div class="hero-text">
       <div class="hero-eyebrow">An anti-anxiety journal inspired by Minecraft — backed by proven therapy techniques to help you feel better, think stronger, and become your best self.</div>
       <h1 class="hero-h1">
         BUILD CALM.<br>
@@ -2059,6 +2103,8 @@ select option{background:#222;}
       </div>
     </div>
   </div>
+  </div><!-- end .home-content-col -->
+</div><!-- end .home-with-menu -->
 </div>
 
 
@@ -2718,6 +2764,25 @@ select option{background:#222;}
      JAVASCRIPT
 ════════════════════════════════════════════════ -->
 <script>
+
+// ── Update left-nav active state when section changes ──────────────────────
+function updateHNavActive(sectionId) {
+  document.querySelectorAll('.hnav-item').forEach(el => {
+    el.classList.remove('active');
+  });
+  // Map section IDs to nav items by onclick content
+  const activeEl = document.querySelector(`.hnav-item[onclick*="goTo('${sectionId}')"]`);
+  if (activeEl) activeEl.classList.add('active');
+  // Default: always highlight Dashboard when on home
+  if (sectionId === 'home') {
+    const dash = document.querySelector('.hnav-item.active') || document.querySelector('.hnav-item');
+    document.querySelectorAll('.hnav-item').forEach(el => el.classList.remove('active'));
+    const dashEl = document.querySelector(".hnav-item[onclick*="goTo('home')"]");
+    if (dashEl) dashEl.classList.add('active');
+  }
+}
+
+
 // ── STATE ────────────────────────────────────────────────
 const S={
   xp:0,entries:[],tasks:[],reminders:[],gratitude:[],
@@ -2731,42 +2796,12 @@ function save(){localStorage.setItem('bbj3',JSON.stringify(S));}
 load();
 
 // ── NAVIGATION ─────────────────────────────────────────
-
-function toggleMainMenu(event){
-  if(event)event.stopPropagation();
-  const panel=document.getElementById('mainMenuPanel');
-  const backdrop=document.getElementById('mainMenuBackdrop');
-  const toggle=document.getElementById('mainMenuToggle');
-  const open=!panel.classList.contains('open');
-  panel.classList.toggle('open',open);
-  backdrop.classList.toggle('open',open);
-  if(toggle)toggle.setAttribute('aria-expanded',open?'true':'false');
-}
-function closeMainMenu(){
-  const panel=document.getElementById('mainMenuPanel');
-  const backdrop=document.getElementById('mainMenuBackdrop');
-  const toggle=document.getElementById('mainMenuToggle');
-  if(panel)panel.classList.remove('open');
-  if(backdrop)backdrop.classList.remove('open');
-  if(toggle)toggle.setAttribute('aria-expanded','false');
-}
-function menuGo(id){
-  goTo(id);
-  closeMainMenu();
-}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMainMenu();});
-document.addEventListener('click',e=>{
-  const panel=document.getElementById('mainMenuPanel');
-  const toggle=document.getElementById('mainMenuToggle');
-  if(panel&&panel.classList.contains('open')&&!panel.contains(e.target)&&!toggle.contains(e.target))closeMainMenu();
-});
-
 function goTo(id){
+  updateHNavActive(id);
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.nav-link').forEach(t=>t.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   document.querySelectorAll('.nav-link').forEach(t=>{if(t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+id+"'"))t.classList.add('active');});
-  document.querySelectorAll('.main-menu-item').forEach(item=>item.classList.toggle('active',item.dataset.target===id));
   if(id==='home'){renderSidebar();renderHome();}
   if(id==='world'){renderSidebar();renderQuestBoard();}
   if(id==='account'){renderSidebar();}
