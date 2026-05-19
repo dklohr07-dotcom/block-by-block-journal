@@ -4,6 +4,7 @@
 <title>Mood Check-in | Block by Block</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/shared/bbb-wellness.css">
+<link rel="stylesheet" href="../shared/minecraft-v2-theme.css"/>
 </head><body><div class="bbb-bg"></div><div class="bbb-pixels"></div>
 <main class="bbb-wrap">
 <header class="bbb-top"><a class="bbb-brand" href="/wellness-world.html"><span class="bbb-logo"></span><span class="bbb-title">Mood Check-in</span></a><nav class="bbb-nav"><a class="bbb-btn" href="/wellness-world.html">World</a><a class="bbb-btn" href="/realms/safe-base.html">Safe Base</a></nav></header>
@@ -39,4 +40,5 @@ document.querySelector(".bbb-mood").classList.add("active");
 note.addEventListener("input",()=>{warning.style.display=BBBWellness.crisisCheck(note.value)?"block":"none";warning.innerHTML=BBBWellness.safetyBox()});
 save.onclick=()=>{BBBWellness.checkin(selected.label,selected.emoji,note.value); setTimeout(()=>location.href="/wellness-world.html",700)}
 </script>
+<script src="../shared/minecraft-v2-ui.js"></script>
 </body></html>

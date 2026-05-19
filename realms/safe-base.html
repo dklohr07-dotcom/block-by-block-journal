@@ -4,6 +4,7 @@
 <title>Safe Base | Block by Block</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/shared/bbb-wellness.css">
+<link rel="stylesheet" href="../shared/minecraft-v2-theme.css"/>
 </head><body><div class="bbb-bg"></div><div class="bbb-pixels"></div>
 <main class="bbb-wrap">
 <header class="bbb-top"><a class="bbb-brand" href="/wellness-world.html"><span class="bbb-logo"></span><span class="bbb-title">Safe Base</span></a><nav class="bbb-nav"><a class="bbb-btn" href="/realms/mood-checkin.html">Check-in</a><a class="bbb-btn" href="/wellness-world.html">World</a></nav></header>
@@ -34,4 +35,5 @@ rename.onclick=()=>{const s=BBBWellness.load();const n=prompt("Name your Safe Ba
 saveNote.onclick=()=>{if(BBBWellness.crisisCheck(baseNote.value)){alert("This sounds really serious. Please tell a trusted adult now, and use 988 in the U.S. or Canada if you need immediate support.")} BBBWellness.quest("Saved a memory block","calm",10,5); baseNote.value=""}
 render();
 </script>
+<script src="../shared/minecraft-v2-ui.js"></script>
 </body></html>

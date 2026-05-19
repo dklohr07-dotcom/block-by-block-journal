@@ -10,7 +10,8 @@
 .fish:hover{transform:scale(1.12)}
 .ripple{position:absolute;border:2px solid rgba(255,255,255,.5);border-radius:50%;animation:r 1.2s ease-out forwards}
 @keyframes r{to{transform:scale(4);opacity:0}}
-</style></head><body><div class="bbb-bg"></div><div class="bbb-pixels"></div>
+</style><link rel="stylesheet" href="../shared/minecraft-v2-theme.css"/>
+</head><body><div class="bbb-bg"></div><div class="bbb-pixels"></div>
 <main class="bbb-wrap">
 <header class="bbb-top"><a class="bbb-brand" href="/wellness-world.html"><span class="bbb-logo"></span><span class="bbb-title">Emotion Fishing</span></a><nav class="bbb-nav"><a class="bbb-btn" href="/wellness-world.html">World</a><a class="bbb-btn" href="/realms/safe-base.html">Safe Base</a></nav></header>
 <section class="bbb-hero">
@@ -34,4 +35,5 @@ function catchFish(e,f){caught.textContent=`Caught ${f[1]} ${f[0]}`;prompt.textC
 function complete(c){BBBWellness.quest("Caught and cared for a feeling","calm",14,7); setTimeout(swim,500)}
 swim(); setInterval(swim,6500);
 </script>
+<script src="../shared/minecraft-v2-ui.js"></script>
 </body></html>
