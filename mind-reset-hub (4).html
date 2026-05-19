@@ -1129,6 +1129,7 @@ textarea::placeholder{color:#d8d1de}
   }
 }
 </style>
+<link rel="stylesheet" href="shared/minecraft-v2-theme.css"/>
 </head>
 <body>
 <main id="hub" class="screen active" aria-label="Mind Reset Hub">
@@ -1381,5 +1382,6 @@ function newAffirmation(){ document.getElementById('affirmation').textContent=th
 let crystals=0;
 function crystal(btn){ if(btn.classList.contains('sel')) return; btn.classList.add('sel'); crystals++; if(crystals>=5){crystals=0; earn(8,'Deep cave calm complete. +8 diamonds'); setTimeout(()=>document.querySelectorAll('#cave .choice').forEach(c=>c.classList.remove('sel')),900);}}
 </script>
+<script src="shared/minecraft-v2-ui.js"></script>
 </body>
 </html>

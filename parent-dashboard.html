@@ -4,6 +4,7 @@
 <title>Parent View | Block by Block</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/shared/bbb-wellness.css">
+<link rel="stylesheet" href="shared/minecraft-v2-theme.css"/>
 </head><body><div class="bbb-bg"></div><div class="bbb-pixels"></div>
 <main class="bbb-wrap">
 <header class="bbb-top"><a class="bbb-brand" href="/wellness-world.html"><span class="bbb-logo"></span><span class="bbb-title">Parent View</span></a><nav class="bbb-nav"><a class="bbb-btn" href="/wellness-world.html">Child World</a><a class="bbb-btn" href="/safety.html">Safety</a></nav></header>
@@ -27,4 +28,5 @@ stats.innerHTML=[
 ].map(x=>`<article class="bbb-card"><h3>${x[0]}</h3><p style="font-size:2rem;margin:0">${x[1]}</p></article>`).join("");
 logs.innerHTML=(s.moodLogs||[]).slice(0,10).map(l=>`<div class="bbb-card"><div class="bbb-row"><strong>${l.emoji} ${l.label}</strong><span class="bbb-muted">${l.date}</span></div><p class="bbb-muted">Private reflection hidden.</p></div>`).join("") || "<p class='bbb-muted'>No check-ins yet.</p>";
 </script>
+<script src="shared/minecraft-v2-ui.js"></script>
 </body></html>
