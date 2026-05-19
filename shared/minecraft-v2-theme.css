@@ -496,3 +496,173 @@ textarea{min-height:132px;}
   .mc-side-slot{min-height:58px;}
   .nav-brand-title{font-size:.56rem !important;}
 }
+
+
+/* =========================================================
+   Minecraft V2.2 Desktop Polish Patch
+   - Slightly smaller readable text
+   - Desktop hero shows the scenic image with less dead space
+   - Simplified, calmer footer
+   ========================================================= */
+:root{
+  --mc2-readable:16.5px;
+}
+html{font-size:17px !important;}
+body{
+  font-size:1rem !important;
+  line-height:1.68 !important;
+}
+p,li,label,input,textarea,select{
+  font-size:1rem !important;
+  line-height:1.68 !important;
+}
+.feature-card,.quest-card,.stat-card,.inv-card,.panel,.card,.modal-content,.section-card{
+  font-size:1rem !important;
+}
+.fc-desc,.quest-desc,.small,.muted,.modal-sub,.cb-desc,.page-header p,.mc-card p{
+  font-size:.95rem !important;
+  line-height:1.65 !important;
+}
+h1,.hero-h1{
+  font-size:clamp(1.75rem,3.9vw,3.25rem) !important;
+  line-height:1.34 !important;
+}
+h2,.section-title{
+  font-size:clamp(1.18rem,2.15vw,1.95rem) !important;
+  line-height:1.42 !important;
+}
+h3,.fc-title,.quest-title{
+  font-size:clamp(.78rem,1.05vw,1rem) !important;
+  line-height:1.55 !important;
+}
+.hero-eyebrow{
+  font-size:.96rem !important;
+  line-height:1.65 !important;
+  max-width:760px !important;
+}
+.hero-btn,.mc-btn,.modal-btn,.cb-btn,.dg-btn,.lock-btn,button[type="submit"],a.button,.btn{
+  font-size:.58rem !important;
+  padding:.72rem 1rem !important;
+}
+
+/* Desktop hero: remove oversized blank vertical space while keeping a full, cinematic banner feel. */
+@media (min-width:981px){
+  .hero{
+    min-height:clamp(430px,42vw,640px) !important;
+    height:auto !important;
+    align-items:center !important;
+    padding:clamp(2rem,4vw,3.25rem) clamp(1.5rem,3vw,3rem) 4.5rem !important;
+    background-size:cover !important;
+    background-position:center center !important;
+  }
+  .hero-text{
+    max-width:min(760px,52vw) !important;
+  }
+  .hero::before{
+    background:
+      linear-gradient(100deg,rgba(0,0,0,.80) 0%,rgba(0,0,0,.58) 42%,rgba(0,0,0,.18) 72%,rgba(0,0,0,.08) 100%),
+      radial-gradient(circle at 18% 48%,rgba(124,252,0,.10),transparent 34%) !important;
+  }
+  .hero-spacer{
+    display:none !important;
+    height:0 !important;
+  }
+}
+@media (min-width:1500px){
+  .hero{
+    min-height:clamp(500px,36vw,680px) !important;
+    background-size:cover !important;
+    background-position:center 48% !important;
+  }
+}
+
+/* Keep the mobile/smaller hero behavior close to the approved version. */
+@media (max-width:980px){
+  html{font-size:16px !important;}
+  .hero{
+    min-height:auto !important;
+    background-size:cover !important;
+    background-position:center center !important;
+  }
+  h1,.hero-h1{font-size:clamp(1.35rem,7vw,2.2rem) !important;}
+}
+
+/* Footer: quieter Minecraft signpost instead of a crowded utility bar. */
+footer{
+  margin-left:calc(var(--mc2-side-width) + 28px) !important;
+  background:
+    linear-gradient(rgba(0,0,0,.36),rgba(0,0,0,.36)),
+    repeating-linear-gradient(90deg,#24180f 0 18px,#342215 18px 36px,#1a110a 36px 42px) !important;
+  border-top:5px solid #0a0a0a !important;
+  box-shadow:inset 0 4px 0 rgba(255,255,255,.08), 0 -4px 0 #000 !important;
+  padding:1rem 1.25rem !important;
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) auto !important;
+  align-items:center !important;
+  gap:.85rem !important;
+  color:#bdbdbd !important;
+  font-size:.82rem !important;
+  line-height:1.55 !important;
+}
+.footer-motto{
+  flex:initial !important;
+  text-align:left !important;
+  color:#d7ffd1 !important;
+  text-shadow:2px 2px 0 #000 !important;
+  font-weight:800 !important;
+}
+.footer-motto::before{
+  content:"🪧 ";
+}
+footer > span:first-child{
+  display:none !important;
+}
+.footer-heart{
+  color:#ff5555 !important;
+  filter:drop-shadow(2px 2px 0 #000);
+}
+.footer-links{
+  margin-left:0 !important;
+  display:flex !important;
+  gap:.45rem !important;
+  flex-wrap:wrap !important;
+  justify-content:flex-end !important;
+}
+.footer-links a{
+  color:#55ffff !important;
+  text-decoration:none !important;
+  background:#171717 !important;
+  border:3px solid #383838 !important;
+  box-shadow:inset 2px 2px 0 rgba(255,255,255,.08), inset -3px -3px 0 rgba(0,0,0,.55), 2px 2px 0 #000 !important;
+  padding:.42rem .58rem !important;
+  font-family:var(--mc2-font) !important;
+  font-size:.38rem !important;
+  line-height:1.55 !important;
+  text-shadow:2px 2px 0 #000 !important;
+}
+.footer-links a:hover{
+  color:#fff !important;
+  border-color:var(--mc2-lime) !important;
+  background:#203315 !important;
+  box-shadow:var(--mc2-inset-hotbar), 3px 3px 0 #000 !important;
+}
+@media (max-width:980px){
+  footer{
+    margin-left:0 !important;
+    margin-bottom:92px !important;
+    grid-template-columns:1fr !important;
+    text-align:center !important;
+    padding:.9rem .8rem !important;
+  }
+  .footer-motto{text-align:center !important;}
+  .footer-links{justify-content:center !important;}
+}
+@media (max-width:620px){
+  footer{
+    margin-bottom:156px !important;
+  }
+  .footer-links a{
+    font-size:.34rem !important;
+    padding:.36rem .48rem !important;
+  }
+}
