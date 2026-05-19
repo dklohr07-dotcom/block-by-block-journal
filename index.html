@@ -2,10 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="theme-color" content="#1a1a1a"/>
-<meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<meta name="description" content="Block By Block Journal — A Minecraft-themed anti-anxiety journal for kids and teens. Track your mood, complete quests, and grow your world."/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Block by Block | Anti-Anxiety Journal</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
@@ -145,6 +141,105 @@ nav{
 }
 .nav-cta:hover{filter:brightness(1.2);}
 .nav-cta .nl-icon{font-size:1.1rem;}
+
+
+/* ════════════════════════════════════════════════
+   LEFT MAIN MENU DROPDOWN — Minecraft-style drawer
+════════════════════════════════════════════════ */
+.menu-toggle{
+  display:flex;align-items:center;gap:.55rem;
+  background:#172126;
+  border:2px solid #2d3b40;
+  box-shadow:var(--bevel-out),2px 2px 0 rgba(0,0,0,.7);
+  padding:.45rem .75rem;
+  font-family:var(--font-mc);
+  font-size:.46rem;
+  color:#fff;
+  text-shadow:2px 2px 0 #000;
+  cursor:pointer;
+  line-height:1.4;
+  white-space:nowrap;
+}
+.menu-toggle:hover{filter:brightness(1.15);}
+.menu-toggle-icon{font-size:1.1rem;line-height:1;}
+.main-menu-panel{
+  position:fixed;
+  top:58px;
+  left:10px;
+  width:min(360px,calc(100vw - 20px));
+  z-index:350;
+  background:linear-gradient(180deg,rgba(22,32,36,.98),rgba(7,19,22,.98));
+  border:3px solid #223239;
+  border-radius:0 0 10px 10px;
+  box-shadow:inset 2px 2px 0 rgba(255,255,255,.08),inset -2px -2px 0 rgba(0,0,0,.65),0 14px 30px rgba(0,0,0,.55);
+  overflow:hidden;
+  transform-origin:top left;
+  opacity:0;
+  transform:translateY(-10px) scale(.98);
+  pointer-events:none;
+  transition:opacity .16s ease,transform .16s ease;
+}
+.main-menu-panel.open{
+  opacity:1;
+  transform:translateY(0) scale(1);
+  pointer-events:auto;
+}
+.main-menu-header{
+  display:flex;align-items:center;gap:.85rem;
+  padding:1rem 1.1rem;
+  border-bottom:3px solid rgba(0,0,0,.45);
+  background:rgba(255,255,255,.03);
+  font-family:var(--font-mc);
+  font-size:.62rem;
+  color:#fff;
+  text-shadow:2px 2px 0 #000;
+}
+.main-menu-header span:first-child{font-size:1.3rem;}
+.main-menu-list{padding:.55rem;}
+.main-menu-item{
+  width:100%;
+  display:flex;align-items:center;gap:.85rem;
+  padding:.72rem .9rem;
+  border:2px solid transparent;
+  border-radius:7px;
+  background:transparent;
+  color:#e9eef0;
+  font-family:var(--font-ui);
+  font-size:1.05rem;
+  font-weight:800;
+  text-align:left;
+  text-shadow:2px 2px 0 #000;
+  cursor:pointer;
+  transition:background .14s ease,border-color .14s ease,transform .14s ease;
+}
+.main-menu-item:hover,
+.main-menu-item.active{
+  background:linear-gradient(180deg,#2f812a,#1f641f);
+  border-color:#3f9d37;
+  box-shadow:inset 2px 2px 0 rgba(255,255,255,.2),inset -2px -2px 0 rgba(0,0,0,.5);
+}
+.main-menu-item:active{transform:translateY(1px);}
+.main-menu-item .mi-icon{
+  width:34px;
+  display:inline-flex;
+  justify-content:center;
+  font-size:1.25rem;
+  line-height:1;
+  flex-shrink:0;
+}
+.menu-backdrop{
+  position:fixed;
+  inset:58px 0 0 0;
+  z-index:300;
+  background:rgba(0,0,0,.18);
+  display:none;
+}
+.menu-backdrop.open{display:block;}
+@media(max-width:900px){
+  .nav-brand-text,.nav-links{display:none;}
+  .menu-toggle{font-size:.42rem;}
+  .main-menu-panel{left:8px;width:calc(100vw - 16px);}
+}
 
 /* ════════════════════════════════════════════════
    SECTIONS
@@ -1405,183 +1500,6 @@ select option{background:#222;}
 
 
 
-
-/* ═══════════════════════════════════════════
-   IMPROVEMENT PATCH — Mobile, UX & Readability
-═══════════════════════════════════════════ */
-
-/* ── Global: better tap targets & touch UX ── */
-* { -webkit-tap-highlight-color: rgba(90,158,47,.25); }
-
-button, .mc-btn, .nav-link, .modal-btn, .world-room,
-.cb-btn, .dg-btn, .tab-btn, .tool-tab, .qb-item {
-  min-height: 44px;
-  cursor: pointer;
-}
-
-/* ── Press Start 2P readable sizes (base 16px) ──
-   The font renders at ~1px per 0.01rem, so 0.38rem = ~6px
-   We set a floor so nothing drops below ~10px rendered */
-.nav-link { font-size: max(.48rem, 9px) !important; }
-.nav-link .nl-label { font-size: max(.42rem, 8px) !important; }
-.mc-btn, .modal-btn { font-size: max(.52rem, 10px) !important; }
-.mc-btn-sm { font-size: max(.44rem, 9px) !important; }
-.mc-btn-xs { font-size: max(.38rem, 8px) !important; }
-.jstat-label { font-size: max(.42rem, 8px) !important; }
-.jstat-val   { font-size: max(.52rem, 10px) !important; }
-.task-due, .modal-skip { font-size: max(.38rem, 8px) !important; }
-.xp-label    { font-size: max(.44rem, 9px) !important; }
-.modal-title { font-size: max(.72rem, 13px) !important; }
-.modal-field label { font-size: max(.46rem, 9px) !important; }
-.journey-level-num { font-size: max(.6rem, 11px) !important; }
-
-/* ── Nav: improve mobile bottom-nav feel ── */
-@media(max-width:760px){
-  .nav-link {
-    border-radius: 4px;
-    background: rgba(255,255,255,.03);
-    transition: background .15s, color .15s;
-    padding: .5rem .2rem !important;
-  }
-  .nav-link:active {
-    background: rgba(90,158,47,.2);
-  }
-  .nav-link .nl-icon {
-    font-size: 1.25rem !important;
-    line-height: 1;
-  }
-  /* Sticky bottom nav on mobile */
-  nav {
-    position: fixed !important;
-    bottom: 0 !important;
-    top: auto !important;
-    border-bottom: none !important;
-    border-top: 3px solid #111 !important;
-    z-index: 300 !important;
-    width: 100%;
-    box-shadow: 0 -4px 0 rgba(0,0,0,.7) !important;
-  }
-  /* Nav-brand + CTA on top, links on bottom row */
-  .nav-brand { order: 1; }
-  #navUserPill { order: 2; }
-  .nav-cta { order: 2; margin-left: auto; }
-  .nav-links { order: 3; }
-  /* Add bottom padding so content isn't hidden behind fixed nav */
-  .section { padding-bottom: 90px; }
-}
-
-/* ── Responsive hero improvements ── */
-@media(max-width:600px){
-  .hero { padding: 1.2rem 1rem 2.5rem !important; min-height: 220px !important; }
-  .hero-h1 { font-size: clamp(1rem, 6vw, 1.6rem) !important; }
-  .hero-desc { font-size: .9rem !important; }
-}
-
-/* ── Journal: more breathing room on mobile ── */
-@media(max-width:600px){
-  .page-body { padding: .8rem !important; }
-  .tab-row { gap: .2rem !important; }
-  .tab-btn { font-size: max(.38rem, 8px) !important; padding: .5rem .4rem !important; }
-  .journal-editor textarea { font-size: 1rem !important; min-height: 140px !important; }
-}
-
-/* ── Cards: better contrast & readability ── */
-.mc-card p { color: #bbb !important; }
-.mc-card h3 { letter-spacing: .02em; }
-
-/* ── Quest board: clearer state ── */
-.qb-item { border-left: 4px solid transparent; transition: border-color .15s; }
-.qb-item:hover { border-left-color: var(--mc-green); }
-.qb-item.done-item { border-left-color: #2a4a1a; opacity: .75; }
-
-/* ── Toast: better visibility ── */
-#toast {
-  min-width: 240px !important;
-  max-width: min(90vw, 420px) !important;
-  font-size: max(.48rem, 10px) !important;
-  left: 50% !important;
-  right: auto !important;
-  transform: translateX(-50%) !important;
-  bottom: calc(70px + env(safe-area-inset-bottom)) !important;
-}
-@media(min-width:761px){
-  #toast {
-    left: auto !important;
-    right: 1.5rem !important;
-    transform: none !important;
-    bottom: 1.5rem !important;
-  }
-}
-
-/* ── Modal: full-height friendly on small phones ── */
-@media(max-width:480px){
-  .modal-box { max-height: 90vh; overflow-y: auto; }
-  .modal-step { padding: 1.2rem 1rem !important; }
-}
-
-/* ── World hub grid: 2-col on mobile ── */
-@media(max-width:600px){
-  .world-hub-grid { grid-template-columns: 1fr 1fr !important; }
-  .world-room-primary { grid-column: span 2; }
-}
-
-/* ── Features: 2-col minimum on small phones ── */
-@media(max-width:380px){
-  .features { grid-template-columns: 1fr 1fr !important; }
-}
-
-/* ── Upgrade banner: stack on mobile ── */
-#upgradeBanner { flex-wrap: wrap !important; gap: .7rem !important; }
-@media(max-width:600px){
-  #upgradeBanner { padding: .8rem 1rem !important; }
-  #upgradeBanner > a { width: 100%; text-align: center; }
-}
-
-/* ── Accessibility: focus rings ── */
-:focus-visible {
-  outline: 3px solid var(--mc-green-bright) !important;
-  outline-offset: 2px !important;
-}
-
-/* ── Community bar: stack on mobile ── */
-@media(max-width:600px){
-  .community-bar { flex-direction: column !important; gap: .6rem !important; padding: 1rem !important; }
-  .cb-form { flex-direction: column !important; }
-  .cb-input, .cb-btn { width: 100% !important; }
-}
-
-/* ── Footer: better stacking on mobile ── */
-footer { flex-wrap: wrap; gap: .5rem; }
-@media(max-width:600px){
-  footer { flex-direction: column; text-align: center; padding: 1rem !important; padding-bottom: calc(1rem + env(safe-area-inset-bottom)) !important; }
-  .footer-links { flex-wrap: wrap; justify-content: center; gap: .4rem; }
-}
-
-/* ── Inventory grid: single column on mobile ── */
-@media(max-width:600px){
-  .inventory-grid { grid-template-columns: 1fr !important; }
-}
-
-/* ── Sidebar: better on desktop, collapsible on mobile ── */
-@media(max-width:860px){
-  .journey-panel { border-top: 3px solid #222; padding-top: 1rem; }
-}
-
-/* ── Diamond game canvas: scale to container ── */
-#diamondCanvas { max-width: 100%; height: auto !important; }
-
-/* ── Smooth section transitions ── */
-.section { animation: sectionFadeIn .2s ease; }
-@keyframes sectionFadeIn { from { opacity: .6; transform: translateY(4px); } to { opacity: 1; transform: none; } }
-
-/* ── Safe area insets for notched phones ── */
-@supports(padding: max(0px)){
-  nav {
-    padding-left: max(.6rem, env(safe-area-inset-left)) !important;
-    padding-right: max(.6rem, env(safe-area-inset-right)) !important;
-  }
-}
-
 </style>
 </head>
 <body>
@@ -1658,6 +1576,9 @@ footer { flex-wrap: wrap; gap: .5rem; }
 
 <!-- ════ NAVIGATION ════════════════════════════════ -->
 <nav>
+  <button class="menu-toggle" id="mainMenuToggle" type="button" onclick="toggleMainMenu(event)" aria-expanded="false" aria-controls="mainMenuPanel">
+    <span class="menu-toggle-icon">⛏️</span><span>MAIN MENU</span>
+  </button>
   <div class="nav-brand" onclick="goTo('home')">
     <div class="nav-brand-icon">💎</div>
     <div class="nav-brand-text">
@@ -1684,6 +1605,26 @@ footer { flex-wrap: wrap; gap: .5rem; }
 
   <div class="nav-cta" onclick="goTo('journal')"><span class="nl-icon">⛏️</span><span>START</span></div>
 </nav>
+
+<div class="menu-backdrop" id="mainMenuBackdrop" onclick="closeMainMenu()"></div>
+<aside class="main-menu-panel" id="mainMenuPanel" aria-label="Main menu">
+  <div class="main-menu-header"><span>⛏️</span><span>MAIN MENU</span></div>
+  <div class="main-menu-list">
+    <button class="main-menu-item active" type="button" onclick="menuGo('home')" data-target="home"><span class="mi-icon">🏠</span><span>Dashboard</span></button>
+    <button class="main-menu-item" type="button" onclick="menuGo('tasks')" data-target="tasks"><span class="mi-icon">🗞️</span><span>Daily Quests</span></button>
+    <button class="main-menu-item" type="button" onclick="menuGo('journal')" data-target="journal"><span class="mi-icon">📖</span><span>Journal Entries</span></button>
+    <button class="main-menu-item" type="button" onclick="menuGo('progress')" data-target="progress"><span class="mi-icon">📖</span><span>Mood Tracker</span></button>
+    <button class="main-menu-item" type="button" onclick="menuGo('tools')" data-target="tools"><span class="mi-icon">🟩</span><span>CBT Tools</span></button>
+    <button class="main-menu-item" type="button" onclick="menuGo('tools')" data-target="tools"><span class="mi-icon">🧭</span><span>ACT Compass</span></button>
+    <button class="main-menu-item" type="button" onclick="menuGo('inspiration')" data-target="inspiration"><span class="mi-icon">💎</span><span>Gratitude Vault</span></button>
+    <button class="main-menu-item" type="button" onclick="menuGo('inspiration')" data-target="inspiration"><span class="mi-icon">🏆</span><span>Confidence Builder</span></button>
+    <button class="main-menu-item" type="button" onclick="menuGo('tasks')" data-target="tasks"><span class="mi-icon">🧰</span><span>Habit Tracker</span></button>
+    <button class="main-menu-item" type="button" onclick="menuGo('tools')" data-target="tools"><span class="mi-icon">💠</span><span>Breathing Exercises</span></button>
+    <button class="main-menu-item" type="button" onclick="menuGo('world')" data-target="world"><span class="mi-icon">⭐</span><span>Achievements</span></button>
+    <button class="main-menu-item" type="button" onclick="menuGo('account')" data-target="account"><span class="mi-icon">⚙️</span><span>Settings</span></button>
+  </div>
+</aside>
+
 
 <!-- ════════════════════════════════════════════════
      HOME PAGE
@@ -1976,7 +1917,7 @@ footer { flex-wrap: wrap; gap: .5rem; }
 
   <!-- FOOTER -->
   <footer>
-    <span>© 2025 Block By Block Journal. All rights reserved.</span>
+    <span>© 2024 Block By Block Journal. All rights reserved.</span>
     <span class="footer-motto"><span class="footer-heart">❤️</span> You matter. Your story matters. Your future matters.</span>
     <div class="footer-links">
       <a href="#">Privacy Policy</a>
@@ -2790,11 +2731,42 @@ function save(){localStorage.setItem('bbj3',JSON.stringify(S));}
 load();
 
 // ── NAVIGATION ─────────────────────────────────────────
+
+function toggleMainMenu(event){
+  if(event)event.stopPropagation();
+  const panel=document.getElementById('mainMenuPanel');
+  const backdrop=document.getElementById('mainMenuBackdrop');
+  const toggle=document.getElementById('mainMenuToggle');
+  const open=!panel.classList.contains('open');
+  panel.classList.toggle('open',open);
+  backdrop.classList.toggle('open',open);
+  if(toggle)toggle.setAttribute('aria-expanded',open?'true':'false');
+}
+function closeMainMenu(){
+  const panel=document.getElementById('mainMenuPanel');
+  const backdrop=document.getElementById('mainMenuBackdrop');
+  const toggle=document.getElementById('mainMenuToggle');
+  if(panel)panel.classList.remove('open');
+  if(backdrop)backdrop.classList.remove('open');
+  if(toggle)toggle.setAttribute('aria-expanded','false');
+}
+function menuGo(id){
+  goTo(id);
+  closeMainMenu();
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMainMenu();});
+document.addEventListener('click',e=>{
+  const panel=document.getElementById('mainMenuPanel');
+  const toggle=document.getElementById('mainMenuToggle');
+  if(panel&&panel.classList.contains('open')&&!panel.contains(e.target)&&!toggle.contains(e.target))closeMainMenu();
+});
+
 function goTo(id){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.nav-link').forEach(t=>t.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   document.querySelectorAll('.nav-link').forEach(t=>{if(t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+id+"'"))t.classList.add('active');});
+  document.querySelectorAll('.main-menu-item').forEach(item=>item.classList.toggle('active',item.dataset.target===id));
   if(id==='home'){renderSidebar();renderHome();}
   if(id==='world'){renderSidebar();renderQuestBoard();}
   if(id==='account'){renderSidebar();}
@@ -3931,17 +3903,6 @@ async function init(){
   if(!wasCallback) await checkSession();
 }
 init();
-
-// PATCH: ensure toast stays above fixed mobile nav
-(function(){
-  const _showToast = window.showToast;
-  if(typeof _showToast === 'function'){
-    window.showToast = function(msg, type){
-      _showToast(msg, type);
-    };
-  }
-})();
-
 </script>
 </body>
 </html>
