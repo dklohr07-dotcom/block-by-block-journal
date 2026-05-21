@@ -737,3 +737,55 @@ footer > span:first-child{
     width:100% !important;
   }
 }
+
+
+/* =========================================================
+   Logo Upgrade Patch
+   Uses the selected Minecraft-style Block By Block logo in
+   the top navigation while preserving the in-game UI theme.
+   ========================================================= */
+.nav-brand.nav-brand-logo{
+  min-width:clamp(210px, 18vw, 330px);
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  padding:0 .35rem;
+  margin-right:.8rem;
+  cursor:pointer;
+  filter:drop-shadow(3px 3px 0 #000);
+}
+.nav-logo-img{
+  display:block;
+  width:auto;
+  height:clamp(46px, 5vw, 62px);
+  max-width:100%;
+  object-fit:contain;
+  image-rendering:auto;
+}
+.nav-brand.nav-brand-logo:hover .nav-logo-img{
+  transform:translateY(-1px);
+  filter:brightness(1.08) saturate(1.1);
+}
+@media(max-width:760px){
+  .nav-brand.nav-brand-logo{
+    min-width:0;
+    flex:1 1 190px;
+    height:52px;
+    padding:0;
+    margin-right:0;
+  }
+  .nav-logo-img{
+    height:42px;
+    max-width:min(240px, 58vw);
+  }
+}
+@media(max-width:420px){
+  .nav-brand.nav-brand-logo{
+    flex-basis:150px;
+  }
+  .nav-logo-img{
+    height:36px;
+    max-width:58vw;
+  }
+}
