@@ -789,3 +789,65 @@ footer > span:first-child{
     max-width:58vw;
   }
 }
+
+
+/* =========================================================
+   Logo Position + Scale Patch (GitHub upload patch)
+   Enlarges the selected logo and anchors it in the upper-left
+   so the full-screen header feels balanced.
+   ========================================================= */
+@media (min-width: 761px){
+  nav{
+    min-height: clamp(82px, 7.6vw, 118px) !important;
+    height: auto !important;
+    align-items: flex-start !important;
+    padding: clamp(8px, 1vw, 14px) clamp(18px, 1.6vw, 30px) clamp(8px, .9vw, 12px) clamp(14px, 1.2vw, 24px) !important;
+    gap: clamp(.8rem, 1.4vw, 1.4rem) !important;
+  }
+
+  .nav-brand.nav-brand-logo{
+    align-self: flex-start !important;
+    min-width: clamp(360px, 31vw, 560px) !important;
+    width: clamp(360px, 31vw, 560px) !important;
+    height: clamp(72px, 6.4vw, 104px) !important;
+    padding: 0 !important;
+    margin: 0 auto 0 0 !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    transform: translate(-2px, -2px);
+    filter: drop-shadow(5px 5px 0 #000) drop-shadow(0 0 10px rgba(85,255,255,.16)) !important;
+  }
+
+  .nav-logo-img{
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    object-fit: contain !important;
+    object-position: left top !important;
+    image-rendering: auto;
+  }
+
+  .nav-links{
+    align-self: center !important;
+  }
+
+  .nav-cta{
+    align-self: flex-start !important;
+    margin-top: clamp(4px, .45vw, 8px) !important;
+    margin-left: auto !important;
+  }
+}
+
+@media (min-width: 1280px){
+  .nav-brand.nav-brand-logo{
+    min-width: clamp(430px, 30vw, 620px) !important;
+    width: clamp(430px, 30vw, 620px) !important;
+    height: clamp(84px, 6vw, 112px) !important;
+  }
+}
+
+@media (max-width: 760px){
+  .nav-brand.nav-brand-logo{
+    transform: none !important;
+  }
+}
