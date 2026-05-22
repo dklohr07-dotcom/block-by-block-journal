@@ -1647,7 +1647,7 @@ select option{background:#222;}
     <button class="nav-link mc-side-slot" onclick="goTo('journal')"><span class="nl-icon">📖</span><span class="nl-label">Journal Quest</span></button>
     <button class="nav-link mc-side-slot" onclick="goTo('progress')"><span class="nl-icon">❤️</span><span class="nl-label">Mood Hearts</span></button>
     <button class="nav-link mc-side-slot" onclick="goTo('world')"><span class="nl-icon">🗺️</span><span class="nl-label">My World</span></button>
-    <button class="nav-link mc-side-slot" onclick="goTo('tools')"><span class="nl-icon">⚔️</span><span class="nl-label">Tools</span></button>
+    <button class="nav-link mc-side-slot" onclick="goTo('tools')"><span class="nl-icon">💎</span><span class="nl-label">Tools &amp; Reset</span></button>
     <button class="nav-link mc-side-slot" onclick="goTo('account')"><span class="nl-icon">🎒</span><span class="nl-label">Inventory</span></button>
   </div>
   <div class="mc-side-footer">
@@ -1976,20 +1976,15 @@ select option{background:#222;}
 
     <div class="world-hub-grid">
 
-      <button class="world-room world-room-primary" onclick="window.location.href='mind-reset-hub.html'">
-        <span class="wr-icon">💎</span>
-        <span class="wr-title">Mind Reset Hub</span>
-        <span class="wr-copy">Open calming Minecraft-style reset activities from inside My World.</span>
-      </button>
       <button class="world-room" onclick="goTo('journal')">
         <span class="wr-icon">📖</span>
         <span class="wr-title">Book &amp; Quill</span>
         <span class="wr-copy">Write a new entry, browse archives, open prompts, or visit the gratitude vault.</span>
       </button>
-      <button class="world-room" onclick="goTo('tools')">
-        <span class="wr-icon">🧰</span>
-        <span class="wr-title">Tool Chest</span>
-        <span class="wr-copy">Calm-down skills, reframes, values work, and social confidence tools.</span>
+      <button class="world-room world-room-primary" onclick="goTo('tools')">
+        <span class="wr-icon">💎</span>
+        <span class="wr-title">Tools &amp; Mind Reset</span>
+        <span class="wr-copy">Calm-down skills, reframes, values work, social confidence tools, and Minecraft-style reset activities.</span>
       </button>
       <button class="world-room" onclick="goTo('tasks')">
         <span class="wr-icon">⚔️</span>
@@ -2182,8 +2177,8 @@ select option{background:#222;}
   <div class="page-header">
     <div class="page-header-icon" style="background:#1a1a0a;border-color:var(--mc-gold);">🧰</div>
     <div>
-      <h1>TOOLKIT — Therapy-Based Potions &amp; Skills</h1>
-      <p>Evidence-based tools used by real therapists — now in your inventory.</p>
+      <h1>TOOLS &amp; MIND RESET — Potions, Skills &amp; Calm Quests</h1>
+      <p>Evidence-based tools and Minecraft-style reset activities now live together in one inventory chest.</p>
     </div>
   </div>
   <div class="page-body">
@@ -2195,6 +2190,19 @@ select option{background:#222;}
     </div>
 
     <div id="tcalm" class="inner-section active">
+      <div class="mc-card mc-card-diamond" style="margin-bottom:.9rem;">
+        <div style="display:flex;gap:1rem;align-items:center;justify-content:space-between;flex-wrap:wrap;">
+          <div style="flex:1;min-width:240px;">
+            <h3>💎 MIND RESET HUB — QUICK CALM QUESTS</h3>
+            <p style="margin-bottom:.75rem;">The Mind Reset Hub is now part of your Tools chest, so every calm-down skill is in one place. Open the hub for Minecraft-style reset activities, or use the quick tools below.</p>
+            <div style="display:flex;gap:.55rem;flex-wrap:wrap;">
+              <button class="mc-btn mc-btn-green mc-btn-sm" onclick="window.location.href='mind-reset-hub.html'">💎 OPEN MIND RESET HUB</button>
+              <button class="mc-btn mc-btn-gray mc-btn-sm" onclick="document.getElementById('diamondGameSection')?.scrollIntoView({behavior:'smooth',block:'center'})">⛏️ DIAMOND RESET GAME</button>
+            </div>
+          </div>
+          <div style="font-size:3.3rem;filter:drop-shadow(4px 4px 0 rgba(0,0,0,.55));">💎</div>
+        </div>
+      </div>
       <div class="mc-card mc-card-diamond" style="text-align:center;">
         <h3>🌬️ BOX BREATHING — SPLASH POTION OF CALM</h3>
         <p>Used by Navy SEALs and therapists worldwide. Tap the diamond to brew!</p>
