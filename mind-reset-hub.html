@@ -882,46 +882,61 @@ textarea::placeholder{color:#d8d1de}
 }
 
 
-/* 5-4-3-2-1 Whispering Forest scene polish */
-.forest-whisper-scene{
+/* PATCH: 5-4-3-2-1 Whispering Forest immersive Minecraft forest */
+.forest-whispering-scene{
   background:
-    linear-gradient(180deg, rgba(10,35,18,.35), rgba(4,16,8,.85)),
-    repeating-linear-gradient(90deg, rgba(43,92,38,.18) 0 14px, rgba(18,56,24,.18) 14px 28px),
-    #07140a;
+    linear-gradient(180deg, #0c3019 0%, #112916 42%, #061008 100%);
 }
-.forest-whisper-scene .scene-bg-img{
-  filter:saturate(1.15) contrast(1.05) brightness(.78);
+.forest-whispering-scene .scene-bg-img{
+  filter:saturate(1.18) contrast(1.05) brightness(.72);
   transform:scale(1.04);
 }
-.forest-canopy{
+.forest-whispering-scene .scene-shade{
+  background:
+    linear-gradient(180deg, rgba(5,20,8,.18), rgba(3,10,4,.76)),
+    radial-gradient(circle at 50% 38%, rgba(147,235,93,.12), transparent 34%),
+    linear-gradient(90deg, rgba(4,16,6,.82), transparent 28%, transparent 72%, rgba(4,16,6,.82));
+}
+.forest-canopy,
+.forest-ground,
+.forest-trunks,
+.pixel-forest-life{
   position:absolute;
   inset:0;
   pointer-events:none;
-  z-index:2;
   overflow:hidden;
-  background:
-    radial-gradient(circle at 8% 5%, rgba(54,137,47,.5), transparent 15%),
-    radial-gradient(circle at 22% 0%, rgba(21,91,32,.62), transparent 19%),
-    radial-gradient(circle at 46% 3%, rgba(63,139,42,.52), transparent 18%),
-    radial-gradient(circle at 74% 0%, rgba(35,105,35,.56), transparent 20%),
-    radial-gradient(circle at 95% 8%, rgba(75,153,51,.42), transparent 16%);
+}
+.forest-canopy{z-index:2;background:
+  radial-gradient(circle at 3% 0%, rgba(52,132,45,.92), transparent 18%),
+  radial-gradient(circle at 18% -4%, rgba(19,91,31,.95), transparent 22%),
+  radial-gradient(circle at 39% -2%, rgba(80,159,50,.82), transparent 22%),
+  radial-gradient(circle at 63% -6%, rgba(29,103,36,.95), transparent 24%),
+  radial-gradient(circle at 86% -2%, rgba(76,151,47,.85), transparent 21%),
+  radial-gradient(circle at 102% 4%, rgba(35,111,35,.88), transparent 18%);
+  opacity:.9;
   mix-blend-mode:screen;
+}
+.forest-trunks{z-index:1;background:
+  linear-gradient(90deg, transparent 0 6%, rgba(76,45,22,.38) 6% 8%, transparent 8% 27%, rgba(86,51,24,.34) 27% 29%, transparent 29% 67%, rgba(70,42,20,.35) 67% 69%, transparent 69% 92%, rgba(86,51,24,.34) 92% 94%, transparent 94% 100%);
+}
+.forest-ground{z-index:3;background:
+  linear-gradient(180deg, transparent 0 74%, rgba(23,73,27,.35) 74% 83%, rgba(50,32,17,.62) 83% 100%),
+  repeating-linear-gradient(90deg, transparent 0 22px, rgba(77,135,44,.24) 22px 34px);
 }
 .pixel-leaf{
   position:absolute;
-  top:-32px;
+  z-index:5;
+  top:-34px;
+  left:var(--leaf-left, 50%);
   width:18px;
   height:18px;
-  background:
-    linear-gradient(135deg,#7bd35a 0 35%,#3f9e39 35% 70%,#246725 70%);
-  border:2px solid rgba(8,31,10,.72);
-  box-shadow:3px 3px 0 rgba(0,0,0,.32);
+  background:linear-gradient(135deg,#97ee63 0 33%,#51b742 33% 66%,#246b27 66%);
+  border:2px solid rgba(3,27,8,.78);
   image-rendering:pixelated;
-  opacity:.92;
-  animation:leafFall var(--leaf-speed, 12s) linear infinite;
+  box-shadow:3px 3px 0 rgba(0,0,0,.38);
+  opacity:0;
+  animation:leafFall var(--leaf-speed, 14s) linear infinite;
   animation-delay:var(--leaf-delay, 0s);
-  left:var(--leaf-left, 50%);
-  transform:rotate(15deg);
 }
 .pixel-leaf::after{
   content:"";
@@ -930,88 +945,96 @@ textarea::placeholder{color:#d8d1de}
   height:7px;
   right:-5px;
   bottom:-4px;
-  background:#8a5b2d;
-  border:1px solid rgba(0,0,0,.35);
+  background:#8a5a2c;
+  border:1px solid rgba(0,0,0,.38);
 }
 @keyframes leafFall{
   0%{transform:translate3d(0,-40px,0) rotate(0deg);opacity:0}
-  10%{opacity:.95}
-  50%{transform:translate3d(var(--leaf-sway, 36px),45vh,0) rotate(160deg)}
-  100%{transform:translate3d(calc(var(--leaf-sway, 36px) * -1),105vh,0) rotate(320deg);opacity:0}
+  12%{opacity:.95}
+  48%{transform:translate3d(var(--leaf-sway, 34px),45vh,0) rotate(150deg)}
+  100%{transform:translate3d(calc(var(--leaf-sway, 34px) * -1),108vh,0) rotate(330deg);opacity:0}
 }
 .pixel-bird{
   position:absolute;
-  z-index:3;
-  top:16%;
-  left:-80px;
-  width:46px;
-  height:20px;
-  opacity:.72;
-  animation:birdGlide 24s linear infinite;
+  z-index:5;
+  top:15%;
+  left:-90px;
+  width:54px;
+  height:24px;
+  opacity:.78;
+  animation:birdGlide 26s linear infinite;
 }
 .pixel-bird::before,
 .pixel-bird::after{
   content:"";
   position:absolute;
-  top:7px;
+  top:8px;
   width:22px;
   height:8px;
-  background:#1e2d1f;
-  box-shadow:0 0 0 2px rgba(255,255,255,.12);
+  background:#111;
+  box-shadow:0 0 0 2px rgba(255,255,255,.08);
 }
-.pixel-bird::before{left:0;transform:skewY(-22deg)}
-.pixel-bird::after{right:0;transform:skewY(22deg)}
-.pixel-bird.b2{top:26%;animation-duration:31s;animation-delay:9s;opacity:.55;transform:scale(.72)}
-@keyframes birdGlide{to{left:110%;}}
+.pixel-bird::before{left:2px;transform:skewY(-18deg)}
+.pixel-bird::after{right:2px;transform:skewY(18deg)}
+@keyframes birdGlide{
+  0%{transform:translateX(0) translateY(0);opacity:0}
+  8%{opacity:.8}
+  52%{transform:translateX(55vw) translateY(-22px)}
+  100%{transform:translateX(110vw) translateY(14px);opacity:0}
+}
 .pixel-squirrel{
   position:absolute;
-  right:7%;
-  bottom:12%;
-  z-index:4;
-  width:64px;
-  height:48px;
+  z-index:6;
+  left:7%;
+  bottom:13%;
+  width:42px;
+  height:26px;
+  background:#9a6231;
+  border:3px solid #3a2010;
+  box-shadow:4px 4px 0 rgba(0,0,0,.35);
   image-rendering:pixelated;
-  opacity:.9;
-  animation:squirrelPeek 14s ease-in-out infinite;
+  animation:squirrelHop 11s steps(8,end) infinite;
 }
 .pixel-squirrel::before{
   content:"";
   position:absolute;
-  left:18px;
-  bottom:0;
-  width:28px;
-  height:24px;
-  background:#9b5e2f;
-  border:3px solid #3c2114;
-  box-shadow:8px -8px 0 #c68443, 28px -6px 0 2px #7c461f;
+  right:-18px;
+  top:-14px;
+  width:22px;
+  height:30px;
+  background:#b17136;
+  border:3px solid #3a2010;
+  border-left:0;
 }
 .pixel-squirrel::after{
   content:"";
   position:absolute;
-  left:34px;
-  bottom:18px;
-  width:18px;
-  height:18px;
-  background:#b9783c;
-  border:3px solid #3c2114;
-  box-shadow:6px 4px 0 #1a100a, -8px -4px 0 #6f3c1d;
+  left:7px;
+  top:7px;
+  width:6px;
+  height:6px;
+  background:#101010;
+  box-shadow:17px 12px 0 #3a2010, 5px 22px 0 #3a2010;
 }
-@keyframes squirrelPeek{
-  0%,68%,100%{transform:translateY(42px);opacity:0}
-  72%,92%{transform:translateY(0);opacity:.92}
+@keyframes squirrelHop{
+  0%,100%{transform:translateX(0) translateY(0)}
+  30%{transform:translateX(20px) translateY(-6px)}
+  58%{transform:translateX(44px) translateY(0)}
+  72%{transform:translateX(44px) translateY(0) scaleX(-1)}
+  90%{transform:translateX(8px) translateY(-5px) scaleX(-1)}
 }
-.forest-whisper-scene .text-card{
-  border-color:rgba(139,214,104,.55);
-  background:linear-gradient(180deg,rgba(13,41,20,.88),rgba(7,20,11,.9));
-  box-shadow:inset 0 0 0 3px rgba(255,255,255,.07),0 20px 44px rgba(0,0,0,.54);
+.forest-whispering-scene .text-card{
+  border-color:rgba(142,238,93,.7);
+  box-shadow:0 0 0 4px rgba(36,94,31,.55), 0 18px 50px rgba(0,0,0,.58), inset 0 0 0 2px rgba(255,255,255,.08);
+  background:linear-gradient(180deg, rgba(20,61,28,.9), rgba(11,30,14,.88));
 }
-.forest-whisper-scene .choice.sel{
-  background:linear-gradient(#71d66a,#2f8d3e);
-  color:#061006;
-  border-color:#b8ff9f;
+.forest-whispering-scene .scene-title{
+  color:#d8ffb8;
+  text-shadow:4px 4px 0 #001b08, 0 0 18px rgba(117,255,91,.32);
 }
-@media (prefers-reduced-motion: reduce){
-  .pixel-leaf,.pixel-bird,.pixel-squirrel{animation:none;display:none}
+@media(max-width:720px){
+  .pixel-squirrel{bottom:8%;left:5%;transform:scale(.82)}
+  .pixel-leaf{width:15px;height:15px}
 }
 
 </style>
@@ -1290,11 +1313,12 @@ textarea::placeholder{color:#d8d1de}
       <button class="realm-card art-card" style="--img:url('custom-backgrounds/card-diamond.png')" onclick="openScene('diamond')" aria-label="Open Diamond Mind Reset"></button>
       <button class="realm-card art-card breathing-card" style="--img:url('custom-backgrounds/card-breathing.png')" onclick="openScene('breathe')" aria-label="Open Breathing Blocks"></button>
       <button class="realm-card" style="--img:url('custom-backgrounds/card-rain.png')" onclick="openScene('rain')" aria-label="Open Rain Room Realm"><span class="locked-badge">🔒</span><span class="card-text"><h2>Rain Room Realm</h2><p>Let rain carry heavy thoughts.</p></span></button>
-      <button class="realm-card" style="--img:url('custom-backgrounds/card-forest.png')" onclick="openScene('grounding')" aria-label="Open 5-4-3-2-1 Grounding"><span class="card-text"><h2>5-4-3-2-1 Grounding</h2><p>Teleport back to now.</p></span></button>
-      <button class="realm-card" style="--img:url('custom-backgrounds/card-cave.png')" onclick="openScene('coldwater')" aria-label="Open Cold Water Reset"><span class="card-text"><h2>Cold Water Reset</h2><p>Splash potion calm switch.</p></span></button>
-      <button class="realm-card" style="--img:url('custom-backgrounds/card-biome.png')" onclick="openScene('safeplace')" aria-label="Open Safe Place Set Your Spawn Point"><span class="card-text"><h2>Safe Place</h2><p>Set your spawn point.</p></span></button>
-      <button class="realm-card" style="--img:url('custom-backgrounds/card-miner.png')" onclick="openScene('muscle')" aria-label="Open Muscle Relaxation Take Off Your Armor"><span class="card-text"><h2>Muscle Relaxation</h2><p>Take off your armor.</p></span></button>
-      <button class="realm-card" style="--img:url('custom-backgrounds/card-sunset.png')" onclick="openScene('humming')" aria-label="Open Humming Jukebox Mode"><span class="card-text"><h2>Humming</h2><p>Jukebox mode calm.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/card-miner.png')" onclick="openScene('miner')" aria-label="Open Thought Miner Cave"><span class="locked-badge">🔒</span><span class="card-text"><h2>Thought Miner Cave</h2><p>Mine worries into reframes.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/card-campfire.png')" onclick="openScene('campfire')" aria-label="Open Campfire Reflection"><span class="locked-badge">🔒</span><span class="card-text"><h2>Campfire Reflection</h2><p>Release it into the fire.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/card-biome.png')" onclick="openScene('biome')" aria-label="Open Biome Shift Portal"><span class="locked-badge">🔒</span><span class="card-text"><h2>Biome Shift Portal</h2><p>Choose a calm place.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/card-forest.png')" onclick="openScene('forest')" aria-label="Open 5-4-3-2-1 Whispering Forest"><span class="card-text"><h2>5-4-3-2-1 Whispering Forest</h2><p>Ground with the 5-4-3-2-1 forest skill.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/card-sunset.png')" onclick="openScene('sunset')" aria-label="Open Sunset Reset"><span class="card-text"><h2>Sunset Reset</h2><p>Name what is safe now.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/card-cave.png')" onclick="openScene('cave')" aria-label="Open Deep Cave Calm"><span class="card-text"><h2>Deep Cave Calm</h2><p>Slow down one block at a time.</p></span></button>
     </div>
   </div>
 </main>
@@ -1341,98 +1365,6 @@ textarea::placeholder{color:#d8d1de}
   <audio id="rainAudio" loop preload="auto" src="public/sounds/ES_Weather, Thunder, Light Rain - Epidemic Sound.mp3"></audio>
 </section>
 
-
-<section id="grounding" class="screen">
-  <img class="scene-bg-img" src="custom-backgrounds/biome.jpg" alt="5-4-3-2-1 Grounding"/><div class="scene-shade"></div>
-  <button class="back-hub" onclick="backHub()">← Hub</button>
-  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 34svh)">
-    <div class="text-card">
-      <h1 class="scene-title">5-4-3-2-1 Grounding</h1>
-      <p class="scene-copy">Anxiety can pull you into the past or future. Use your senses to teleport back to right now.</p>
-      <div class="choice-grid">
-        <button class="choice" onclick="this.classList.toggle('sel')">👀 5 things I can see</button>
-        <button class="choice" onclick="this.classList.toggle('sel')">✋ 4 things I can feel</button>
-        <button class="choice" onclick="this.classList.toggle('sel')">👂 3 things I can hear</button>
-        <button class="choice" onclick="this.classList.toggle('sel')">👃 2 things I can smell</button>
-        <button class="choice" onclick="this.classList.toggle('sel')">👅 1 thing I can taste</button>
-      </div>
-      <button class="primary" style="width:100%;margin-top:.8rem;background:linear-gradient(#47a957,#236c31)" onclick="earn(10,'Grounding complete. You teleported back to now. +10 diamonds')">Complete Grounding 💎</button>
-    </div>
-  </div>
-</section>
-
-<section id="coldwater" class="screen">
-  <img class="scene-bg-img" src="custom-backgrounds/rain-room-clean-scene.jpg" alt="Cold Water Reset"/><div class="scene-shade"></div>
-  <button class="back-hub" onclick="backHub()">← Hub</button>
-  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 38svh)">
-    <div class="text-card">
-      <h1 class="scene-title">Cold Water Reset</h1>
-      <p class="scene-copy">A fast splash-potion reset for your nervous system.</p>
-      <div class="choice-grid">
-        <button class="choice" onclick="this.classList.toggle('sel')">🧊 Run cold water over wrists for 30 seconds</button>
-        <button class="choice" onclick="this.classList.toggle('sel')">🌬️ Take 3 slow breaths</button>
-        <button class="choice" onclick="this.classList.toggle('sel')">💓 Notice your heartbeat starting to slow</button>
-        <button class="choice" onclick="this.classList.toggle('sel')">✨ Say: “My body is allowed to calm down.”</button>
-      </div>
-      <button class="primary" style="width:100%;margin-top:.8rem;background:linear-gradient(#55ffff,#218b8b)" onclick="earn(8,'Cold water reset complete. +8 diamonds')">Reset Complete 💎</button>
-    </div>
-  </div>
-</section>
-
-<section id="safeplace" class="screen">
-  <img class="scene-bg-img" src="custom-backgrounds/card-biome.png" alt="Safe Place Set Your Spawn Point"/><div class="scene-shade"></div>
-  <button class="back-hub" onclick="backHub()">← Hub</button>
-  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 36svh)">
-    <div class="text-card">
-      <h1 class="scene-title">Safe Place</h1>
-      <p class="scene-copy">Set your mental spawn point for moments that feel overwhelming.</p>
-      <div class="choice-grid">
-        <button class="choice" onclick="this.classList.toggle('sel')">🏡 Picture your safest place</button>
-        <button class="choice" onclick="this.classList.toggle('sel')">👀 Notice what you see there</button>
-        <button class="choice" onclick="this.classList.toggle('sel')">👂 Notice what you hear there</button>
-        <button class="choice" onclick="this.classList.toggle('sel')">🧱 Add one block of protection</button>
-      </div>
-      <button class="primary" style="width:100%;margin-top:.8rem;background:linear-gradient(#e0b85a,#9a6d20)" onclick="earn(10,'Spawn point set. You can return here anytime. +10 diamonds')">Set Spawn Point 💎</button>
-    </div>
-  </div>
-</section>
-
-<section id="muscle" class="screen">
-  <img class="scene-bg-img" src="custom-backgrounds/miner.jpg" alt="Muscle Relaxation Take Off Your Armor"/><div class="scene-shade"></div>
-  <button class="back-hub" onclick="backHub()">← Hub</button>
-  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 38svh)">
-    <div class="text-card">
-      <h1 class="scene-title">Muscle Relaxation</h1>
-      <p class="scene-copy">Take off your armor one piece at a time by tensing and releasing.</p>
-      <div class="choice-grid">
-        <button class="choice" onclick="this.classList.toggle('sel')">✊ Fists: tense 5 seconds, release</button>
-        <button class="choice" onclick="this.classList.toggle('sel')">🦶 Feet and legs: tense, release</button>
-        <button class="choice" onclick="this.classList.toggle('sel')">💪 Shoulders and arms: tense, release</button>
-        <button class="choice" onclick="this.classList.toggle('sel')">🙂 Face and jaw: tense, release</button>
-      </div>
-      <button class="primary" style="width:100%;margin-top:.8rem;background:linear-gradient(#7f8c8d,#384042)" onclick="earn(12,'Armor removed. Durability restored. +12 diamonds')">Armor Off 💎</button>
-    </div>
-  </div>
-</section>
-
-<section id="humming" class="screen">
-  <img class="scene-bg-img" src="custom-backgrounds/card-sunset.png" alt="Humming Jukebox Mode"/><div class="scene-shade"></div>
-  <button class="back-hub" onclick="backHub()">← Hub</button>
-  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 36svh)">
-    <div class="text-card">
-      <h1 class="scene-title">Humming</h1>
-      <p class="scene-copy">Jukebox mode activates a gentle calming pathway through slow vibration.</p>
-      <div class="choice-grid">
-        <button class="choice" onclick="this.classList.toggle('sel')">🌬️ Breathe in through your nose</button>
-        <button class="choice" onclick="this.classList.toggle('sel')">🎵 Hum slowly as you breathe out</button>
-        <button class="choice" onclick="this.classList.toggle('sel')">📀 Feel the vibration in your chest or face</button>
-        <button class="choice" onclick="this.classList.toggle('sel')">🔁 Repeat 5–8 times</button>
-      </div>
-      <button class="primary" style="width:100%;margin-top:.8rem;background:linear-gradient(#a855f7,#5b21b6)" onclick="earn(8,'Jukebox mode complete. +8 diamonds')">Finish Song 💎</button>
-    </div>
-  </div>
-</section>
-
 <section id="miner" class="screen">
   <img class="scene-bg-img" src="custom-backgrounds/miner.jpg" alt="Thought Miner Cave"/><div class="scene-shade"></div>
   <button class="back-hub" onclick="backHub()">← Hub</button>
@@ -1458,34 +1390,37 @@ textarea::placeholder{color:#d8d1de}
   </div>
 </section>
 
-<section id="forest" class="screen forest-whisper-scene">
+<section id="forest" class="screen forest-whispering-scene">
   <img class="scene-bg-img" src="custom-backgrounds/biome.jpg" alt="5-4-3-2-1 Whispering Forest"/>
+  <div class="forest-trunks"></div>
+  <div class="forest-canopy"></div>
   <div class="scene-shade"></div>
-  <div class="forest-canopy" aria-hidden="true">
-    <i class="pixel-leaf" style="--leaf-left:9%;--leaf-delay:0s;--leaf-speed:13s;--leaf-sway:42px"></i>
-    <i class="pixel-leaf" style="--leaf-left:23%;--leaf-delay:5s;--leaf-speed:15s;--leaf-sway:28px"></i>
-    <i class="pixel-leaf" style="--leaf-left:41%;--leaf-delay:2s;--leaf-speed:12s;--leaf-sway:54px"></i>
-    <i class="pixel-leaf" style="--leaf-left:62%;--leaf-delay:8s;--leaf-speed:17s;--leaf-sway:32px"></i>
-    <i class="pixel-leaf" style="--leaf-left:78%;--leaf-delay:3s;--leaf-speed:14s;--leaf-sway:46px"></i>
-    <i class="pixel-leaf" style="--leaf-left:91%;--leaf-delay:10s;--leaf-speed:16s;--leaf-sway:36px"></i>
-    <i class="pixel-bird"></i>
-    <i class="pixel-bird b2"></i>
-    <i class="pixel-squirrel"></i>
+  <div class="forest-ground"></div>
+  <div class="pixel-forest-life" aria-hidden="true">
+    <span class="pixel-leaf" style="--leaf-left:8%;--leaf-delay:.5s;--leaf-speed:13s;--leaf-sway:26px"></span>
+  <span class="pixel-leaf" style="--leaf-left:18%;--leaf-delay:5.5s;--leaf-speed:16s;--leaf-sway:42px"></span>
+  <span class="pixel-leaf" style="--leaf-left:32%;--leaf-delay:2.2s;--leaf-speed:14s;--leaf-sway:34px"></span>
+  <span class="pixel-leaf" style="--leaf-left:47%;--leaf-delay:8s;--leaf-speed:17s;--leaf-sway:48px"></span>
+  <span class="pixel-leaf" style="--leaf-left:61%;--leaf-delay:3.7s;--leaf-speed:15s;--leaf-sway:30px"></span>
+  <span class="pixel-leaf" style="--leaf-left:76%;--leaf-delay:6.8s;--leaf-speed:18s;--leaf-sway:54px"></span>
+  <span class="pixel-leaf" style="--leaf-left:90%;--leaf-delay:1.2s;--leaf-speed:14s;--leaf-sway:36px"></span>
+    <span class="pixel-bird"></span>
+    <span class="pixel-squirrel"></span>
   </div>
   <button class="back-hub" onclick="backHub()">← Hub</button>
-  <button id="forestSoundBtn" class="sound-btn" onclick="toggleSound('forestAudio','forestSoundBtn')">🔇</button>
-  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 38svh)">
+  <button id="forestSoundBtn" class="sound-btn" onclick="toggleSound('forestAudio','forestSoundBtn')" aria-label="Toggle forest ambience">🔇</button>
+  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 40svh)">
     <div class="text-card">
       <h1 class="scene-title">5-4-3-2-1 Whispering Forest</h1>
-      <p class="scene-copy">Let the birds, leaves, and forest sounds help you come back to the present moment.</p>
+      <p class="scene-copy">Let the forest help you ground: notice 5 things you see, 4 you feel, 3 you hear, 2 you smell, and 1 steady breath.</p>
       <div class="choice-grid">
-        <button class="choice" onclick="this.classList.toggle('sel')">👀 5 things I can see</button>
-        <button class="choice" onclick="this.classList.toggle('sel')">✋ 4 things I can feel</button>
-        <button class="choice" onclick="this.classList.toggle('sel')">👂 3 things I can hear</button>
-        <button class="choice" onclick="this.classList.toggle('sel')">👃 2 things I can smell</button>
-        <button class="choice" onclick="this.classList.toggle('sel')">👅 1 thing I can taste</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">👀 5 things I see</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">✋ 4 things I feel</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">👂 3 things I hear</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">🌲 2 things I smell</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">🌬️ 1 slow breath</button>
       </div>
-      <button class="primary" style="width:100%;margin-top:.8rem;background:linear-gradient(#47a957,#236c31)" onclick="earn(10,'Whispering Forest complete. You found your way back to now. +10 diamonds')">Complete Forest Reset 💎</button>
+      <button class="primary" style="width:100%;margin-top:.8rem" onclick="earn(8,'Whispering Forest grounding complete. +8 diamonds')">Complete Grounding 💎</button>
     </div>
   </div>
   <audio id="forestAudio" loop preload="auto" src="public/sounds/ES_Ambience, Forest, Forest Ambience Birds, Squirel Calls - Epidemic Sound.mp3"></audio>

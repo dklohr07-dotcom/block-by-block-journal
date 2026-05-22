@@ -881,6 +881,162 @@ textarea::placeholder{color:#d8d1de}
   .rain-room-intro p{font-size:.82rem;}
 }
 
+
+/* PATCH: 5-4-3-2-1 Whispering Forest immersive Minecraft forest */
+.forest-whispering-scene{
+  background:
+    linear-gradient(180deg, #0c3019 0%, #112916 42%, #061008 100%);
+}
+.forest-whispering-scene .scene-bg-img{
+  filter:saturate(1.18) contrast(1.05) brightness(.72);
+  transform:scale(1.04);
+}
+.forest-whispering-scene .scene-shade{
+  background:
+    linear-gradient(180deg, rgba(5,20,8,.18), rgba(3,10,4,.76)),
+    radial-gradient(circle at 50% 38%, rgba(147,235,93,.12), transparent 34%),
+    linear-gradient(90deg, rgba(4,16,6,.82), transparent 28%, transparent 72%, rgba(4,16,6,.82));
+}
+.forest-canopy,
+.forest-ground,
+.forest-trunks,
+.pixel-forest-life{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+.forest-canopy{z-index:2;background:
+  radial-gradient(circle at 3% 0%, rgba(52,132,45,.92), transparent 18%),
+  radial-gradient(circle at 18% -4%, rgba(19,91,31,.95), transparent 22%),
+  radial-gradient(circle at 39% -2%, rgba(80,159,50,.82), transparent 22%),
+  radial-gradient(circle at 63% -6%, rgba(29,103,36,.95), transparent 24%),
+  radial-gradient(circle at 86% -2%, rgba(76,151,47,.85), transparent 21%),
+  radial-gradient(circle at 102% 4%, rgba(35,111,35,.88), transparent 18%);
+  opacity:.9;
+  mix-blend-mode:screen;
+}
+.forest-trunks{z-index:1;background:
+  linear-gradient(90deg, transparent 0 6%, rgba(76,45,22,.38) 6% 8%, transparent 8% 27%, rgba(86,51,24,.34) 27% 29%, transparent 29% 67%, rgba(70,42,20,.35) 67% 69%, transparent 69% 92%, rgba(86,51,24,.34) 92% 94%, transparent 94% 100%);
+}
+.forest-ground{z-index:3;background:
+  linear-gradient(180deg, transparent 0 74%, rgba(23,73,27,.35) 74% 83%, rgba(50,32,17,.62) 83% 100%),
+  repeating-linear-gradient(90deg, transparent 0 22px, rgba(77,135,44,.24) 22px 34px);
+}
+.pixel-leaf{
+  position:absolute;
+  z-index:5;
+  top:-34px;
+  left:var(--leaf-left, 50%);
+  width:18px;
+  height:18px;
+  background:linear-gradient(135deg,#97ee63 0 33%,#51b742 33% 66%,#246b27 66%);
+  border:2px solid rgba(3,27,8,.78);
+  image-rendering:pixelated;
+  box-shadow:3px 3px 0 rgba(0,0,0,.38);
+  opacity:0;
+  animation:leafFall var(--leaf-speed, 14s) linear infinite;
+  animation-delay:var(--leaf-delay, 0s);
+}
+.pixel-leaf::after{
+  content:"";
+  position:absolute;
+  width:7px;
+  height:7px;
+  right:-5px;
+  bottom:-4px;
+  background:#8a5a2c;
+  border:1px solid rgba(0,0,0,.38);
+}
+@keyframes leafFall{
+  0%{transform:translate3d(0,-40px,0) rotate(0deg);opacity:0}
+  12%{opacity:.95}
+  48%{transform:translate3d(var(--leaf-sway, 34px),45vh,0) rotate(150deg)}
+  100%{transform:translate3d(calc(var(--leaf-sway, 34px) * -1),108vh,0) rotate(330deg);opacity:0}
+}
+.pixel-bird{
+  position:absolute;
+  z-index:5;
+  top:15%;
+  left:-90px;
+  width:54px;
+  height:24px;
+  opacity:.78;
+  animation:birdGlide 26s linear infinite;
+}
+.pixel-bird::before,
+.pixel-bird::after{
+  content:"";
+  position:absolute;
+  top:8px;
+  width:22px;
+  height:8px;
+  background:#111;
+  box-shadow:0 0 0 2px rgba(255,255,255,.08);
+}
+.pixel-bird::before{left:2px;transform:skewY(-18deg)}
+.pixel-bird::after{right:2px;transform:skewY(18deg)}
+@keyframes birdGlide{
+  0%{transform:translateX(0) translateY(0);opacity:0}
+  8%{opacity:.8}
+  52%{transform:translateX(55vw) translateY(-22px)}
+  100%{transform:translateX(110vw) translateY(14px);opacity:0}
+}
+.pixel-squirrel{
+  position:absolute;
+  z-index:6;
+  left:7%;
+  bottom:13%;
+  width:42px;
+  height:26px;
+  background:#9a6231;
+  border:3px solid #3a2010;
+  box-shadow:4px 4px 0 rgba(0,0,0,.35);
+  image-rendering:pixelated;
+  animation:squirrelHop 11s steps(8,end) infinite;
+}
+.pixel-squirrel::before{
+  content:"";
+  position:absolute;
+  right:-18px;
+  top:-14px;
+  width:22px;
+  height:30px;
+  background:#b17136;
+  border:3px solid #3a2010;
+  border-left:0;
+}
+.pixel-squirrel::after{
+  content:"";
+  position:absolute;
+  left:7px;
+  top:7px;
+  width:6px;
+  height:6px;
+  background:#101010;
+  box-shadow:17px 12px 0 #3a2010, 5px 22px 0 #3a2010;
+}
+@keyframes squirrelHop{
+  0%,100%{transform:translateX(0) translateY(0)}
+  30%{transform:translateX(20px) translateY(-6px)}
+  58%{transform:translateX(44px) translateY(0)}
+  72%{transform:translateX(44px) translateY(0) scaleX(-1)}
+  90%{transform:translateX(8px) translateY(-5px) scaleX(-1)}
+}
+.forest-whispering-scene .text-card{
+  border-color:rgba(142,238,93,.7);
+  box-shadow:0 0 0 4px rgba(36,94,31,.55), 0 18px 50px rgba(0,0,0,.58), inset 0 0 0 2px rgba(255,255,255,.08);
+  background:linear-gradient(180deg, rgba(20,61,28,.9), rgba(11,30,14,.88));
+}
+.forest-whispering-scene .scene-title{
+  color:#d8ffb8;
+  text-shadow:4px 4px 0 #001b08, 0 0 18px rgba(117,255,91,.32);
+}
+@media(max-width:720px){
+  .pixel-squirrel{bottom:8%;left:5%;transform:scale(.82)}
+  .pixel-leaf{width:15px;height:15px}
+}
+
 </style>
 <style id="mind-reset-header-separation-fix">
 
@@ -1154,7 +1310,7 @@ textarea::placeholder{color:#d8d1de}
       <button class="realm-card" style="--img:url('custom-backgrounds/card-miner.png')" onclick="openScene('miner')" aria-label="Open Thought Miner Cave"><span class="locked-badge">🔒</span><span class="card-text"><h2>Thought Miner Cave</h2><p>Mine worries into reframes.</p></span></button>
       <button class="realm-card" style="--img:url('custom-backgrounds/card-campfire.png')" onclick="openScene('campfire')" aria-label="Open Campfire Reflection"><span class="locked-badge">🔒</span><span class="card-text"><h2>Campfire Reflection</h2><p>Release it into the fire.</p></span></button>
       <button class="realm-card" style="--img:url('custom-backgrounds/card-biome.png')" onclick="openScene('biome')" aria-label="Open Biome Shift Portal"><span class="locked-badge">🔒</span><span class="card-text"><h2>Biome Shift Portal</h2><p>Choose a calm place.</p></span></button>
-      <button class="realm-card" style="--img:url('custom-backgrounds/card-forest.png')" onclick="openScene('forest')" aria-label="Open Forest Whisper"><span class="card-text"><h2>Forest Whisper</h2><p>Ground with your senses.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/card-forest.png')" onclick="openScene('forest')" aria-label="Open 5-4-3-2-1 Whispering Forest"><span class="card-text"><h2>5-4-3-2-1 Whispering Forest</h2><p>Ground with the 5-4-3-2-1 forest skill.</p></span></button>
       <button class="realm-card" style="--img:url('custom-backgrounds/card-sunset.png')" onclick="openScene('sunset')" aria-label="Open Sunset Reset"><span class="card-text"><h2>Sunset Reset</h2><p>Name what is safe now.</p></span></button>
       <button class="realm-card" style="--img:url('custom-backgrounds/card-cave.png')" onclick="openScene('cave')" aria-label="Open Deep Cave Calm"><span class="card-text"><h2>Deep Cave Calm</h2><p>Slow down one block at a time.</p></span></button>
     </div>
@@ -1228,13 +1384,40 @@ textarea::placeholder{color:#d8d1de}
   </div>
 </section>
 
-<section id="forest" class="screen">
-  <img class="scene-bg-img" src="custom-backgrounds/biome.jpg" alt="Forest Whisper"/><div class="scene-shade"></div>
-  <button class="back-hub" onclick="backHub()">← Hub</button><button id="forestSoundBtn" class="sound-btn" onclick="toggleSound('forestAudio','forestSoundBtn')">🔇</button>
-  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 40svh)">
-    <div class="text-card"><h1 class="scene-title">Forest Whisper</h1><p class="scene-copy">Tap each sense you can notice right now.</p><div class="choice-grid"><button class="choice" onclick="this.classList.toggle('sel')">👀 Something I see</button><button class="choice" onclick="this.classList.toggle('sel')">👂 Something I hear</button><button class="choice" onclick="this.classList.toggle('sel')">✋ Something I feel</button><button class="choice" onclick="this.classList.toggle('sel')">🌬️ One slow breath</button></div><button class="primary" style="width:100%;margin-top:.8rem" onclick="earn(8,'Grounding complete. +8 diamonds')">Complete Grounding 💎</button></div>
+<section id="forest" class="screen forest-whispering-scene">
+  <img class="scene-bg-img" src="custom-backgrounds/biome.jpg" alt="5-4-3-2-1 Whispering Forest"/>
+  <div class="forest-trunks"></div>
+  <div class="forest-canopy"></div>
+  <div class="scene-shade"></div>
+  <div class="forest-ground"></div>
+  <div class="pixel-forest-life" aria-hidden="true">
+    <span class="pixel-leaf" style="--leaf-left:8%;--leaf-delay:.5s;--leaf-speed:13s;--leaf-sway:26px"></span>
+  <span class="pixel-leaf" style="--leaf-left:18%;--leaf-delay:5.5s;--leaf-speed:16s;--leaf-sway:42px"></span>
+  <span class="pixel-leaf" style="--leaf-left:32%;--leaf-delay:2.2s;--leaf-speed:14s;--leaf-sway:34px"></span>
+  <span class="pixel-leaf" style="--leaf-left:47%;--leaf-delay:8s;--leaf-speed:17s;--leaf-sway:48px"></span>
+  <span class="pixel-leaf" style="--leaf-left:61%;--leaf-delay:3.7s;--leaf-speed:15s;--leaf-sway:30px"></span>
+  <span class="pixel-leaf" style="--leaf-left:76%;--leaf-delay:6.8s;--leaf-speed:18s;--leaf-sway:54px"></span>
+  <span class="pixel-leaf" style="--leaf-left:90%;--leaf-delay:1.2s;--leaf-speed:14s;--leaf-sway:36px"></span>
+    <span class="pixel-bird"></span>
+    <span class="pixel-squirrel"></span>
   </div>
-  <audio id="forestAudio" loop preload="auto" src="public:sounds:/ES_Wind, General, Wind, Soft Tree Foliage - Epidemic Sound.mp3"></audio>
+  <button class="back-hub" onclick="backHub()">← Hub</button>
+  <button id="forestSoundBtn" class="sound-btn" onclick="toggleSound('forestAudio','forestSoundBtn')" aria-label="Toggle forest ambience">🔇</button>
+  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 40svh)">
+    <div class="text-card">
+      <h1 class="scene-title">5-4-3-2-1 Whispering Forest</h1>
+      <p class="scene-copy">Let the forest help you ground: notice 5 things you see, 4 you feel, 3 you hear, 2 you smell, and 1 steady breath.</p>
+      <div class="choice-grid">
+        <button class="choice" onclick="this.classList.toggle('sel')">👀 5 things I see</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">✋ 4 things I feel</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">👂 3 things I hear</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">🌲 2 things I smell</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">🌬️ 1 slow breath</button>
+      </div>
+      <button class="primary" style="width:100%;margin-top:.8rem" onclick="earn(8,'Whispering Forest grounding complete. +8 diamonds')">Complete Grounding 💎</button>
+    </div>
+  </div>
+  <audio id="forestAudio" loop preload="auto" src="public/sounds/ES_Ambience, Forest, Forest Ambience Birds, Squirel Calls - Epidemic Sound.mp3"></audio>
 </section>
 
 <section id="sunset" class="screen">
