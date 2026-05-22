@@ -1,20 +1,10 @@
-GitHub Patch: Tools & Mind Reset Hub Rework
+GitHub patch: 5-4-3-2-1 Whispering Forest
 
-Upload/replace these files in the root of your GitHub repository:
-
-- index.html
+Upload/replace:
 - mind-reset-hub.html
+- public/sounds/ES_Ambience, Forest, Forest Ambience Birds, Squirel Calls - Epidemic Sound.mp3
 
-Changes included:
-- Converts the Tools & Mind Reset menu into four Minecraft-style category boxes:
-  🌬️ Calm Down, 🧠 Reframe, 🧭 Values, 👥 Social
-- Calm Down now opens the Mind Reset Hub.
-- Removes Box Breathing — Splash Potion of Calm from the Tools page.
-- Keeps the first three Mind Reset Hub cards unchanged:
-  Diamond Reset, Breathing Blocks, Rain Room Realm.
-- Replaces the remaining hub cards with:
-  5-4-3-2-1 Grounding
-  Cold Water Reset
-  Safe Place — Set Your Spawn Point
-  Muscle Relaxation — Take Off Your Armor
-  Humming — Jukebox Mode
+What changed:
+- Renamed Forest Whisper to 5-4-3-2-1 Whispering Forest.
+- Added Minecraft-style forest atmosphere: falling pixel leaves, birds, squirrel accent, and forest panel styling.
+- Updated the forest audio source to the uploaded forest ambience file.

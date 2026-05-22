@@ -881,6 +881,139 @@ textarea::placeholder{color:#d8d1de}
   .rain-room-intro p{font-size:.82rem;}
 }
 
+
+/* 5-4-3-2-1 Whispering Forest scene polish */
+.forest-whisper-scene{
+  background:
+    linear-gradient(180deg, rgba(10,35,18,.35), rgba(4,16,8,.85)),
+    repeating-linear-gradient(90deg, rgba(43,92,38,.18) 0 14px, rgba(18,56,24,.18) 14px 28px),
+    #07140a;
+}
+.forest-whisper-scene .scene-bg-img{
+  filter:saturate(1.15) contrast(1.05) brightness(.78);
+  transform:scale(1.04);
+}
+.forest-canopy{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:2;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 8% 5%, rgba(54,137,47,.5), transparent 15%),
+    radial-gradient(circle at 22% 0%, rgba(21,91,32,.62), transparent 19%),
+    radial-gradient(circle at 46% 3%, rgba(63,139,42,.52), transparent 18%),
+    radial-gradient(circle at 74% 0%, rgba(35,105,35,.56), transparent 20%),
+    radial-gradient(circle at 95% 8%, rgba(75,153,51,.42), transparent 16%);
+  mix-blend-mode:screen;
+}
+.pixel-leaf{
+  position:absolute;
+  top:-32px;
+  width:18px;
+  height:18px;
+  background:
+    linear-gradient(135deg,#7bd35a 0 35%,#3f9e39 35% 70%,#246725 70%);
+  border:2px solid rgba(8,31,10,.72);
+  box-shadow:3px 3px 0 rgba(0,0,0,.32);
+  image-rendering:pixelated;
+  opacity:.92;
+  animation:leafFall var(--leaf-speed, 12s) linear infinite;
+  animation-delay:var(--leaf-delay, 0s);
+  left:var(--leaf-left, 50%);
+  transform:rotate(15deg);
+}
+.pixel-leaf::after{
+  content:"";
+  position:absolute;
+  width:7px;
+  height:7px;
+  right:-5px;
+  bottom:-4px;
+  background:#8a5b2d;
+  border:1px solid rgba(0,0,0,.35);
+}
+@keyframes leafFall{
+  0%{transform:translate3d(0,-40px,0) rotate(0deg);opacity:0}
+  10%{opacity:.95}
+  50%{transform:translate3d(var(--leaf-sway, 36px),45vh,0) rotate(160deg)}
+  100%{transform:translate3d(calc(var(--leaf-sway, 36px) * -1),105vh,0) rotate(320deg);opacity:0}
+}
+.pixel-bird{
+  position:absolute;
+  z-index:3;
+  top:16%;
+  left:-80px;
+  width:46px;
+  height:20px;
+  opacity:.72;
+  animation:birdGlide 24s linear infinite;
+}
+.pixel-bird::before,
+.pixel-bird::after{
+  content:"";
+  position:absolute;
+  top:7px;
+  width:22px;
+  height:8px;
+  background:#1e2d1f;
+  box-shadow:0 0 0 2px rgba(255,255,255,.12);
+}
+.pixel-bird::before{left:0;transform:skewY(-22deg)}
+.pixel-bird::after{right:0;transform:skewY(22deg)}
+.pixel-bird.b2{top:26%;animation-duration:31s;animation-delay:9s;opacity:.55;transform:scale(.72)}
+@keyframes birdGlide{to{left:110%;}}
+.pixel-squirrel{
+  position:absolute;
+  right:7%;
+  bottom:12%;
+  z-index:4;
+  width:64px;
+  height:48px;
+  image-rendering:pixelated;
+  opacity:.9;
+  animation:squirrelPeek 14s ease-in-out infinite;
+}
+.pixel-squirrel::before{
+  content:"";
+  position:absolute;
+  left:18px;
+  bottom:0;
+  width:28px;
+  height:24px;
+  background:#9b5e2f;
+  border:3px solid #3c2114;
+  box-shadow:8px -8px 0 #c68443, 28px -6px 0 2px #7c461f;
+}
+.pixel-squirrel::after{
+  content:"";
+  position:absolute;
+  left:34px;
+  bottom:18px;
+  width:18px;
+  height:18px;
+  background:#b9783c;
+  border:3px solid #3c2114;
+  box-shadow:6px 4px 0 #1a100a, -8px -4px 0 #6f3c1d;
+}
+@keyframes squirrelPeek{
+  0%,68%,100%{transform:translateY(42px);opacity:0}
+  72%,92%{transform:translateY(0);opacity:.92}
+}
+.forest-whisper-scene .text-card{
+  border-color:rgba(139,214,104,.55);
+  background:linear-gradient(180deg,rgba(13,41,20,.88),rgba(7,20,11,.9));
+  box-shadow:inset 0 0 0 3px rgba(255,255,255,.07),0 20px 44px rgba(0,0,0,.54);
+}
+.forest-whisper-scene .choice.sel{
+  background:linear-gradient(#71d66a,#2f8d3e);
+  color:#061006;
+  border-color:#b8ff9f;
+}
+@media (prefers-reduced-motion: reduce){
+  .pixel-leaf,.pixel-bird,.pixel-squirrel{animation:none;display:none}
+}
+
 </style>
 <style id="mind-reset-header-separation-fix">
 
@@ -1325,13 +1458,37 @@ textarea::placeholder{color:#d8d1de}
   </div>
 </section>
 
-<section id="forest" class="screen">
-  <img class="scene-bg-img" src="custom-backgrounds/biome.jpg" alt="Forest Whisper"/><div class="scene-shade"></div>
-  <button class="back-hub" onclick="backHub()">← Hub</button><button id="forestSoundBtn" class="sound-btn" onclick="toggleSound('forestAudio','forestSoundBtn')">🔇</button>
-  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 40svh)">
-    <div class="text-card"><h1 class="scene-title">Forest Whisper</h1><p class="scene-copy">Tap each sense you can notice right now.</p><div class="choice-grid"><button class="choice" onclick="this.classList.toggle('sel')">👀 Something I see</button><button class="choice" onclick="this.classList.toggle('sel')">👂 Something I hear</button><button class="choice" onclick="this.classList.toggle('sel')">✋ Something I feel</button><button class="choice" onclick="this.classList.toggle('sel')">🌬️ One slow breath</button></div><button class="primary" style="width:100%;margin-top:.8rem" onclick="earn(8,'Grounding complete. +8 diamonds')">Complete Grounding 💎</button></div>
+<section id="forest" class="screen forest-whisper-scene">
+  <img class="scene-bg-img" src="custom-backgrounds/biome.jpg" alt="5-4-3-2-1 Whispering Forest"/>
+  <div class="scene-shade"></div>
+  <div class="forest-canopy" aria-hidden="true">
+    <i class="pixel-leaf" style="--leaf-left:9%;--leaf-delay:0s;--leaf-speed:13s;--leaf-sway:42px"></i>
+    <i class="pixel-leaf" style="--leaf-left:23%;--leaf-delay:5s;--leaf-speed:15s;--leaf-sway:28px"></i>
+    <i class="pixel-leaf" style="--leaf-left:41%;--leaf-delay:2s;--leaf-speed:12s;--leaf-sway:54px"></i>
+    <i class="pixel-leaf" style="--leaf-left:62%;--leaf-delay:8s;--leaf-speed:17s;--leaf-sway:32px"></i>
+    <i class="pixel-leaf" style="--leaf-left:78%;--leaf-delay:3s;--leaf-speed:14s;--leaf-sway:46px"></i>
+    <i class="pixel-leaf" style="--leaf-left:91%;--leaf-delay:10s;--leaf-speed:16s;--leaf-sway:36px"></i>
+    <i class="pixel-bird"></i>
+    <i class="pixel-bird b2"></i>
+    <i class="pixel-squirrel"></i>
   </div>
-  <audio id="forestAudio" loop preload="auto" src="public:sounds:/ES_Wind, General, Wind, Soft Tree Foliage - Epidemic Sound.mp3"></audio>
+  <button class="back-hub" onclick="backHub()">← Hub</button>
+  <button id="forestSoundBtn" class="sound-btn" onclick="toggleSound('forestAudio','forestSoundBtn')">🔇</button>
+  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 38svh)">
+    <div class="text-card">
+      <h1 class="scene-title">5-4-3-2-1 Whispering Forest</h1>
+      <p class="scene-copy">Let the birds, leaves, and forest sounds help you come back to the present moment.</p>
+      <div class="choice-grid">
+        <button class="choice" onclick="this.classList.toggle('sel')">👀 5 things I can see</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">✋ 4 things I can feel</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">👂 3 things I can hear</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">👃 2 things I can smell</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">👅 1 thing I can taste</button>
+      </div>
+      <button class="primary" style="width:100%;margin-top:.8rem;background:linear-gradient(#47a957,#236c31)" onclick="earn(10,'Whispering Forest complete. You found your way back to now. +10 diamonds')">Complete Forest Reset 💎</button>
+    </div>
+  </div>
+  <audio id="forestAudio" loop preload="auto" src="public/sounds/ES_Ambience, Forest, Forest Ambience Birds, Squirel Calls - Epidemic Sound.mp3"></audio>
 </section>
 
 <section id="sunset" class="screen">
