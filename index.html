@@ -287,79 +287,210 @@ nav{
 @media(max-width:860px){.home-body{grid-template-columns:1fr;}}
 
 /* ════════════════════════════════════════════════
-   JOURNAL QUEST PANEL (left/main col)
+   DAILY BUILD PLAN — upgraded Minecraft quest cards
 ════════════════════════════════════════════════ */
 .quest-panel{
-  background:var(--mc-parch-light);
+  position:relative;
+  overflow:hidden;
+  background:
+    linear-gradient(180deg,rgba(8,8,8,.38),rgba(8,8,8,.72)),
+    radial-gradient(circle at 78% 5%,rgba(255,185,64,.28),transparent 30%),
+    linear-gradient(135deg,#173414 0%,#24351d 38%,#151515 100%);
   border-right:3px solid #111;
-  padding:1.2rem;
+  padding:clamp(1rem,2vw,1.7rem);
+  box-shadow:inset 0 4px 0 rgba(255,255,255,.08), inset 0 -5px 0 rgba(0,0,0,.35);
+}
+.quest-panel::before{
+  content:"";
+  position:absolute;inset:0;
+  background:
+    linear-gradient(90deg,rgba(0,0,0,.18) 0 2px,transparent 2px 24px),
+    linear-gradient(0deg,rgba(255,255,255,.03) 0 2px,transparent 2px 24px);
+  opacity:.45;
+  pointer-events:none;
+}
+.quest-panel::after{
+  content:"";
+  position:absolute;left:0;right:0;bottom:0;height:42px;
+  background:
+    linear-gradient(#314f18,#5b8f2a 45%,#4b2d12 46%,#2b170a 100%);
+  border-top:4px solid #78b83c;
+  box-shadow:0 -3px 0 #21390e,inset 0 6px 0 rgba(255,255,255,.08);
+  pointer-events:none;
 }
 .quest-header{
-  display:flex;align-items:center;gap:.7rem;
-  margin-bottom:.8rem;
+  position:relative;z-index:1;
+  text-align:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:.75rem;
+  margin:0 auto 1.25rem;
+  padding:.45rem .75rem;
 }
 .quest-header-icon{
-  width:40px;height:40px;
-  background:var(--mc-green-dark);
-  border:2px solid var(--mc-green);
-  box-shadow:var(--bevel-out);
+  width:36px;height:36px;
+  background:transparent;
+  border:none;
+  box-shadow:none;
   display:flex;align-items:center;justify-content:center;
-  font-size:1.3rem;
+  font-size:1.35rem;
+  filter:drop-shadow(2px 2px 0 #000);
 }
 .quest-header h2{
-  font-family:var(--font-mc);font-size:.7rem;
-  color:#2a1400;text-shadow:1px 1px 0 rgba(255,255,255,.3);
-  line-height:1.6;
+  font-family:var(--font-mc);
+  font-size:clamp(.72rem,1.35vw,.95rem);
+  color:#fff;
+  text-shadow:3px 3px 0 #000,0 0 10px rgba(126,200,50,.35);
+  letter-spacing:.06em;
+  line-height:1.35;
 }
-.quest-header p{font-size:1rem;color:#5a3a00;font-weight:700;margin-top:.15rem;}
+.quest-header p{
+  font-size:clamp(.9rem,1.1vw,1.05rem);
+  color:#f2f2f2;
+  font-weight:800;
+  margin-top:.35rem;
+  text-shadow:2px 2px 0 rgba(0,0,0,.85);
+}
 
 /* 5-step quest row */
 .quest-steps{
-  display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem;
-  margin-bottom:1rem;
+  position:relative;z-index:1;
+  display:grid;
+  grid-template-columns:repeat(5,minmax(140px,1fr));
+  gap:clamp(.65rem,1.1vw,1rem);
+  margin:0 0 1.25rem;
 }
-@media(max-width:700px){.quest-steps{grid-template-columns:repeat(3,1fr);}}
-@media(max-width:420px){.quest-steps{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:1100px){.quest-steps{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:700px){.quest-steps{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:430px){.quest-steps{grid-template-columns:1fr;}}
 .quest-step{
-  background:#fff;
-  border:2px solid #c8a860;
-  box-shadow:2px 2px 0 rgba(0,0,0,.2);
-  padding:.9rem .6rem;
+  position:relative;
+  min-height:265px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.56),rgba(255,255,255,.18)),
+    #ead49a;
+  border:4px solid #6b5a35;
+  border-image:linear-gradient(135deg,#f6e6a8,#6b5a35,#2c2415) 1;
+  box-shadow:
+    0 7px 0 #2a1b0a,
+    0 12px 16px rgba(0,0,0,.45),
+    inset 3px 3px 0 rgba(255,255,255,.5),
+    inset -4px -4px 0 rgba(0,0,0,.18);
+  padding:2.9rem .85rem 1.4rem;
   text-align:center;
   cursor:pointer;
-  transition:all .15s;
+  transition:transform .15s steps(2),filter .15s,box-shadow .15s;
+  isolation:isolate;
+}
+.quest-step:nth-child(2){background:linear-gradient(180deg,rgba(255,255,255,.62),rgba(255,255,255,.2)),#dfe8eb;}
+.quest-step:nth-child(3){background:linear-gradient(180deg,rgba(255,255,255,.56),rgba(255,255,255,.18)),#efd18c;}
+.quest-step:nth-child(4){background:linear-gradient(180deg,rgba(255,255,255,.58),rgba(255,255,255,.2)),#f0c7bd;}
+.quest-step:nth-child(5){background:linear-gradient(180deg,rgba(255,255,255,.58),rgba(255,255,255,.2)),#dce9bf;}
+.quest-step::before{
+  content:"";
+  position:absolute;left:-4px;right:-4px;bottom:-4px;height:26px;
+  background:
+    linear-gradient(#6fa931,#7ec832 45%,#5a371b 46%,#3a210f 100%);
+  border-top:3px solid #99d84a;
+  box-shadow:0 -2px 0 #28440d;
+  z-index:-1;
+}
+.quest-step::after{
+  content:"✦ ✦ ✦ ✦ ✦";
+  position:absolute;
+  left:50%;top:48%;
+  transform:translateX(-50%);
+  font-family:var(--font-mc);
+  font-size:.33rem;
+  color:rgba(70,50,18,.45);
+  letter-spacing:.45em;
+  white-space:nowrap;
 }
 .quest-step:hover,.quest-step.done{
-  background:#f0f8e8;
-  border-color:var(--mc-green);
-  transform:translateY(-2px);
+  transform:translateY(-5px);
+  filter:saturate(1.14) brightness(1.04);
+  border-color:#7ec832;
+  box-shadow:
+    0 7px 0 #1f3d0f,
+    0 0 0 3px #25e8ff,
+    0 14px 18px rgba(0,0,0,.5),
+    inset 3px 3px 0 rgba(255,255,255,.55),
+    inset -4px -4px 0 rgba(0,0,0,.2);
 }
-.quest-step.done{background:#d4f0c0;}
-.qs-icon{font-size:2.2rem;margin-bottom:.4rem;}
+.quest-step.done{background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,.18)),#c8eda8;}
 .qs-num{
-  font-family:var(--font-mc);font-size:.45rem;
-  color:var(--mc-green-dark);margin-bottom:.25rem;
-  line-height:1.6;
+  position:absolute;
+  top:-11px;left:14px;
+  width:42px;height:42px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mc);
+  font-size:.56rem;
+  color:#fff;
+  background:linear-gradient(#7ec832,#3f7e1d);
+  border:3px solid #244b0f;
+  box-shadow:3px 3px 0 rgba(0,0,0,.55),inset 2px 2px 0 rgba(255,255,255,.3);
+  text-shadow:2px 2px 0 #153004;
+  line-height:1;
+  margin:0;
+}
+.qs-icon{
+  font-size:3.1rem;
+  line-height:1;
+  margin:.2rem 0 1.1rem;
+  filter:drop-shadow(4px 5px 0 rgba(0,0,0,.2));
 }
 .qs-title{
-  font-family:var(--font-mc);font-size:.42rem;
-  color:#2a1400;line-height:1.5;margin-bottom:.3rem;
+  font-family:var(--font-mc);
+  font-size:clamp(.46rem,.75vw,.55rem);
+  color:#201204;
+  text-shadow:1px 1px 0 rgba(255,255,255,.45);
+  line-height:1.55;
+  margin:.2rem 0 .8rem;
 }
-.qs-desc{font-size:.9rem;color:#6a4a00;font-weight:700;line-height:1.4;}
+.qs-desc{
+  max-width:14ch;
+  font-size:clamp(1rem,1.05vw,1.15rem);
+  color:#2c1b05;
+  font-weight:900;
+  line-height:1.45;
+  text-shadow:1px 1px 0 rgba(255,255,255,.4);
+}
 
 /* Quest quote bar */
 .quest-quote{
-  background:#e8d5a3;
-  border:2px solid #c8a860;
+  position:relative;z-index:1;
+  background:
+    linear-gradient(90deg,rgba(0,0,0,.25),rgba(0,0,0,.08)),
+    #242424;
+  border:4px solid #3a3a3a;
+  border-top-color:#5a5a5a;
+  border-left-color:#5a5a5a;
+  border-right-color:#111;
+  border-bottom-color:#111;
   padding:.8rem 1rem;
-  display:flex;align-items:center;gap:.7rem;
+  display:flex;
+  align-items:center;
+  gap:.8rem;
+  max-width:760px;
+  margin:.35rem auto 0;
+  box-shadow:0 6px 0 rgba(0,0,0,.45),inset 0 0 0 2px rgba(255,255,255,.04);
 }
-.qq-avatar{font-size:1.8rem;flex-shrink:0;}
+.qq-avatar{font-size:1.7rem;flex-shrink:0;filter:drop-shadow(2px 2px 0 #000);}
 .qq-text{
-  font-size:1rem;font-weight:800;
-  color:#2a1400;font-style:italic;
+  font-family:var(--font-mc);
+  font-size:clamp(.48rem,.8vw,.58rem);
+  font-weight:400;
+  color:var(--mc-green-bright);
+  line-height:1.65;
+  text-shadow:2px 2px 0 #000;
+  font-style:normal;
 }
-.qq-gem{font-size:1.3rem;margin-left:auto;flex-shrink:0;}
+.qq-gem{font-size:1.5rem;margin-left:auto;flex-shrink:0;filter:drop-shadow(2px 2px 0 #000);}
 
 /* ════════════════════════════════════════════════
    YOUR JOURNEY SIDEBAR
@@ -1595,8 +1726,8 @@ select option{background:#222;}
       <div class="quest-header">
         <div class="quest-header-icon">🌿</div>
         <div>
-          <h2>TODAY'S JOURNAL QUEST</h2>
-          <p>Take a moment to check in with yourself and complete today's challenges.</p>
+          <h2>DAILY BUILD PLAN</h2>
+          <p>Small steps build a stronger you. Complete your daily plan.</p>
         </div>
       </div>
 
@@ -1644,8 +1775,8 @@ select option{background:#222;}
       </div>
 
       <div class="quest-quote">
-        <div class="qq-avatar">🪨</div>
-        <div class="qq-text">"It's okay to dig a little deeper. Diamonds are found under pressure."</div>
+        <div class="qq-avatar">⛏️</div>
+        <div class="qq-text">YOUR JOURNEY. YOUR PACE. YOUR VICTORY. One block at a time.</div>
         <div class="qq-gem">💎</div>
       </div>
 
