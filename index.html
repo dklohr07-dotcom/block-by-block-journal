@@ -1532,105 +1532,71 @@ select option{background:#222;}
 
 
 
+
+/* Tools & Mind Reset category boxes patch */
+.tool-category-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:.8rem;
+  margin:0 0 1rem;
+}
+.tool-category-box{
+  position:relative;
+  min-height:132px;
+  padding:1rem .85rem;
+  border:4px solid #383838;
+  border-top-color:#737373;
+  border-left-color:#737373;
+  border-right-color:#171717;
+  border-bottom-color:#171717;
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.08),rgba(0,0,0,.18)),
+    repeating-linear-gradient(45deg,#3a2a18 0 12px,#4a321c 12px 24px);
+  color:#fff;
+  cursor:pointer;
+  text-align:left;
+  box-shadow:0 8px 0 #171717,0 14px 18px rgba(0,0,0,.45);
+  image-rendering:pixelated;
+  transition:transform .12s ease,filter .12s ease;
+}
+.tool-category-box:hover,
+.tool-category-box.active{
+  transform:translateY(-2px);
+  border-color:#55ffff;
+  box-shadow:0 6px 0 #0d3a3a,0 0 0 4px rgba(85,255,255,.18),0 14px 20px rgba(0,0,0,.5);
+  filter:brightness(1.12);
+}
+.tool-category-box .tool-category-icon{
+  display:block;
+  font-size:2rem;
+  margin-bottom:.55rem;
+  filter:drop-shadow(3px 3px 0 rgba(0,0,0,.75));
+}
+.tool-category-box strong{
+  display:block;
+  font-family:var(--font-mc);
+  font-size:.46rem;
+  line-height:1.65;
+  color:#ffff55;
+  text-shadow:3px 3px 0 #000;
+}
+.tool-category-box span:last-child{
+  display:block;
+  margin-top:.45rem;
+  font-weight:900;
+  line-height:1.45;
+  color:#f7f7f7;
+}
+@media(max-width:900px){
+  .tool-category-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:560px){
+  .tool-category-grid{grid-template-columns:1fr;}
+  .tool-category-box{min-height:112px;}
+}
+
 </style>
 <link rel="stylesheet" href="shared/minecraft-v2-theme.css"/>
-
-<style id="mind-reset-homepage-patch">
-/* GitHub patch: use Mind Reset Hub-style Diamond Reset on homepage */
-.home-diamond-reset{scroll-margin-top:120px}
-.home-diamond-card{
-  overflow:hidden;
-  border-color:rgba(86,217,255,.42)!important;
-  background:
-    radial-gradient(circle at 18% 18%, rgba(86,217,255,.15), transparent 34%),
-    radial-gradient(circle at 82% 10%, rgba(120,90,255,.12), transparent 30%),
-    linear-gradient(180deg, rgba(7,14,24,.94), rgba(4,8,14,.97))!important;
-}
-.home-diamond-top{
-  display:flex;
-  gap:1rem;
-  align-items:flex-start;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  margin-bottom:.8rem;
-}
-.home-diamond-top h3{margin-bottom:.45rem}
-.home-diamond-top p{max-width:720px;margin:0}
-.home-diamond-stats{
-  display:flex;
-  gap:.5rem;
-  flex-wrap:wrap;
-  justify-content:flex-end;
-}
-.home-diamond-stat{
-  display:inline-flex;
-  align-items:center;
-  gap:.25rem;
-  padding:.45rem .65rem;
-  border:2px solid rgba(86,217,255,.5);
-  background:rgba(0,0,0,.55);
-  color:#fff;
-  box-shadow:inset 2px 2px 0 rgba(255,255,255,.12), 0 4px 0 rgba(0,0,0,.45);
-  font-family:var(--font-mc);
-  font-size:.34rem;
-  line-height:1.6;
-}
-.diamond-field{
-  position:relative;
-  min-height:clamp(260px,34vw,420px);
-  border:3px solid rgba(86,217,255,.38);
-  background:
-    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(255,255,255,.03) 1px, transparent 1px),
-    radial-gradient(circle at 50% 45%, rgba(86,217,255,.16), transparent 48%),
-    rgba(0,0,0,.42);
-  background-size:32px 32px,32px 32px,100% 100%,100% 100%;
-  overflow:hidden;
-  touch-action:manipulation;
-  box-shadow:inset 0 0 44px rgba(86,217,255,.13), 0 8px 0 rgba(0,0,0,.45);
-}
-.bubble-diamond{
-  position:absolute;
-  border:0;
-  background:radial-gradient(circle at 35% 28%, rgba(255,255,255,.95), rgba(86,217,255,.88) 36%, rgba(23,121,183,.92) 72%);
-  width:58px;
-  height:58px;
-  border-radius:50%;
-  box-shadow:0 0 22px rgba(86,217,255,.74), inset -7px -8px 12px rgba(0,20,60,.32), 0 6px 0 rgba(0,0,0,.35);
-  display:grid;
-  place-items:center;
-  font-size:1.75rem;
-  cursor:pointer;
-  animation:homeDiamondFloat 7s ease-in-out infinite;
-}
-@keyframes homeDiamondFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-16px) scale(1.04)}}
-.bubble-diamond.pop{animation:homeDiamondPop .34s ease-out forwards!important}
-@keyframes homeDiamondPop{to{transform:scale(1.9);opacity:0;filter:blur(1px)}}
-.home-diamond-actions{
-  margin-top:.85rem;
-  display:flex;
-  gap:.6rem;
-  flex-wrap:wrap;
-  justify-content:center;
-}
-.home-diamond-result{
-  margin-top:.65rem;
-  min-height:1.6rem;
-  font-family:var(--font-mc);
-  font-size:.34rem;
-  line-height:1.7;
-  color:#55FFFF;
-  text-align:center;
-  text-shadow:2px 2px 0 #000;
-}
-@media(max-width:720px){
-  .home-diamond-top{display:block}
-  .home-diamond-stats{justify-content:flex-start;margin-top:.7rem}
-  .diamond-field{min-height:320px}
-  .bubble-diamond{width:64px;height:64px}
-}
-</style>
-
 </head>
 <body>
 
@@ -1877,25 +1843,31 @@ select option{background:#222;}
         <div class="qq-gem">💎</div>
       </div>
 
-      <!-- DIAMOND MIND RESET GAME — Mind Reset Hub version -->
-      <div style="margin-top:1rem;" id="diamondGameSection" class="home-diamond-reset">
-        <div class="mc-card mc-card-diamond home-diamond-card">
-          <div class="home-diamond-top">
-            <div>
-              <h3>💎 DIAMOND MIND RESET</h3>
-              <p>Tap the glowing diamonds as they appear. This is the softer Mind Reset Hub version — slower, simpler, and made for a quick calm reset.</p>
-            </div>
-            <div class="home-diamond-stats" aria-label="Diamond reset stats">
-              <span class="home-diamond-stat">💎 <span id="diamondScore">0</span></span>
-              <span class="home-diamond-stat">⏱️ <span id="diamondTime">30</span>s</span>
+      <!-- DIAMOND MIND RESET GAME — Free signature reset -->
+      <div style="margin-top:1rem;" id="diamondGameSection">
+        <div class="diamond-game-wrap" id="diamondGameWrap">
+          <!-- Lock overlay shown for free users -->
+          <div class="game-lock-overlay" id="gameOverlay" style="display:none;">
+            <div class="lock-icon">💎</div>
+            <div class="lock-title">MIND RESET GAME</div>
+            <div class="lock-desc">Tap diamonds to collect them and reset your mind. A quick calm-down tool — free for everyone.</div>
+            <a href="/pricing.html" class="lock-btn">🔓 UNLOCK WITH PREMIUM</a>
+          </div>
+          <!-- Game UI -->
+          <div class="diamond-game-header">
+            <div class="diamond-game-title">💎 DIAMOND MIND RESET</div>
+            <div class="diamond-game-stats">
+              <div class="dg-stat">💎 <span id="dgScore">0</span></div>
+              <div class="dg-stat">⏱ <span id="dgTimer">60</span>s</div>
+              <div class="dg-stat">🔥 <span id="dgStreak">0</span></div>
             </div>
           </div>
-          <div id="diamondField" class="diamond-field" aria-label="Tap diamonds game"></div>
-          <div class="home-diamond-actions">
-            <button id="startDiamond" class="mc-btn mc-btn-green mc-btn-sm" onclick="startDiamondGame()">▶ START</button>
-            <button id="stopDiamond" class="mc-btn mc-btn-gray mc-btn-sm" onclick="stopDiamondGame(true)" disabled>⏹ STOP</button>
+          <canvas id="diamondCanvas" width="600" height="220"></canvas>
+          <div class="diamond-game-footer">
+            <div class="dg-msg" id="dgMsg">Tap diamonds to collect them. Focus on the present moment. 💚</div>
+            <button class="dg-btn" onclick="startDiamondGame()" id="dgStartBtn">▶ START</button>
+            <button class="dg-btn" onclick="resetDiamondGame()" style="margin-left:.4rem;">↺ RESET</button>
           </div>
-          <div id="diamondResult" class="home-diamond-result" aria-live="polite"></div>
         </div>
       </div>
     </div>
@@ -2273,78 +2245,38 @@ select option{background:#222;}
     </div>
   </div>
   <div class="page-body">
-    <div class="inner-tabs">
-      <button class="inner-tab active" onclick="toolTab('calm')">🌬️ CALM DOWN</button>
-      <button class="inner-tab" onclick="toolTab('cbt')">🧠 REFRAME</button>
-      <button class="inner-tab" onclick="toolTab('act')">🧭 VALUES</button>
-      <button class="inner-tab" onclick="toolTab('social')">👥 SOCIAL</button>
+    <div class="tool-category-grid" aria-label="Tools and Mind Reset categories">
+      <button class="tool-category-box active" onclick="window.location.href='mind-reset-hub.html'">
+        <span class="tool-category-icon">🌬️</span>
+        <strong>CALM DOWN</strong>
+        <span>Open the Mind Reset Hub: Diamond Reset, Breathing Blocks, Rain Room, grounding, safe place, muscle reset, humming, and cold water reset.</span>
+      </button>
+      <button class="tool-category-box" onclick="toolTab('cbt')">
+        <span class="tool-category-icon">🧠</span>
+        <strong>REFRAME</strong>
+        <span>Use the CBT crafting table to turn anxious thoughts into balanced thoughts.</span>
+      </button>
+      <button class="tool-category-box" onclick="toolTab('act')">
+        <span class="tool-category-icon">🧭</span>
+        <strong>VALUES</strong>
+        <span>Choose your compass direction and take one small next-step quest.</span>
+      </button>
+      <button class="tool-category-box" onclick="toolTab('social')">
+        <span class="tool-category-icon">👥</span>
+        <strong>SOCIAL</strong>
+        <span>Practice support scripts, connection quests, and brave communication tools.</span>
+      </button>
     </div>
 
     <div id="tcalm" class="inner-section active">
       <div class="mc-card mc-card-diamond" style="margin-bottom:.9rem;">
         <div style="display:flex;gap:1rem;align-items:center;justify-content:space-between;flex-wrap:wrap;">
           <div style="flex:1;min-width:240px;">
-            <h3>💎 MIND RESET TOOLS — QUICK CALM QUESTS</h3>
-            <p style="margin-bottom:0;">Every calm-down skill now lives in this Tools chest. Pick a tab above, then choose the reset activity that matches what you need right now.</p>
+            <h3>🌬️ CALM DOWN — MIND RESET HUB</h3>
+            <p style="margin-bottom:.75rem;">Calm-down tools now live inside the Mind Reset Hub so this page feels less repetitive. Open the hub to choose a Minecraft-style reset activity.</p>
+            <button class="mc-btn mc-btn-green mc-btn-sm" onclick="window.location.href='mind-reset-hub.html'">💎 ENTER MIND RESET HUB</button>
           </div>
           <div style="font-size:3.3rem;filter:drop-shadow(4px 4px 0 rgba(0,0,0,.55));">💎</div>
-        </div>
-      </div>
-      <div class="mc-card mc-card-diamond" style="text-align:center;">
-        <h3>🌬️ BOX BREATHING — SPLASH POTION OF CALM</h3>
-        <p>Used by Navy SEALs and therapists worldwide. Tap the diamond to brew!</p>
-        <div class="breath-box" id="breathBox" onclick="startBreathing()">TAP TO<br>BREW</div>
-        <div class="breath-count" id="breathCount"></div>
-        <div id="breathMsg" style="font-family:var(--font-mc);font-size:.32rem;color:#55FFFF;min-height:1.2rem;line-height:1.8;"></div>
-        <button class="mc-btn mc-btn-gray mc-btn-sm" onclick="stopBreathing()" style="margin-top:.5rem;">⏹ STOP</button>
-      </div>
-
-      <div class="mc-card" style="margin-top:.8rem;">
-        <h3>🌍 5-4-3-2-1 GROUNDING — TELEPORT BACK TO NOW</h3>
-        <p style="margin-bottom:.7rem;">Anxiety pulls you to the past or future. This teleports you back to right now. It works instantly.</p>
-        <div id="groundingSteps"></div>
-      </div>
-
-      <div class="grid-2" style="margin-top:.8rem;">
-        <div class="tool-card" onclick="this.classList.toggle('open')">
-          <span class="tool-icon">🧊</span><div class="tool-title">COLD WATER RESET</div>
-          <div class="tool-desc">Splash potion — instant calm activation</div>
-          <div class="tool-detail">
-            <div class="tool-step">1. Run cold water over your wrists for 30 seconds</div>
-            <div class="tool-step">2. The cold activates your body's dive reflex — a built-in calm switch!</div>
-            <div class="tool-step">3. Take 3 slow breaths while you do it</div>
-            <div class="tool-step">4. Notice your heartbeat starting to slow. That's /effect @s calm working!</div>
-          </div>
-        </div>
-        <div class="tool-card" onclick="this.classList.toggle('open')">
-          <span class="tool-icon">🏡</span><div class="tool-title">SAFE PLACE — SET YOUR SPAWN POINT</div>
-          <div class="tool-desc">Your mental respawn point when things feel overwhelming</div>
-          <div class="tool-detail">
-            <div class="tool-step">1. Close your eyes. Take 3 slow breaths. Type /spawn</div>
-            <div class="tool-step">2. Picture your safest, most peaceful place</div>
-            <div class="tool-step">3. What do you see? Hear? Smell? Feel there?</div>
-            <div class="tool-step">4. Stay 2–3 minutes. You can respawn here anytime you need.</div>
-          </div>
-        </div>
-        <div class="tool-card" onclick="this.classList.toggle('open')">
-          <span class="tool-icon">💪</span><div class="tool-title">MUSCLE RELAXATION — TAKE OFF YOUR ARMOR</div>
-          <div class="tool-desc">Tense and release tension from every part of your body</div>
-          <div class="tool-detail">
-            <div class="tool-step">1. Clench your fists as tight as you can for 5 seconds</div>
-            <div class="tool-step">2. Release completely. Feel the tension drain away. That's /clear for your muscles!</div>
-            <div class="tool-step">3. Work up your body: feet → legs → stomach → shoulders → face</div>
-            <div class="tool-step">4. Finish with 3 deep breaths. Durability fully restored!</div>
-          </div>
-        </div>
-        <div class="tool-card" onclick="this.classList.toggle('open')">
-          <span class="tool-icon">🎵</span><div class="tool-title">HUMMING — JUKEBOX MODE</div>
-          <div class="tool-desc">Activate your vagus nerve — your body's calm superhighway</div>
-          <div class="tool-detail">
-            <div class="tool-step">1. Take a deep breath in through your nose</div>
-            <div class="tool-step">2. Hum "hmmmm" slowly as you breathe out — feel the vibration!</div>
-            <div class="tool-step">3. The vibration activates your vagus nerve — your body's built-in calming system</div>
-            <div class="tool-step">4. Repeat 5–8 times. Jukebox disc of calm = fully loaded! 🎶</div>
-          </div>
         </div>
       </div>
     </div>
@@ -3991,104 +3923,5 @@ async function init(){
 init();
 </script>
 <script src="shared/minecraft-v2-ui.js"></script>
-
-<script id="mind-reset-homepage-game-patch">
-/* GitHub patch: replace older homepage canvas game with the Mind Reset Hub diamond pop game */
-let homeDiamondTimer=null;
-let homeDiamondSpawner=null;
-let homeDiamondTime=30;
-let homeDiamondScore=0;
-let homeDiamondRunning=false;
-
-function startDiamondGame(){
-  const field=document.getElementById('diamondField');
-  if(!field || homeDiamondRunning) return;
-  field.innerHTML='';
-  homeDiamondTime=30;
-  homeDiamondScore=0;
-  homeDiamondRunning=true;
-
-  const score=document.getElementById('diamondScore');
-  const time=document.getElementById('diamondTime');
-  const result=document.getElementById('diamondResult');
-  const start=document.getElementById('startDiamond');
-  const stop=document.getElementById('stopDiamond');
-
-  if(score) score.textContent='0';
-  if(time) time.textContent='30';
-  if(result) result.textContent='';
-  if(start) start.disabled=true;
-  if(stop) stop.disabled=false;
-
-  for(let i=0;i<6;i++) setTimeout(spawnHomeDiamondBubble,i*260);
-  homeDiamondSpawner=setInterval(()=>{ 
-    for(let i=0;i<2;i++) setTimeout(spawnHomeDiamondBubble,i*360); 
-  },1900);
-
-  homeDiamondTimer=setInterval(()=>{
-    homeDiamondTime--;
-    if(time) time.textContent=homeDiamondTime;
-    if(homeDiamondTime<=0) stopDiamondGame(true);
-  },1000);
-}
-
-function spawnHomeDiamondBubble(){
-  if(!homeDiamondRunning) return;
-  const field=document.getElementById('diamondField');
-  if(!field) return;
-
-  const bubble=document.createElement('button');
-  bubble.type='button';
-  bubble.className='bubble-diamond';
-  bubble.innerHTML='💎';
-  bubble.setAttribute('aria-label','Pop diamond');
-  bubble.style.left=Math.random()*82+'%';
-  bubble.style.top=Math.random()*76+'%';
-  bubble.style.animationDelay=(Math.random()*-3)+'s';
-
-  bubble.onclick=(event)=>{
-    event.stopPropagation();
-    if(bubble.classList.contains('pop')) return;
-    bubble.classList.add('pop');
-    homeDiamondScore++;
-    const score=document.getElementById('diamondScore');
-    if(score) score.textContent=homeDiamondScore;
-    setTimeout(()=>bubble.remove(),340);
-  };
-
-  field.appendChild(bubble);
-  setTimeout(()=>{
-    if(bubble.parentNode && !bubble.classList.contains('pop')) bubble.remove();
-  },6200);
-}
-
-function stopDiamondGame(showResult){
-  clearInterval(homeDiamondTimer);
-  clearInterval(homeDiamondSpawner);
-  homeDiamondTimer=null;
-  homeDiamondSpawner=null;
-
-  const wasRunning=homeDiamondRunning;
-  homeDiamondRunning=false;
-
-  const start=document.getElementById('startDiamond');
-  const stop=document.getElementById('stopDiamond');
-  if(start) start.disabled=false;
-  if(stop) stop.disabled=true;
-
-  document.querySelectorAll('#diamondField .bubble-diamond').forEach(bubble=>bubble.remove());
-
-  if(showResult && wasRunning){
-    const result=document.getElementById('diamondResult');
-    if(result) result.textContent=`You earned ${homeDiamondScore} diamonds.`;
-    if(typeof addXP==='function'){
-      addXP(Math.max(5, Math.floor(homeDiamondScore / 2) + 5));
-      if(typeof save==='function') save();
-    }
-    if(typeof toast==='function') toast(`You earned ${homeDiamondScore} diamonds 💎`);
-  }
-}
-</script>
-
 </body>
 </html>

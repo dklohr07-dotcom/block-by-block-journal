@@ -1157,12 +1157,11 @@ textarea::placeholder{color:#d8d1de}
       <button class="realm-card art-card" style="--img:url('custom-backgrounds/card-diamond.png')" onclick="openScene('diamond')" aria-label="Open Diamond Mind Reset"></button>
       <button class="realm-card art-card breathing-card" style="--img:url('custom-backgrounds/card-breathing.png')" onclick="openScene('breathe')" aria-label="Open Breathing Blocks"></button>
       <button class="realm-card" style="--img:url('custom-backgrounds/card-rain.png')" onclick="openScene('rain')" aria-label="Open Rain Room Realm"><span class="locked-badge">🔒</span><span class="card-text"><h2>Rain Room Realm</h2><p>Let rain carry heavy thoughts.</p></span></button>
-      <button class="realm-card" style="--img:url('custom-backgrounds/card-miner.png')" onclick="openScene('miner')" aria-label="Open Thought Miner Cave"><span class="locked-badge">🔒</span><span class="card-text"><h2>Thought Miner Cave</h2><p>Mine worries into reframes.</p></span></button>
-      <button class="realm-card" style="--img:url('custom-backgrounds/card-campfire.png')" onclick="openScene('campfire')" aria-label="Open Campfire Reflection"><span class="locked-badge">🔒</span><span class="card-text"><h2>Campfire Reflection</h2><p>Release it into the fire.</p></span></button>
-      <button class="realm-card" style="--img:url('custom-backgrounds/card-biome.png')" onclick="openScene('biome')" aria-label="Open Biome Shift Portal"><span class="locked-badge">🔒</span><span class="card-text"><h2>Biome Shift Portal</h2><p>Choose a calm place.</p></span></button>
-      <button class="realm-card" style="--img:url('custom-backgrounds/card-forest.png')" onclick="openScene('forest')" aria-label="Open Forest Whisper"><span class="card-text"><h2>Forest Whisper</h2><p>Ground with your senses.</p></span></button>
-      <button class="realm-card" style="--img:url('custom-backgrounds/card-sunset.png')" onclick="openScene('sunset')" aria-label="Open Sunset Reset"><span class="card-text"><h2>Sunset Reset</h2><p>Name what is safe now.</p></span></button>
-      <button class="realm-card" style="--img:url('custom-backgrounds/card-cave.png')" onclick="openScene('cave')" aria-label="Open Deep Cave Calm"><span class="card-text"><h2>Deep Cave Calm</h2><p>Slow down one block at a time.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/card-forest.png')" onclick="openScene('grounding')" aria-label="Open 5-4-3-2-1 Grounding"><span class="card-text"><h2>5-4-3-2-1 Grounding</h2><p>Teleport back to now.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/card-cave.png')" onclick="openScene('coldwater')" aria-label="Open Cold Water Reset"><span class="card-text"><h2>Cold Water Reset</h2><p>Splash potion calm switch.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/card-biome.png')" onclick="openScene('safeplace')" aria-label="Open Safe Place Set Your Spawn Point"><span class="card-text"><h2>Safe Place</h2><p>Set your spawn point.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/card-miner.png')" onclick="openScene('muscle')" aria-label="Open Muscle Relaxation Take Off Your Armor"><span class="card-text"><h2>Muscle Relaxation</h2><p>Take off your armor.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/card-sunset.png')" onclick="openScene('humming')" aria-label="Open Humming Jukebox Mode"><span class="card-text"><h2>Humming</h2><p>Jukebox mode calm.</p></span></button>
     </div>
   </div>
 </main>
@@ -1207,6 +1206,98 @@ textarea::placeholder{color:#d8d1de}
   </div>
 
   <audio id="rainAudio" loop preload="auto" src="public/sounds/ES_Weather, Thunder, Light Rain - Epidemic Sound.mp3"></audio>
+</section>
+
+
+<section id="grounding" class="screen">
+  <img class="scene-bg-img" src="custom-backgrounds/biome.jpg" alt="5-4-3-2-1 Grounding"/><div class="scene-shade"></div>
+  <button class="back-hub" onclick="backHub()">← Hub</button>
+  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 34svh)">
+    <div class="text-card">
+      <h1 class="scene-title">5-4-3-2-1 Grounding</h1>
+      <p class="scene-copy">Anxiety can pull you into the past or future. Use your senses to teleport back to right now.</p>
+      <div class="choice-grid">
+        <button class="choice" onclick="this.classList.toggle('sel')">👀 5 things I can see</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">✋ 4 things I can feel</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">👂 3 things I can hear</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">👃 2 things I can smell</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">👅 1 thing I can taste</button>
+      </div>
+      <button class="primary" style="width:100%;margin-top:.8rem;background:linear-gradient(#47a957,#236c31)" onclick="earn(10,'Grounding complete. You teleported back to now. +10 diamonds')">Complete Grounding 💎</button>
+    </div>
+  </div>
+</section>
+
+<section id="coldwater" class="screen">
+  <img class="scene-bg-img" src="custom-backgrounds/rain-room-clean-scene.jpg" alt="Cold Water Reset"/><div class="scene-shade"></div>
+  <button class="back-hub" onclick="backHub()">← Hub</button>
+  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 38svh)">
+    <div class="text-card">
+      <h1 class="scene-title">Cold Water Reset</h1>
+      <p class="scene-copy">A fast splash-potion reset for your nervous system.</p>
+      <div class="choice-grid">
+        <button class="choice" onclick="this.classList.toggle('sel')">🧊 Run cold water over wrists for 30 seconds</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">🌬️ Take 3 slow breaths</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">💓 Notice your heartbeat starting to slow</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">✨ Say: “My body is allowed to calm down.”</button>
+      </div>
+      <button class="primary" style="width:100%;margin-top:.8rem;background:linear-gradient(#55ffff,#218b8b)" onclick="earn(8,'Cold water reset complete. +8 diamonds')">Reset Complete 💎</button>
+    </div>
+  </div>
+</section>
+
+<section id="safeplace" class="screen">
+  <img class="scene-bg-img" src="custom-backgrounds/card-biome.png" alt="Safe Place Set Your Spawn Point"/><div class="scene-shade"></div>
+  <button class="back-hub" onclick="backHub()">← Hub</button>
+  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 36svh)">
+    <div class="text-card">
+      <h1 class="scene-title">Safe Place</h1>
+      <p class="scene-copy">Set your mental spawn point for moments that feel overwhelming.</p>
+      <div class="choice-grid">
+        <button class="choice" onclick="this.classList.toggle('sel')">🏡 Picture your safest place</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">👀 Notice what you see there</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">👂 Notice what you hear there</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">🧱 Add one block of protection</button>
+      </div>
+      <button class="primary" style="width:100%;margin-top:.8rem;background:linear-gradient(#e0b85a,#9a6d20)" onclick="earn(10,'Spawn point set. You can return here anytime. +10 diamonds')">Set Spawn Point 💎</button>
+    </div>
+  </div>
+</section>
+
+<section id="muscle" class="screen">
+  <img class="scene-bg-img" src="custom-backgrounds/miner.jpg" alt="Muscle Relaxation Take Off Your Armor"/><div class="scene-shade"></div>
+  <button class="back-hub" onclick="backHub()">← Hub</button>
+  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 38svh)">
+    <div class="text-card">
+      <h1 class="scene-title">Muscle Relaxation</h1>
+      <p class="scene-copy">Take off your armor one piece at a time by tensing and releasing.</p>
+      <div class="choice-grid">
+        <button class="choice" onclick="this.classList.toggle('sel')">✊ Fists: tense 5 seconds, release</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">🦶 Feet and legs: tense, release</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">💪 Shoulders and arms: tense, release</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">🙂 Face and jaw: tense, release</button>
+      </div>
+      <button class="primary" style="width:100%;margin-top:.8rem;background:linear-gradient(#7f8c8d,#384042)" onclick="earn(12,'Armor removed. Durability restored. +12 diamonds')">Armor Off 💎</button>
+    </div>
+  </div>
+</section>
+
+<section id="humming" class="screen">
+  <img class="scene-bg-img" src="custom-backgrounds/card-sunset.png" alt="Humming Jukebox Mode"/><div class="scene-shade"></div>
+  <button class="back-hub" onclick="backHub()">← Hub</button>
+  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 36svh)">
+    <div class="text-card">
+      <h1 class="scene-title">Humming</h1>
+      <p class="scene-copy">Jukebox mode activates a gentle calming pathway through slow vibration.</p>
+      <div class="choice-grid">
+        <button class="choice" onclick="this.classList.toggle('sel')">🌬️ Breathe in through your nose</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">🎵 Hum slowly as you breathe out</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">📀 Feel the vibration in your chest or face</button>
+        <button class="choice" onclick="this.classList.toggle('sel')">🔁 Repeat 5–8 times</button>
+      </div>
+      <button class="primary" style="width:100%;margin-top:.8rem;background:linear-gradient(#a855f7,#5b21b6)" onclick="earn(8,'Jukebox mode complete. +8 diamonds')">Finish Song 💎</button>
+    </div>
+  </div>
 </section>
 
 <section id="miner" class="screen">
