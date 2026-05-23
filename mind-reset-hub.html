@@ -1373,6 +1373,152 @@ textarea::placeholder{color:#d8d1de}
 </style>
 
 <link rel="stylesheet" href="shared/minecraft-v2-theme.css"/>
+
+
+<style id="forest-whisper-single-prompt-revision">
+/* FOREST WHISPER: image-first calm layout with one guided prompt at a time */
+.forest-whispering-scene .forest-trunks,
+.forest-whispering-scene .forest-canopy,
+.forest-whispering-scene .forest-ground,
+.forest-whispering-scene .pixel-forest-life{
+  display:none !important;
+}
+.forest-whispering-scene .scene-bg-img{
+  object-fit:cover !important;
+  object-position:center center !important;
+  filter:saturate(1.02) contrast(.96) brightness(.98) !important;
+  transform:scale(1) !important;
+  opacity:1 !important;
+}
+.forest-whispering-scene .scene-shade{
+  background:
+    linear-gradient(180deg, rgba(2,12,5,.02) 0%, rgba(2,12,5,.04) 45%, rgba(2,12,5,.36) 100%),
+    radial-gradient(circle at 50% 24%, rgba(218,255,190,.10), transparent 54%) !important;
+}
+.forest-calm-hero{
+  position:relative;
+  z-index:4;
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  gap:.75rem;
+  width:min(900px, calc(100% - 1.1rem));
+  margin:0 auto;
+  padding:calc(env(safe-area-inset-top) + 5.5rem) 0 calc(env(safe-area-inset-bottom) + 1rem);
+}
+.forest-intro-card,
+.forest-prompt-card{
+  border:2px solid rgba(219,255,199,.42);
+  border-radius:22px;
+  background:linear-gradient(180deg, rgba(8,31,13,.56), rgba(5,20,10,.68));
+  box-shadow:0 18px 42px rgba(0,0,0,.34), inset 0 0 0 1px rgba(255,255,255,.10);
+  backdrop-filter:blur(6px);
+}
+.forest-intro-card{
+  padding:clamp(.9rem, 2.6vw, 1.25rem);
+  text-align:center;
+}
+.forest-intro-card .scene-title{
+  margin:0 0 .45rem;
+  color:#e5ffd3;
+}
+.forest-intro-card .scene-copy{
+  margin:0 auto;
+  max-width:760px;
+  color:#fbfff3;
+  font-size:clamp(1rem, 2.7vw, 1.22rem);
+}
+.forest-prompt-card{
+  padding:clamp(1rem, 3vw, 1.35rem);
+}
+.forest-progress{
+  display:inline-flex;
+  padding:.35rem .65rem;
+  border:2px solid rgba(221,255,204,.32);
+  border-radius:999px;
+  background:rgba(2,18,7,.38);
+  color:#dfffcc;
+  font-family:"Press Start 2P", system-ui;
+  font-size:clamp(.55rem, 1.7vw, .72rem);
+  line-height:1.5;
+}
+.forest-prompt-card h2{
+  margin:.85rem 0 .4rem;
+  color:#e5ffd3;
+  font-family:"Press Start 2P", system-ui;
+  font-size:clamp(.9rem, 3vw, 1.25rem);
+  line-height:1.45;
+  text-shadow:3px 3px 0 rgba(0,0,0,.7);
+}
+.forest-prompt-card p{
+  margin:0 0 .75rem;
+  color:#fbfff3;
+  font-size:clamp(1rem, 2.8vw, 1.16rem);
+  line-height:1.4;
+  font-weight:800;
+}
+.forest-response{
+  width:100%;
+  min-height:118px;
+  resize:vertical;
+  border:2px solid rgba(221,255,204,.42);
+  border-radius:16px;
+  background:rgba(255,255,255,.88);
+  color:#173014;
+  padding:.9rem;
+  font:800 1.05rem/1.4 Nunito, system-ui, sans-serif;
+  outline:none;
+}
+.forest-response:focus{
+  border-color:rgba(221,255,204,.9);
+  box-shadow:0 0 0 4px rgba(176,255,148,.2);
+}
+.forest-prompt-actions{
+  display:flex;
+  gap:.7rem;
+  margin-top:.8rem;
+}
+.forest-prompt-actions button{
+  flex:1;
+}
+.forest-prompt-actions button:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+.sr-only{
+  position:absolute !important;
+  width:1px !important;
+  height:1px !important;
+  padding:0 !important;
+  margin:-1px !important;
+  overflow:hidden !important;
+  clip:rect(0,0,0,0) !important;
+  white-space:nowrap !important;
+  border:0 !important;
+}
+@media(min-width:900px){
+  .forest-calm-hero{
+    padding-bottom:2rem;
+  }
+  .forest-intro-card,
+  .forest-prompt-card{
+    max-width:760px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+}
+@media(max-width:720px){
+  .forest-calm-hero{
+    justify-content:flex-end;
+    padding-top:calc(env(safe-area-inset-top) + 5rem);
+  }
+  .forest-prompt-actions{
+    flex-direction:column;
+  }
+}
+</style>
+
 </head>
 <body>
 <main id="hub" class="screen active" aria-label="Mind Reset Hub">
@@ -1473,54 +1619,105 @@ textarea::placeholder{color:#d8d1de}
 
 <section id="forest" class="screen forest-whispering-scene">
   <img class="scene-bg-img" src="custom-backgrounds/biome.jpg" alt="5-4-3-2-1 Whispering Forest"/>
-  <div class="forest-trunks"></div>
-  <div class="forest-canopy"></div>
   <div class="scene-shade"></div>
-  <div class="forest-ground"></div>
-  <div class="pixel-forest-life" aria-hidden="true">
-    <span class="pixel-leaf" style="--leaf-left:8%;--leaf-delay:.5s;--leaf-speed:13s;--leaf-sway:26px"></span>
-  <span class="pixel-leaf" style="--leaf-left:18%;--leaf-delay:5.5s;--leaf-speed:16s;--leaf-sway:42px"></span>
-  <span class="pixel-leaf" style="--leaf-left:32%;--leaf-delay:2.2s;--leaf-speed:14s;--leaf-sway:34px"></span>
-  <span class="pixel-leaf" style="--leaf-left:47%;--leaf-delay:8s;--leaf-speed:17s;--leaf-sway:48px"></span>
-  <span class="pixel-leaf" style="--leaf-left:61%;--leaf-delay:3.7s;--leaf-speed:15s;--leaf-sway:30px"></span>
-  <span class="pixel-leaf" style="--leaf-left:76%;--leaf-delay:6.8s;--leaf-speed:18s;--leaf-sway:54px"></span>
-  <span class="pixel-leaf" style="--leaf-left:90%;--leaf-delay:1.2s;--leaf-speed:14s;--leaf-sway:36px"></span>
-    <span class="pixel-bird"></span>
-    <span class="pixel-squirrel"></span>
-  </div>
   <button class="back-hub" onclick="backHub()">← Hub</button>
   <button id="forestSoundBtn" class="sound-btn" onclick="toggleSound('forestAudio','forestSoundBtn')" aria-label="Toggle forest ambience">🔇</button>
-  <div class="scene-panel" style="padding-top:calc(env(safe-area-inset-top) + 40svh)">
-    <div class="text-card">
+
+  <div class="forest-calm-hero" aria-label="5-4-3-2-1 Whispering Forest grounding exercise">
+    <div class="forest-intro-card">
       <h1 class="scene-title">5-4-3-2-1 Whispering Forest</h1>
       <p class="scene-copy">Let the forest help you ground: notice 5 things you see, 4 you feel, 3 you hear, 2 you smell, and 1 steady breath.</p>
-      <div class="forest-steps" aria-label="5-4-3-2-1 grounding steps">
-        <button class="forest-step" onclick="this.classList.toggle('sel')">
-          <span class="forest-step-icon">👀</span>
-          <span><span class="forest-step-title">5 things you see</span><span class="forest-step-copy">Look around the forest. Name five colors, shapes, blocks, leaves, flowers, or patches of light you can see.</span></span>
-        </button>
-        <button class="forest-step" onclick="this.classList.toggle('sel')">
-          <span class="forest-step-icon">✋</span>
-          <span><span class="forest-step-title">4 things you feel</span><span class="forest-step-copy">Notice four gentle sensations: your feet on the ground, your hands, your clothes, or the air around you.</span></span>
-        </button>
-        <button class="forest-step" onclick="this.classList.toggle('sel')">
-          <span class="forest-step-icon">👂</span>
-          <span><span class="forest-step-title">3 things you hear</span><span class="forest-step-copy">Listen for three sounds. Maybe birds, leaves, water, your room, or the quiet between sounds.</span></span>
-        </button>
-        <button class="forest-step" onclick="this.classList.toggle('sel')">
-          <span class="forest-step-icon">🌲</span>
-          <span><span class="forest-step-title">2 things you smell</span><span class="forest-step-copy">Take an easy breath and notice two scents, or imagine fresh grass, bark, rain, or flowers in the forest.</span></span>
-        </button>
-        <button class="forest-step" onclick="this.classList.toggle('sel')">
-          <span class="forest-step-icon">🌬️</span>
-          <span><span class="forest-step-title">1 steady breath</span><span class="forest-step-copy">Breathe in slowly, then let one long breath out. Let your body settle like the forest after the wind.</span></span>
-        </button>
+    </div>
+
+    <div class="forest-prompt-card">
+      <div class="forest-progress" id="forestProgress">Step 1 of 5</div>
+      <h2 id="forestPromptTitle">5 things you see</h2>
+      <p id="forestPromptCopy">Look around the forest. Type five colors, shapes, blocks, leaves, flowers, or patches of light you can see.</p>
+      <label class="sr-only" id="forestResponseLabel" for="forestResponse">Your response</label>
+      <textarea id="forestResponse" class="forest-response" rows="4" placeholder="Type your thoughts here..."></textarea>
+      <div class="forest-prompt-actions">
+        <button type="button" class="quiet-btn" id="forestPrevBtn" onclick="forestPrevPrompt()">← Back</button>
+        <button type="button" class="primary" id="forestNextBtn" onclick="forestNextPrompt()">Next →</button>
       </div>
-      <button class="primary" style="width:100%;margin-top:.8rem" onclick="earn(8,'Whispering Forest grounding complete. +8 diamonds')">Complete Grounding 💎</button>
     </div>
   </div>
+
   <audio id="forestAudio" loop preload="auto" src="public/sounds/ES_Ambience, Forest, Forest Ambience Birds, Squirel Calls - Epidemic Sound.mp3"></audio>
 </section>
+
+<script>
+const forestWhisperPrompts = [
+  {
+    title: '5 things you see',
+    copy: 'Look around the forest. Type five colors, shapes, blocks, leaves, flowers, or patches of light you can see.',
+    placeholder: 'Example: green leaves, bright sky, red flower...'
+  },
+  {
+    title: '4 things you feel',
+    copy: 'Notice four gentle sensations: your feet on the ground, your hands, your clothes, or the air around you.',
+    placeholder: 'Type four things you can feel...'
+  },
+  {
+    title: '3 things you hear',
+    copy: 'Listen for three sounds. Maybe birds, leaves, water, your room, or the quiet between sounds.',
+    placeholder: 'Type three sounds you notice...'
+  },
+  {
+    title: '2 things you smell',
+    copy: 'Take an easy breath and notice two scents, or imagine fresh grass, bark, rain, or flowers in the forest.',
+    placeholder: 'Type two scents you notice or imagine...'
+  },
+  {
+    title: '1 steady breath',
+    copy: 'Breathe in slowly, then let one long breath out. Type one word for how you want to feel now.',
+    placeholder: 'Type one calm word...'
+  }
+];
+
+let forestWhisperIndex = 0;
+const forestWhisperResponses = ['', '', '', '', ''];
+
+function renderForestPrompt(){
+  const prompt = forestWhisperPrompts[forestWhisperIndex];
+  const progress = document.getElementById('forestProgress');
+  const title = document.getElementById('forestPromptTitle');
+  const copy = document.getElementById('forestPromptCopy');
+  const response = document.getElementById('forestResponse');
+  const prev = document.getElementById('forestPrevBtn');
+  const next = document.getElementById('forestNextBtn');
+  if(!progress || !title || !copy || !response || !prev || !next) return;
+
+  progress.textContent = `Step ${forestWhisperIndex + 1} of ${forestWhisperPrompts.length}`;
+  title.textContent = prompt.title;
+  copy.textContent = prompt.copy;
+  response.value = forestWhisperResponses[forestWhisperIndex] || '';
+  response.placeholder = prompt.placeholder;
+  prev.disabled = forestWhisperIndex === 0;
+  next.textContent = forestWhisperIndex === forestWhisperPrompts.length - 1 ? 'Complete Grounding 💎' : 'Next →';
+}
+
+function forestNextPrompt(){
+  const response = document.getElementById('forestResponse');
+  if(response) forestWhisperResponses[forestWhisperIndex] = response.value;
+  if(forestWhisperIndex < forestWhisperPrompts.length - 1){
+    forestWhisperIndex += 1;
+    renderForestPrompt();
+  } else {
+    earn(8,'Whispering Forest grounding complete. +8 diamonds');
+  }
+}
+
+function forestPrevPrompt(){
+  const response = document.getElementById('forestResponse');
+  if(response) forestWhisperResponses[forestWhisperIndex] = response.value;
+  if(forestWhisperIndex > 0){
+    forestWhisperIndex -= 1;
+    renderForestPrompt();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', renderForestPrompt);
+</script>
 
 <section id="sunset" class="screen">
   <img class="scene-bg-img" src="custom-backgrounds/campfire.jpg" alt="Sunset Reset"/><div class="scene-shade"></div>
