@@ -1581,6 +1581,24 @@ textarea::placeholder{color:#d8d1de}
 .forest-whispering-scene.exercise-active .forest-calm-hero{
   display:flex;
 }
+.forest-whispering-scene.exercise-complete .forest-entry-wrap,
+.forest-whispering-scene.exercise-complete .forest-calm-hero,
+.rain-scene.exercise-complete .rain-entry-wrap,
+.rain-scene.exercise-complete .rain-room-intro,
+.rain-scene.exercise-complete .rain-room-form{
+  display:none !important;
+}
+.forest-whispering-scene.exercise-complete .scene-shade{
+  background:
+    linear-gradient(180deg, rgba(2,12,5,.00) 0%, rgba(2,12,5,.02) 46%, rgba(2,12,5,.14) 100%),
+    radial-gradient(circle at 50% 22%, rgba(218,255,190,.06), transparent 58%) !important;
+}
+.rain-scene.exercise-complete .scene-shade{
+  background:linear-gradient(180deg, rgba(1,8,18,.01) 0%, rgba(2,8,18,.04) 45%, rgba(2,8,18,.22) 100%) !important;
+}
+.rain-scene.exercise-complete .rain-lines{
+  opacity:.14;
+}
 .rain-scene:not(.exercise-active) .scene-shade{
   background:linear-gradient(180deg, rgba(1,8,18,.02) 0%, rgba(2,8,18,.06) 45%, rgba(2,8,18,.30) 100%) !important;
 }
@@ -1680,7 +1698,7 @@ textarea::placeholder{color:#d8d1de}
   </div>
 <div class="rain-room-form" aria-label="Rain Room reflection">
     <textarea maxlength="220" placeholder="Type your thought here..." aria-label="Type your thought here"></textarea>
-    <button class="rain-share-btn" onclick="releaseText(this,'The rain helped lighten what you were carrying. +10 diamonds',10)">🌧️ Share with the rain</button>
+    <button class="rain-share-btn" onclick="completeRainExercise(this)">🌧️ Share with the rain</button>
     <p class="rain-helper">The rain can help lighten what you are carrying.</p>
   </div>
 
@@ -1751,13 +1769,14 @@ textarea::placeholder{color:#d8d1de}
 <script>
 function resetForestExperience(){
   const forest = document.getElementById('forest');
-  if(forest) forest.classList.remove('exercise-active');
+  if(forest) forest.classList.remove('exercise-active','exercise-complete');
   forestWhisperIndex = 0;
   forestWhisperResponses.fill('');
   renderForestPrompt();
 }
 function startForestExercise(){
   const forest = document.getElementById('forest');
+  if(forest) forest.classList.remove('exercise-complete');
   if(forest) forest.classList.add('exercise-active');
   renderForestPrompt();
   const response = document.getElementById('forestResponse');
@@ -1765,16 +1784,31 @@ function startForestExercise(){
 }
 function resetRainExperience(){
   const rain = document.getElementById('rain');
-  if(rain) rain.classList.remove('exercise-active');
+  if(rain) rain.classList.remove('exercise-active','exercise-complete');
   const ta = rain ? rain.querySelector('.rain-room-form textarea') : null;
   if(ta) ta.value = '';
 }
 function startRainExercise(){
   const rain = document.getElementById('rain');
+  if(rain) rain.classList.remove('exercise-complete');
   if(rain) rain.classList.add('exercise-active');
   const ta = rain ? rain.querySelector('.rain-room-form textarea') : null;
   if(ta) setTimeout(()=>ta.focus(), 80);
 }
+function completeForestExercise(){
+  const forest = document.getElementById('forest');
+  if(forest) forest.classList.remove('exercise-active');
+  if(forest) forest.classList.add('exercise-complete');
+  earn(8,'Whispering Forest grounding complete. +8 diamonds');
+}
+
+function completeRainExercise(btn){
+  const rain = document.getElementById('rain');
+  releaseText(btn,'The rain helped lighten what you were carrying. +10 diamonds',10);
+  if(rain) rain.classList.remove('exercise-active');
+  if(rain) rain.classList.add('exercise-complete');
+}
+
 const forestWhisperPrompts = [
   {
     title: '5 things you see',
@@ -1832,7 +1866,7 @@ function forestNextPrompt(){
     forestWhisperIndex += 1;
     renderForestPrompt();
   } else {
-    earn(8,'Whispering Forest grounding complete. +8 diamonds');
+    completeForestExercise();
   }
 }
 
