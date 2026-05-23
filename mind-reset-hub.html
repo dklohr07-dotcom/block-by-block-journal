@@ -1519,6 +1519,94 @@ textarea::placeholder{color:#d8d1de}
 }
 </style>
 
+
+<style id="calm-view-choice-revision">
+/* Forest + Rain Room: image-first entry with optional exercise */
+.calm-view-card{
+  position:relative;
+  z-index:5;
+  width:min(760px, calc(100% - 1.1rem));
+  margin:0 auto;
+  padding:clamp(.95rem, 2.8vw, 1.35rem);
+  border:2px solid rgba(255,255,255,.38);
+  border-radius:24px;
+  background:linear-gradient(180deg, rgba(6,20,10,.38), rgba(3,12,7,.52));
+  box-shadow:0 20px 48px rgba(0,0,0,.30), inset 0 0 0 1px rgba(255,255,255,.10);
+  backdrop-filter:blur(5px);
+  text-align:center;
+}
+.calm-view-card h1{
+  margin:0 0 .55rem;
+  font-family:"Press Start 2P", system-ui;
+  font-size:clamp(.95rem, 3.2vw, 1.55rem);
+  line-height:1.45;
+  color:#f8fff1;
+  text-shadow:3px 3px 0 rgba(0,0,0,.68);
+}
+.calm-view-card p{
+  margin:0 auto .95rem;
+  max-width:680px;
+  color:#fffdf2;
+  font-size:clamp(1rem, 2.7vw, 1.2rem);
+  line-height:1.42;
+  font-weight:900;
+}
+.calm-view-card .primary{
+  min-width:min(100%, 340px);
+}
+.forest-entry-wrap,
+.rain-entry-wrap{
+  position:relative;
+  z-index:4;
+  min-height:100svh;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  padding:calc(env(safe-area-inset-top) + 5.4rem) 0 calc(env(safe-area-inset-bottom) + 1.15rem);
+}
+.forest-whispering-scene.exercise-active .forest-entry-wrap,
+.rain-scene.exercise-active .rain-entry-wrap{
+  display:none;
+}
+.forest-whispering-scene:not(.exercise-active) .forest-calm-hero,
+.rain-scene:not(.exercise-active) .rain-room-intro,
+.rain-scene:not(.exercise-active) .rain-room-form{
+  display:none !important;
+}
+.forest-whispering-scene:not(.exercise-active) .scene-shade{
+  background:
+    linear-gradient(180deg, rgba(2,12,5,.00) 0%, rgba(2,12,5,.02) 46%, rgba(2,12,5,.22) 100%),
+    radial-gradient(circle at 50% 22%, rgba(218,255,190,.08), transparent 58%) !important;
+}
+.forest-whispering-scene.exercise-active .forest-calm-hero{
+  display:flex;
+}
+.rain-scene:not(.exercise-active) .scene-shade{
+  background:linear-gradient(180deg, rgba(1,8,18,.02) 0%, rgba(2,8,18,.06) 45%, rgba(2,8,18,.30) 100%) !important;
+}
+.rain-scene.exercise-active .rain-room-intro,
+.rain-scene.exercise-active .rain-room-form{
+  display:block;
+}
+.rain-scene.exercise-active .rain-entry-wrap{
+  display:none;
+}
+.rain-scene:not(.exercise-active) .rain-lines{
+  opacity:.18;
+}
+.rain-scene:not(.exercise-active) .rain-clean-bg,
+.forest-whispering-scene:not(.exercise-active) .scene-bg-img{
+  filter:saturate(1.02) contrast(.98) brightness(1) !important;
+  transform:scale(1) !important;
+}
+@media(max-width:720px){
+  .forest-entry-wrap,
+  .rain-entry-wrap{
+    padding-top:calc(env(safe-area-inset-top) + 5rem);
+  }
+}
+</style>
+
 </head>
 <body>
 <main id="hub" class="screen active" aria-label="Mind Reset Hub">
@@ -1579,6 +1667,13 @@ textarea::placeholder{color:#d8d1de}
   <div class="rain-lines"></div><div class="rain-lines two"></div><div class="scene-shade"></div>
   <button class="back-hub rain-back" onclick="backHub()">← Hub</button>
   <button id="rainSoundBtn" class="sound-btn rain-sound" onclick="toggleSound('rainAudio','rainSoundBtn')" aria-label="Toggle rain sound">🔇</button>
+  <div class="rain-entry-wrap" aria-label="Rain Room calm view">
+    <div class="calm-view-card">
+      <h1>Rain Room Realm</h1>
+      <p>Stay with the rain image and sound, or begin the reflection when you are ready to share a heavy thought.</p>
+      <button type="button" class="primary" onclick="startRainExercise()">Start Rain Reflection</button>
+    </div>
+  </div>
 <div class="rain-room-intro" aria-label="Rain Room title">
     <h1>Rain Room Realm</h1>
     <p>Share a heavy thought and let the rain help lighten what you are carrying.</p>
@@ -1623,6 +1718,14 @@ textarea::placeholder{color:#d8d1de}
   <button class="back-hub" onclick="backHub()">← Hub</button>
   <button id="forestSoundBtn" class="sound-btn" onclick="toggleSound('forestAudio','forestSoundBtn')" aria-label="Toggle forest ambience">🔇</button>
 
+  <div class="forest-entry-wrap" aria-label="Whispering Forest calm view">
+    <div class="calm-view-card">
+      <h1>5-4-3-2-1 Whispering Forest</h1>
+      <p>Rest with the forest image and ambience as long as you need, or begin the grounding exercise when you are ready.</p>
+      <button type="button" class="primary" onclick="startForestExercise()">Start Grounding Exercise</button>
+    </div>
+  </div>
+
   <div class="forest-calm-hero" aria-label="5-4-3-2-1 Whispering Forest grounding exercise">
     <div class="forest-intro-card">
       <h1 class="scene-title">5-4-3-2-1 Whispering Forest</h1>
@@ -1646,6 +1749,32 @@ textarea::placeholder{color:#d8d1de}
 </section>
 
 <script>
+function resetForestExperience(){
+  const forest = document.getElementById('forest');
+  if(forest) forest.classList.remove('exercise-active');
+  forestWhisperIndex = 0;
+  forestWhisperResponses.fill('');
+  renderForestPrompt();
+}
+function startForestExercise(){
+  const forest = document.getElementById('forest');
+  if(forest) forest.classList.add('exercise-active');
+  renderForestPrompt();
+  const response = document.getElementById('forestResponse');
+  if(response) setTimeout(()=>response.focus(), 80);
+}
+function resetRainExperience(){
+  const rain = document.getElementById('rain');
+  if(rain) rain.classList.remove('exercise-active');
+  const ta = rain ? rain.querySelector('.rain-room-form textarea') : null;
+  if(ta) ta.value = '';
+}
+function startRainExercise(){
+  const rain = document.getElementById('rain');
+  if(rain) rain.classList.add('exercise-active');
+  const ta = rain ? rain.querySelector('.rain-room-form textarea') : null;
+  if(ta) setTimeout(()=>ta.focus(), 80);
+}
 const forestWhisperPrompts = [
   {
     title: '5 things you see',
@@ -1750,6 +1879,8 @@ function openScene(id){
   window.scrollTo(0,0);
   if(id==='miner') buildMine();
   if(id==='breathe') resetBreathing();
+  if(id==='forest') resetForestExperience();
+  if(id==='rain') resetRainExperience();
 }
 function backHub(){
   stopAllSounds(); stopDiamondGame(false);
