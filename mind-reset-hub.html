@@ -1625,6 +1625,174 @@ textarea::placeholder{color:#d8d1de}
 }
 </style>
 
+
+<style id="forest-chicken-bees-revision">
+/* FOREST WHISPER completion: reveal gentle Minecraft-style forest life after a short calm pause */
+.forest-completion-life{
+  position:absolute;
+  inset:0;
+  z-index:3;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity 900ms ease;
+}
+.forest-whispering-scene.show-completion-life .forest-completion-life{
+  opacity:1;
+}
+.pixel-beehive{
+  position:absolute;
+  left:clamp(1.2rem, 12vw, 8.5rem);
+  bottom:clamp(5.5rem, 17vh, 9rem);
+  width:76px;
+  height:58px;
+  border:4px solid rgba(58,34,10,.95);
+  border-radius:12px 12px 16px 16px;
+  background:
+    linear-gradient(90deg, transparent 0 28%, rgba(48,28,9,.88) 28% 42%, transparent 42% 100%),
+    repeating-linear-gradient(180deg, #f4b642 0 11px, #d18425 11px 19px);
+  box-shadow:0 8px 0 rgba(47,29,10,.5), inset 0 -8px 0 rgba(119,67,18,.38);
+  image-rendering:pixelated;
+}
+.pixel-beehive::before{
+  content:"";
+  position:absolute;
+  left:-14px;
+  top:-15px;
+  width:104px;
+  height:18px;
+  border-radius:14px 14px 4px 4px;
+  background:#7d4b1e;
+  box-shadow:inset 0 -5px 0 rgba(0,0,0,.22);
+}
+.pixel-bee{
+  position:absolute;
+  width:34px;
+  height:24px;
+  border:3px solid rgba(38,25,8,.95);
+  border-radius:7px;
+  background:repeating-linear-gradient(90deg, #ffd75d 0 9px, #2a2417 9px 14px);
+  box-shadow:0 5px 10px rgba(0,0,0,.24);
+  image-rendering:pixelated;
+  animation:beeFloat 4.2s ease-in-out infinite;
+}
+.pixel-bee::before,
+.pixel-bee::after{
+  content:"";
+  position:absolute;
+  top:-9px;
+  width:15px;
+  height:10px;
+  border:2px solid rgba(255,255,255,.75);
+  background:rgba(220,250,255,.52);
+  border-radius:8px;
+}
+.pixel-bee::before{left:2px;transform:rotate(-16deg)}
+.pixel-bee::after{right:2px;transform:rotate(16deg)}
+.pixel-bee .eye{
+  position:absolute;
+  right:3px;
+  top:5px;
+  width:4px;
+  height:4px;
+  background:#111;
+  border-radius:1px;
+}
+.pixel-bee.bee-one{left:calc(clamp(1.2rem, 12vw, 8.5rem) + 72px);bottom:clamp(8.4rem, 23vh, 12.5rem);animation-delay:.1s}
+.pixel-bee.bee-two{left:calc(clamp(1.2rem, 12vw, 8.5rem) + 18px);bottom:clamp(10.1rem, 28vh, 15rem);animation-delay:1.2s;transform:scale(.9)}
+.pixel-bee.bee-three{left:calc(clamp(1.2rem, 12vw, 8.5rem) + 112px);bottom:clamp(10.7rem, 29vh, 15.4rem);animation-delay:2.1s;transform:scale(.86)}
+@keyframes beeFloat{
+  0%,100%{translate:0 0}
+  35%{translate:8px -10px}
+  70%{translate:-6px 6px}
+}
+.minecraft-chicken{
+  position:absolute;
+  left:-120px;
+  bottom:clamp(1.15rem, 6vh, 3.5rem);
+  width:88px;
+  height:80px;
+  image-rendering:pixelated;
+  animation:chickenWalk 18s linear infinite;
+  filter:drop-shadow(0 8px 6px rgba(0,0,0,.35));
+}
+.minecraft-chicken .body{
+  position:absolute;
+  left:22px;
+  top:28px;
+  width:46px;
+  height:36px;
+  background:#f7f1df;
+  border:4px solid #d8cfba;
+  box-shadow:inset -7px -7px 0 #ded5c1;
+}
+.minecraft-chicken .head{
+  position:absolute;
+  left:48px;
+  top:6px;
+  width:32px;
+  height:32px;
+  background:#fff9ea;
+  border:4px solid #d8cfba;
+}
+.minecraft-chicken .eye{
+  position:absolute;
+  left:66px;
+  top:16px;
+  width:5px;
+  height:5px;
+  background:#111;
+}
+.minecraft-chicken .beak{
+  position:absolute;
+  left:78px;
+  top:25px;
+  width:18px;
+  height:10px;
+  background:#f0a528;
+  border:3px solid #c66f16;
+}
+.minecraft-chicken .comb{
+  position:absolute;
+  left:54px;
+  top:0;
+  width:18px;
+  height:9px;
+  background:#d9352a;
+  box-shadow:8px 2px 0 #d9352a;
+}
+.minecraft-chicken .leg{
+  position:absolute;
+  top:63px;
+  width:6px;
+  height:17px;
+  background:#e28a20;
+  transform-origin:top center;
+}
+.minecraft-chicken .leg-one{left:35px;animation:chickenLegA .45s steps(2,end) infinite}
+.minecraft-chicken .leg-two{left:56px;animation:chickenLegB .45s steps(2,end) infinite}
+@keyframes chickenWalk{
+  0%{transform:translateX(0) scaleX(1)}
+  48%{transform:translateX(calc(100vw + 200px)) scaleX(1)}
+  50%{transform:translateX(calc(100vw + 200px)) scaleX(-1)}
+  98%{transform:translateX(0) scaleX(-1)}
+  100%{transform:translateX(0) scaleX(1)}
+}
+@keyframes chickenLegA{50%{transform:rotate(18deg)}}
+@keyframes chickenLegB{50%{transform:rotate(-18deg)}}
+@media(max-width:720px){
+  .pixel-beehive{
+    left:1rem;
+    bottom:5.2rem;
+    transform:scale(.82);
+    transform-origin:left bottom;
+  }
+  .pixel-bee.bee-one{left:4.6rem}
+  .pixel-bee.bee-two{left:2.1rem}
+  .pixel-bee.bee-three{left:6.7rem}
+  .minecraft-chicken{transform:scale(.82)}
+}
+</style>
+
 </head>
 <body>
 <main id="hub" class="screen active" aria-label="Mind Reset Hub">
@@ -1733,6 +1901,22 @@ textarea::placeholder{color:#d8d1de}
 <section id="forest" class="screen forest-whispering-scene">
   <img class="scene-bg-img" src="custom-backgrounds/biome.jpg" alt="5-4-3-2-1 Whispering Forest"/>
   <div class="scene-shade"></div>
+
+  <div class="forest-completion-life" aria-hidden="true">
+    <div class="pixel-beehive"></div>
+    <div class="pixel-bee bee-one"><span class="eye"></span></div>
+    <div class="pixel-bee bee-two"><span class="eye"></span></div>
+    <div class="pixel-bee bee-three"><span class="eye"></span></div>
+    <div class="minecraft-chicken">
+      <span class="comb"></span>
+      <span class="body"></span>
+      <span class="head"></span>
+      <span class="eye"></span>
+      <span class="beak"></span>
+      <span class="leg leg-one"></span>
+      <span class="leg leg-two"></span>
+    </div>
+  </div>
   <button class="back-hub" onclick="backHub()">← Hub</button>
   <button id="forestSoundBtn" class="sound-btn" onclick="toggleSound('forestAudio','forestSoundBtn')" aria-label="Toggle forest ambience">🔇</button>
 
@@ -1767,16 +1951,19 @@ textarea::placeholder{color:#d8d1de}
 </section>
 
 <script>
+let forestLifeTimer = null;
 function resetForestExperience(){
+  clearTimeout(forestLifeTimer);
   const forest = document.getElementById('forest');
-  if(forest) forest.classList.remove('exercise-active','exercise-complete');
+  if(forest) forest.classList.remove('exercise-active','exercise-complete','show-completion-life');
   forestWhisperIndex = 0;
   forestWhisperResponses.fill('');
   renderForestPrompt();
 }
 function startForestExercise(){
+  clearTimeout(forestLifeTimer);
   const forest = document.getElementById('forest');
-  if(forest) forest.classList.remove('exercise-complete');
+  if(forest) forest.classList.remove('exercise-complete','show-completion-life');
   if(forest) forest.classList.add('exercise-active');
   renderForestPrompt();
   const response = document.getElementById('forestResponse');
@@ -1799,6 +1986,13 @@ function completeForestExercise(){
   const forest = document.getElementById('forest');
   if(forest) forest.classList.remove('exercise-active');
   if(forest) forest.classList.add('exercise-complete');
+  clearTimeout(forestLifeTimer);
+  forestLifeTimer = setTimeout(()=>{
+    const currentForest = document.getElementById('forest');
+    if(currentForest && currentForest.classList.contains('active') && currentForest.classList.contains('exercise-complete')){
+      currentForest.classList.add('show-completion-life');
+    }
+  }, 2400);
   earn(8,'Whispering Forest grounding complete. +8 diamonds');
 }
 
@@ -1917,6 +2111,9 @@ function openScene(id){
   if(id==='rain') resetRainExperience();
 }
 function backHub(){
+  clearTimeout(forestLifeTimer);
+  const forest=document.getElementById('forest');
+  if(forest) forest.classList.remove('show-completion-life');
   stopAllSounds(); stopDiamondGame(false);
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('hub').classList.add('active');
