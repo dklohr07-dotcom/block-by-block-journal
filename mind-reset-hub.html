@@ -1626,345 +1626,84 @@ textarea::placeholder{color:#d8d1de}
 </style>
 
 
-<style id="forest-chicken-bees-revision">
-/* FOREST WHISPER completion: live animated overlays, not baked into the background image */
-.forest-completion-life{
-  position:absolute;
-  inset:0;
-  z-index:3;
-  pointer-events:none;
-  opacity:0;
-  transition:opacity 900ms ease;
-  overflow:hidden;
-}
-.forest-whispering-scene.show-completion-life .forest-completion-life{ opacity:1; }
 
-/* 3D beehive styled to match the reference: warm golden wooden box, dark slot, striped face */
+<style id="forest-chicken-bees-revision">
+.forest-completion-life{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;transition:opacity 900ms ease;overflow:hidden;}
+.forest-whispering-scene.show-completion-life .forest-completion-life{opacity:1;}
+
+/* Minecraft beehive inspired by provided reference */
 .pixel-beehive{
-  position:absolute;
-  right:clamp(2.4rem, 11vw, 9rem);
-  top:clamp(6.4rem, 15vh, 10.5rem);
-  width:128px;
-  height:94px;
-  border:4px solid #4b2b0d;
-  border-radius:3px;
-  image-rendering:pixelated;
+  position:absolute; right:clamp(2.5rem,11vw,8rem); top:clamp(6rem,14vh,10rem);
+  width:120px; height:92px; image-rendering:pixelated;
   background:
-    radial-gradient(ellipse at 54% 56%, #3c2108 0 10%, transparent 11%),
-    linear-gradient(90deg, rgba(255,231,113,.24) 0 11%, transparent 12% 86%, rgba(79,39,8,.35) 87%),
-    repeating-linear-gradient(180deg, #f5bd37 0 12px, #d88b1d 12px 20px, #81500e 20px 24px);
-  box-shadow:
-    -11px 12px 0 #6b3f12,
-    0 20px 18px rgba(0,0,0,.34),
-    inset 8px 6px 0 rgba(255,239,123,.36),
-    inset -14px -10px 0 rgba(87,48,10,.38);
-  transform:perspective(520px) rotateY(-17deg) rotateX(4deg);
-  transform-style:preserve-3d;
+    linear-gradient(90deg, rgba(70,35,5,.35) 0 12%, transparent 12% 88%, rgba(255,220,120,.22) 88%),
+    repeating-linear-gradient(180deg,#b97b22 0 14px,#8e5a16 14px 24px,#c98b2b 24px 36px);
+  border:4px solid #5a3510; box-shadow:-10px 10px 0 #704619,0 16px 16px rgba(0,0,0,.32);
 }
 .pixel-beehive::before{
-  content:"";
-  position:absolute;
-  left:-12px;
-  top:-18px;
-  width:148px;
-  height:22px;
-  border:4px solid #4a2a0b;
-  border-radius:2px;
-  background:linear-gradient(180deg,#8b5a1d,#5d3510);
-  box-shadow:inset 0 5px 0 rgba(255,212,79,.22), inset 0 -6px 0 rgba(0,0,0,.24);
-  transform:translateZ(14px);
+  content:""; position:absolute; left:-18px; top:12px; width:18px; height:68px;
+  background:repeating-linear-gradient(180deg,#8e5a16 0 12px,#b97b22 12px 24px);
+  border:4px solid #5a3510; border-right:none;
 }
 .pixel-beehive::after{
-  content:"";
-  position:absolute;
-  right:-20px;
-  top:8px;
-  width:20px;
-  height:78px;
-  background:
-    linear-gradient(90deg,#6a3c0d,#3b2107),
-    repeating-linear-gradient(180deg, transparent 0 12px, rgba(0,0,0,.35) 12px 16px);
-  border:3px solid #331d08;
-  transform:skewY(-18deg);
-  filter:brightness(.9);
+  content:""; position:absolute; left:20px; top:34px; width:38px; height:16px;
+  background:#2a1807; border:4px solid #5a3510;
 }
 
-/* Larger cuboid bees with white pixel wings, blue-black eyes, and striped 3D sides */
+/* Chunky Minecraft bees */
 .pixel-bee{
-  position:absolute;
-  width:90px;
-  height:54px;
-  border:4px solid #211707;
-  border-radius:3px;
-  image-rendering:pixelated;
-  background:
-    linear-gradient(90deg, transparent 0 64%, rgba(100,48,8,.42) 65% 100%),
-    repeating-linear-gradient(90deg, #ffd244 0 18px, #f6b62f 18px 26px, #221708 26px 34px);
-  box-shadow:
-    -9px 8px 0 #7b4510,
-    0 18px 18px rgba(0,0,0,.28),
-    inset 8px 5px 0 rgba(255,237,130,.30),
-    inset -13px -9px 0 rgba(128,68,10,.33);
-  transform-style:preserve-3d;
-  animation:beeOrbit 5.2s ease-in-out infinite;
+  position:absolute; width:68px; height:42px; border:4px solid #5a3510;
+  background:repeating-linear-gradient(90deg,#e8b23a 0 16px,#5a3510 16px 24px);
+  box-shadow:0 10px 12px rgba(0,0,0,.25);
+  animation:beeFloat 4s ease-in-out infinite;
 }
-.pixel-bee::before,
-.pixel-bee::after{
-  content:"";
-  position:absolute;
-  top:-24px;
-  width:35px;
-  height:23px;
-  border:3px solid rgba(255,255,255,.96);
-  background:
-    linear-gradient(45deg, rgba(255,255,255,.92) 0 22%, transparent 23% 48%, rgba(255,255,255,.65) 49% 68%, transparent 69%),
-    rgba(232,252,255,.66);
-  border-radius:2px;
-  box-shadow:inset 0 -5px 0 rgba(117,201,228,.22);
-  animation:wingFlutter .26s steps(2,end) infinite;
+.pixel-bee::before,.pixel-bee::after{
+  content:""; position:absolute; width:24px; height:14px; background:rgba(255,255,255,.75);
+  border:3px solid rgba(220,240,255,.95); top:-16px; transform:rotate(-25deg);
 }
-.pixel-bee::before{left:12px;transform:rotate(-19deg) skewX(-8deg)}
-.pixel-bee::after{right:10px;transform:rotate(20deg) skewX(8deg)}
-.pixel-bee .eye{
-  position:absolute;
-  right:9px;
-  top:16px;
-  width:9px;
-  height:14px;
-  background:#101010;
-  border-radius:1px;
-  box-shadow:
-    -7px 7px 0 #2b8ec0,
-    -58px 0 0 #101010,
-    -65px 7px 0 #2b8ec0;
-}
-.pixel-bee .eye::before{
-  content:"";
-  position:absolute;
-  left:-49px;
-  top:31px;
-  width:7px;
-  height:15px;
-  background:#2a1708;
-  box-shadow:41px -2px 0 #2a1708;
-}
-.pixel-bee.bee-one{
-  right:clamp(1.6rem, 7vw, 6rem);
-  top:clamp(8.2rem, 19vh, 12rem);
-  animation-delay:.08s;
-}
-.pixel-bee.bee-two{
-  right:clamp(9.5rem, 21vw, 18rem);
-  top:clamp(12.2rem, 28vh, 18rem);
-  animation-delay:1.15s;
-  scale:1.06;
-}
-.pixel-bee.bee-three{display:none;}
-@keyframes beeOrbit{
-  0%,100%{translate:0 0; rotate:0deg}
-  22%{translate:20px -22px; rotate:-4deg}
-  52%{translate:-30px 12px; rotate:3deg}
-  78%{translate:14px 25px; rotate:-2deg}
-}
-@keyframes wingFlutter{ 50%{top:-16px;opacity:.74} }
+.pixel-bee::after{ left:28px; top:-12px; transform:rotate(25deg);}
+.pixel-bee::before{ left:6px;}
+.pixel-bee .eye{position:absolute; right:6px; top:12px; width:8px; height:14px; background:#111;}
+.bee-one{ right:1rem; top:8rem; }
+.bee-two{ right:5.2rem; top:11.8rem; animation-delay:1.2s; }
+@keyframes beeFloat{50%{transform:translateY(-10px)}}
 
-/* 3D Minecraft-style chicken: blocky cube head/body with visible side faces and walking legs */
+/* Minecraft chicken simplified to reference */
 .minecraft-chicken{
-  position:absolute;
-  left:-190px;
-  bottom:clamp(1.2rem, 6vh, 4rem);
-  width:170px;
-  height:152px;
-  image-rendering:pixelated;
-  transform-style:preserve-3d;
-  animation:chickenWalk 23s linear infinite;
-  filter:drop-shadow(0 15px 10px rgba(0,0,0,.40));
-}
-.minecraft-chicken::after{
-  content:"";
-  position:absolute;
-  left:34px;
-  bottom:-12px;
-  width:112px;
-  height:29px;
-  border-radius:50%;
-  background:rgba(0,0,0,.30);
-  filter:blur(2px);
+  position:absolute; left:-160px; bottom:clamp(1rem,5vh,3rem);
+  width:150px; height:110px; animation:chickenWalk 22s linear infinite;
 }
 .minecraft-chicken .body{
-  position:absolute;
-  left:73px;
-  top:63px;
-  width:74px;
-  height:60px;
-  border:4px solid #cfc6b5;
-  background:linear-gradient(135deg,#fffdf1 0 48%,#e4ddce 49% 70%,#c5bcaa 71%);
-  box-shadow:
-    -26px 15px 0 #bbb3a3,
-    -31px 20px 0 #9f9788,
-    inset 9px 6px 0 rgba(255,255,255,.64),
-    inset -14px -12px 0 rgba(155,147,132,.45);
-  transform:skewY(-4deg);
-}
-.minecraft-chicken .body::before{
-  content:"";
-  position:absolute;
-  left:-32px;
-  top:12px;
-  width:28px;
-  height:48px;
-  border:4px solid #b2aa9b;
-  background:linear-gradient(135deg,#d8d0c2,#aaa292);
-  transform:skewY(25deg);
-}
-.minecraft-chicken .body::after{
-  content:"";
-  position:absolute;
-  right:-21px;
-  top:7px;
-  width:19px;
-  height:49px;
-  border:4px solid #a9a193;
-  background:linear-gradient(180deg,#d7d0c4,#aaa292);
-  transform:skewY(22deg);
+  position:absolute; left:28px; top:26px; width:84px; height:58px;
+  background:#f4f4ee; border:4px solid #bdbdb7; box-shadow:0 10px 12px rgba(0,0,0,.24);
 }
 .minecraft-chicken .head{
-  position:absolute;
-  left:55px;
-  top:16px;
-  width:60px;
-  height:58px;
-  border:4px solid #cfc6b5;
-  background:linear-gradient(135deg,#fffef8 0 54%,#e6decd 55% 100%);
-  box-shadow:
-    -17px 13px 0 #bbb3a3,
-    17px 12px 0 #d9d2c5,
-    inset 8px 7px 0 rgba(255,255,255,.74),
-    inset -12px -12px 0 rgba(170,160,145,.44);
-  transform:skewY(-2deg);
-  z-index:4;
+  position:absolute; left:82px; top:10px; width:38px; height:34px;
+  background:#f4f4ee; border:4px solid #bdbdb7;
 }
-.minecraft-chicken .head::before{
-  content:"";
-  position:absolute;
-  left:-20px;
-  top:9px;
-  width:16px;
-  height:49px;
-  border:4px solid #aaa292;
-  background:linear-gradient(180deg,#d5cec0,#aaa292);
-  transform:skewY(31deg);
-}
-.minecraft-chicken .head::after{
-  content:"";
-  position:absolute;
-  right:-21px;
-  top:8px;
-  width:17px;
-  height:47px;
-  border:4px solid #b7aea0;
-  background:linear-gradient(180deg,#eee8da,#b8af9e);
-  transform:skewY(23deg);
-}
-.minecraft-chicken .eye{
-  position:absolute;
-  left:89px;
-  top:35px;
-  width:11px;
-  height:11px;
-  background:#0b0d0e;
-  box-shadow:-37px 0 0 #0b0d0e;
-  z-index:7;
-}
+.minecraft-chicken .eye{position:absolute; left:104px; top:20px; width:8px; height:8px; background:#111;}
 .minecraft-chicken .beak{
-  position:absolute;
-  left:52px;
-  top:52px;
-  width:76px;
-  height:25px;
-  border:4px solid #9d5a0c;
-  background:linear-gradient(135deg,#eba72a 0 62%,#c07013 63% 100%);
-  box-shadow:
-    -13px 9px 0 #aa6515,
-    inset 0 -6px 0 rgba(98,45,5,.25),
-    inset 7px 5px 0 rgba(255,209,73,.30);
-  z-index:8;
+  position:absolute; left:114px; top:28px; width:26px; height:10px;
+  background:#d7a246; border:3px solid #8f6722;
 }
 .minecraft-chicken .comb{
-  position:absolute;
-  left:56px;
-  top:4px;
-  width:18px;
-  height:14px;
-  background:#d8392f;
-  box-shadow:17px 0 0 #d8392f, 34px 3px 0 #d8392f;
-  z-index:9;
+  position:absolute; left:104px; top:40px; width:12px; height:14px;
+  background:#d93535;
 }
-.minecraft-chicken .comb::after{
-  content:"";
-  position:absolute;
-  left:15px;
-  top:61px;
-  width:24px;
-  height:32px;
-  background:#d92820;
-  border:3px solid #911914;
-  box-shadow:inset -5px -5px 0 rgba(90,10,8,.20);
-}
-.minecraft-chicken .leg{
-  position:absolute;
-  top:121px;
-  width:9px;
-  height:31px;
-  background:#d28a20;
-  border:2px solid #9a5b11;
-  transform-origin:top center;
-  z-index:2;
-}
-.minecraft-chicken .leg::after{
-  content:"";
-  position:absolute;
-  left:-13px;
-  bottom:-5px;
-  width:34px;
-  height:9px;
-  background:#d28a20;
-  border:2px solid #9a5b11;
-  box-shadow:14px -4px 0 #d28a20;
-}
-.minecraft-chicken .leg-one{left:73px;animation:chickenLegA .48s steps(2,end) infinite}
-.minecraft-chicken .leg-two{left:109px;animation:chickenLegB .48s steps(2,end) infinite}
+.minecraft-chicken .leg{position:absolute; top:82px; width:4px; height:22px; background:#b78f4a;}
+.minecraft-chicken .leg-one{left:58px}.minecraft-chicken .leg-two{left:84px}
 @keyframes chickenWalk{
-  0%{transform:translateX(0) scaleX(1) translateY(0)}
-  10%{transform:translateX(14vw) scaleX(1) translateY(-2px)}
-  40%{transform:translateX(70vw) scaleX(1) translateY(0)}
-  49%{transform:translateX(calc(100vw + 210px)) scaleX(1)}
-  50%{transform:translateX(calc(100vw + 210px)) scaleX(-1)}
-  87%{transform:translateX(17vw) scaleX(-1) translateY(-2px)}
-  99%{transform:translateX(0) scaleX(-1)}
-  100%{transform:translateX(0) scaleX(1)}
+  0%{transform:translateX(0)} 100%{transform:translateX(calc(100vw + 360px))}
 }
-@keyframes chickenLegA{50%{transform:rotate(21deg)}}
-@keyframes chickenLegB{50%{transform:rotate(-21deg)}}
+.minecraft-chicken > span:not(.body):not(.head):not(.eye):not(.beak):not(.comb):not(.leg){display:none;}
 
 @media(max-width:720px){
-  .pixel-beehive{
-    right:.6rem;
-    top:6.8rem;
-    transform:scale(.68) perspective(520px) rotateY(-17deg) rotateX(4deg);
-    transform-origin:right top;
-  }
-  .pixel-bee{transform-origin:center}
-  .pixel-bee.bee-one{right:.7rem;top:7.3rem;scale:.72}
-  .pixel-bee.bee-two{right:5.5rem;top:11.5rem;scale:.78}
-  .minecraft-chicken{
-    width:136px;
-    height:122px;
-    bottom:1rem;
-    animation-duration:21s;
-  }
+  .pixel-beehive{transform:scale(.72);transform-origin:right top;}
+  .pixel-bee{transform:scale(.75);transform-origin:center;}
+  .minecraft-chicken{transform:scale(.8);}
 }
 </style>
+
 
 </head>
 <body>
