@@ -1793,6 +1793,16 @@ textarea::placeholder{color:#d8d1de}
 }
 </style>
 
+
+<style id="forest-final-image-life-revision">
+/* Final FOREST WHISPER completion view uses the rendered Minecraft-style scene with 3D chicken, beehive, and larger bees. */
+.forest-completion-life{display:none !important;}
+.forest-whispering-scene.exercise-complete .scene-bg-img{
+  filter:saturate(1.04) contrast(1) brightness(1) !important;
+  transform:scale(1) !important;
+}
+</style>
+
 </head>
 <body>
 <main id="hub" class="screen active" aria-label="Mind Reset Hub">
@@ -1899,7 +1909,7 @@ textarea::placeholder{color:#d8d1de}
 </section>
 
 <section id="forest" class="screen forest-whispering-scene">
-  <img class="scene-bg-img" src="custom-backgrounds/biome.jpg" alt="5-4-3-2-1 Whispering Forest"/>
+  <img id="forestBgImg" class="scene-bg-img" src="custom-backgrounds/biome.jpg" alt="5-4-3-2-1 Whispering Forest"/>
   <div class="scene-shade"></div>
 
   <div class="forest-completion-life" aria-hidden="true">
@@ -1955,6 +1965,8 @@ let forestLifeTimer = null;
 function resetForestExperience(){
   clearTimeout(forestLifeTimer);
   const forest = document.getElementById('forest');
+  const forestBg = document.getElementById('forestBgImg');
+  if(forestBg) forestBg.src = 'custom-backgrounds/biome.jpg';
   if(forest) forest.classList.remove('exercise-active','exercise-complete','show-completion-life');
   forestWhisperIndex = 0;
   forestWhisperResponses.fill('');
@@ -1963,6 +1975,8 @@ function resetForestExperience(){
 function startForestExercise(){
   clearTimeout(forestLifeTimer);
   const forest = document.getElementById('forest');
+  const forestBg = document.getElementById('forestBgImg');
+  if(forestBg) forestBg.src = 'custom-backgrounds/biome.jpg';
   if(forest) forest.classList.remove('exercise-complete','show-completion-life');
   if(forest) forest.classList.add('exercise-active');
   renderForestPrompt();
@@ -1990,6 +2004,8 @@ function completeForestExercise(){
   forestLifeTimer = setTimeout(()=>{
     const currentForest = document.getElementById('forest');
     if(currentForest && currentForest.classList.contains('active') && currentForest.classList.contains('exercise-complete')){
+      const forestBg = document.getElementById('forestBgImg');
+      if(forestBg) forestBg.src = 'custom-backgrounds/biome-life.jpg';
       currentForest.classList.add('show-completion-life');
     }
   }, 2400);
@@ -2113,6 +2129,8 @@ function openScene(id){
 function backHub(){
   clearTimeout(forestLifeTimer);
   const forest=document.getElementById('forest');
+  const forestBg=document.getElementById('forestBgImg');
+  if(forestBg) forestBg.src='custom-backgrounds/biome.jpg';
   if(forest) forest.classList.remove('show-completion-life');
   stopAllSounds(); stopDiamondGame(false);
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
