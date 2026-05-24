@@ -1595,6 +1595,30 @@ select option{background:#222;}
   .tool-category-box{min-height:112px;}
 }
 
+
+/* Final asset update: show full Rain Room image and standalone breathing block */
+.rain-clean-bg,
+.rain-scene .scene-bg-img.rain-clean-bg{
+  object-fit: contain !important;
+  background: #000 !important;
+}
+.realm-card[aria-label="Open Rain Room Realm"]::before{
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-color: #000 !important;
+}
+.breath-stage{
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.big-block{
+  object-fit: contain !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
 </style>
 <link rel="stylesheet" href="shared/minecraft-v2-theme.css"/>
 </head>
