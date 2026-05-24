@@ -1141,6 +1141,67 @@ textarea::placeholder{color:#d8d1de}
   box-shadow: none !important;
 }
 
+
+/* Breathing Blocks revision: larger exercise block, stronger prompts, keep card art */
+#breathe .scene-panel{
+  width:min(960px,calc(100% - 1.2rem));
+  padding-top:calc(env(safe-area-inset-top) + 3.6rem);
+}
+#breathe .scene-title{
+  font-size:clamp(1.45rem,5.6vw,2.5rem);
+}
+#breathPrompt{
+  display:inline-block;
+  max-width:min(820px,94vw);
+  padding:.95rem 1.15rem;
+  margin:.35rem auto .65rem;
+  border:2px solid rgba(86,217,255,.42);
+  border-radius:18px;
+  background:rgba(4,12,28,.82);
+  box-shadow:0 0 28px rgba(86,217,255,.22), inset 0 0 0 1px rgba(255,255,255,.08);
+  color:#ffffff;
+  text-shadow:2px 2px 0 #000, 0 0 18px rgba(86,217,255,.65);
+  font-size:clamp(1.25rem,4.6vw,2rem);
+  line-height:1.35;
+}
+#breathRound{
+  display:inline-block;
+  padding:.65rem .9rem;
+  border-radius:14px;
+  background:rgba(0,0,0,.55);
+  border:2px solid rgba(255,255,255,.2);
+  color:#eafcff;
+  font-size:clamp(1.05rem,3.6vw,1.35rem);
+}
+#breathe .breath-stage{
+  min-height:clamp(360px,58svh,680px);
+  margin:.15rem auto .35rem;
+  overflow:visible;
+}
+#breathe .big-block{
+  width:min(96vw,760px);
+  height:min(62svh,650px);
+  object-fit:contain;
+  image-rendering:auto;
+  filter:drop-shadow(0 0 48px rgba(86,217,255,.95)) drop-shadow(0 30px 36px rgba(0,0,0,.7));
+}
+#breathe .progress{
+  max-width:720px;
+  height:1.25rem;
+  margin:.5rem auto .85rem;
+}
+.realm-card.breathing-card{
+  background-image:var(--img) !important;
+  background-size:cover !important;
+  background-position:center !important;
+}
+@media(max-width:560px){
+  #breathe .scene-panel{padding-top:calc(env(safe-area-inset-top) + 4rem);}
+  #breathe .breath-stage{min-height:46svh;}
+  #breathe .big-block{width:min(104vw,560px);height:min(50svh,520px);}
+  #breathPrompt{font-size:clamp(1.05rem,5.2vw,1.45rem);}
+}
+
 </style>
 <style id="mind-reset-header-separation-fix">
 
@@ -1695,7 +1756,7 @@ textarea::placeholder{color:#d8d1de}
   <div class="star-bg"></div><button class="back-hub" onclick="backHub()">← Hub</button>
   <div class="scene-panel">
     <h1 class="scene-title">Breathing Blocks</h1>
-    <p class="scene-copy" id="breathPrompt">Follow the countdown: inhale, hold, then exhale with the block.</p>
+    <p class="scene-copy" id="breathPrompt">Follow the breathing block: inhale, hold, exhale, then hold again.</p>
     <div class="breath-stage"><img class="big-block" id="bigBlock" src="custom-backgrounds/breathing-block-big.png" alt="Glowing Minecraft-style breathing block"/></div>
     <div class="progress"><i id="breathProgress"></i></div>
     <p class="scene-copy" id="breathRound">Ready for five slow rounds.</p>
@@ -1989,15 +2050,16 @@ function stopDiamondGame(show){
 /* Breathing */
 let breathTimer=null,breathRound=0;
 const breathPhases=[
-  {label:'Breathe in', seconds:4, progress:.33},
-  {label:'Hold', seconds:4, progress:.66},
-  {label:'Breathe out', seconds:6, progress:1}
+  {label:'INHALE', seconds:4, progress:.25},
+  {label:'HOLD', seconds:4, progress:.50},
+  {label:'EXHALE', seconds:6, progress:.80},
+  {label:'HOLD', seconds:2, progress:1}
 ];
 function resetBreathing(){
   clearInterval(breathTimer); breathTimer=null; breathRound=0;
   document.getElementById('breathProgress').style.width='0%';
   document.getElementById('breathRound').textContent='Ready for five slow rounds.';
-  document.getElementById('breathPrompt').textContent='Follow the countdown: inhale, hold, then exhale with the block.';
+  document.getElementById('breathPrompt').textContent='Follow the breathing block: inhale, hold, exhale, then hold again.';
   document.getElementById('bigBlock').classList.remove('paused');
   document.getElementById('startBreath').disabled=false;
 }
