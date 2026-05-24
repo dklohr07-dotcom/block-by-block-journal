@@ -209,7 +209,47 @@
   box-shadow: none !important;
 }
 
-</style>
+
+    /* Revision: use the provided glowing block image, larger and without border */
+    .block-wrap{top:42%;}
+    .block-aura{width:min(72vw,620px);height:min(72vw,620px);}
+    .breath-block{display:none!important;}
+    .breath-block-img{
+      width:min(82vw,620px);
+      height:min(62vh,620px);
+      object-fit:contain;
+      border:0;
+      background:transparent;
+      filter:drop-shadow(0 0 52px rgba(56,231,255,.9)) drop-shadow(0 30px 38px rgba(0,0,0,.72));
+      animation:blockIdle 4s ease-in-out infinite;
+      transform-origin:center center;
+    }
+    .breath-block-img.inhale{animation:blockInhale 4s ease-in-out forwards;}
+    .breath-block-img.hold{animation:blockHold 4s ease-in-out forwards;}
+    .breath-block-img.exhale{animation:blockExhale 6s ease-in-out forwards;}
+    @keyframes blockIdle{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+    .breath-instruction{
+      top:12%;
+      padding:16px 22px;
+      border:2px solid rgba(56,231,255,.45);
+      border-radius:16px;
+      background:rgba(2,8,22,.78);
+      font-size:clamp(28px,5vw,56px);
+      box-shadow:0 0 30px rgba(56,231,255,.22);
+    }
+    .count-display{top:calc(42% + min(32vh,300px));font-size:clamp(70px,9vw,120px);}
+    .start-prompt{
+      top:calc(42% + min(32vh,300px));
+      font-size:clamp(18px,3vw,28px);
+      padding:10px 16px;
+      border:2px solid rgba(255,255,255,.22);
+      border-radius:12px;
+      background:rgba(0,0,0,.62);
+      color:#fff;
+    }
+    .cycles-wrap{top:calc(42% + min(44vh,430px));}
+
+  </style>
 <link rel="stylesheet" href="../shared/minecraft-v2-theme.css"/>
 </head>
 <body>
@@ -224,7 +264,7 @@
   <!-- Breathing block -->
   <div class="block-wrap" onclick="startBreathing()">
     <div class="block-aura"></div>
-    <div class="breath-block" id="breathBlock"></div>
+    <img class="breath-block-img" id="breathBlock" src="../custom-backgrounds/breathing-block-big.png" alt="Glowing blue breathing block">
   </div>
 
   <!-- Instruction text -->
