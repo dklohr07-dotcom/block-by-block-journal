@@ -1208,6 +1208,18 @@ textarea::placeholder{color:#d8d1de}
 .breath-bottom{text-align:center;color:#55ffaa;margin-top:.5rem}.breath-stage{display:flex;justify-content:center}.big-block{transition:transform 1s ease-in-out}.big-block.inhale{transform:scale(1.18)}.big-block.hold{transform:scale(1.18)}.big-block.exhale{transform:scale(.88)}
 .rain-scene .scene-bg-img{object-fit:cover;width:100%;height:100%}
 
+/* 2026-05-24 update: larger breathing block with single phase button below; remove side labels. */
+#breathe .scene-panel{width:min(1120px,calc(100% - 1rem)) !important;}
+#breathe .breath-cycle-grid{display:block !important;margin:.35rem auto 0 !important;}
+#breathe .breath-side{display:none !important;}
+#breathe .breath-stage{min-height:clamp(430px,66svh,760px) !important;margin:0 auto .25rem !important;}
+#breathe .big-block{width:min(112vw,900px) !important;height:min(72svh,760px) !important;max-width:none !important;}
+#breathPhaseButton.breath-bottom{display:inline-flex !important;align-items:center;justify-content:center;gap:.7rem;margin:.1rem auto .65rem !important;padding:1rem 2.1rem !important;border:3px solid rgba(86,217,255,.48) !important;border-radius:30px !important;background:rgba(4,12,28,.82) !important;color:#fff !important;font-family:inherit;font-weight:900 !important;font-size:clamp(1.4rem,5vw,2.3rem) !important;letter-spacing:.04em;text-shadow:3px 3px 0 #000;box-shadow:0 0 28px rgba(86,217,255,.28), inset 0 0 0 1px rgba(255,255,255,.08) !important;}
+#breathPhaseButton .num{font-size:1em !important;display:inline !important;color:#fff !important;}
+#breathPhaseButton strong{color:#fff !important;}
+#breathPrompt{margin-bottom:.25rem !important;}
+@media(max-width:560px){#breathe .breath-stage{min-height:clamp(330px,58svh,560px) !important;}#breathe .big-block{width:min(120vw,680px) !important;height:min(64svh,620px) !important;}#breathPhaseButton.breath-bottom{font-size:clamp(1.25rem,7vw,1.8rem) !important;padding:.8rem 1.35rem !important;}}
+
 </style>
 <style id="mind-reset-header-separation-fix">
 
@@ -1763,7 +1775,7 @@ textarea::placeholder{color:#d8d1de}
   <div class="scene-panel">
     <h1 class="scene-title">Breathing Blocks</h1>
     <p class="scene-copy" id="breathPrompt">Breathe in sync. Find calm. Reset. Repeat.</p>
-    <div class="breath-cycle-grid"><div class="breath-side"><span id="inhaleLabel">INHALE</span><span class="num" id="inhaleNum">4</span><small>seconds</small></div><div class="breath-stage"><img class="big-block" id="bigBlock" src="custom-backgrounds/breathing-block-big.png" alt="Glowing Minecraft-style breathing block"/></div><div class="breath-side"><span id="exhaleLabel">EXHALE</span><span class="num" id="exhaleNum">4</span><small>seconds</small></div></div><div class="breath-bottom"><strong id="holdLabel">HOLD</strong> <span class="num" id="holdNum">4</span> seconds</div>
+    <div class="breath-cycle-grid"><div class="breath-stage"><img class="big-block" id="bigBlock" src="custom-backgrounds/breathing-block-big.png" alt="Glowing Minecraft-style breathing block"/></div></div><div class="breath-bottom" id="breathPhaseButton"><strong id="holdLabel">HOLD:</strong> <span class="num" id="holdNum">4</span></div>
     <div class="progress"><i id="breathProgress"></i></div>
     <p class="scene-copy" id="breathRound">Cycle: Inhale 4s • Hold 4s • Exhale 4s • Hold 4s</p>
     <button id="startBreath" class="primary" onclick="startBreathing()">Start Breathing</button>
@@ -2065,7 +2077,9 @@ function resetBreathing(){
   clearInterval(breathTimer); breathTimer=null; breathRound=0;
   document.getElementById('breathProgress').style.width='0%';
   document.getElementById('breathRound').textContent='Cycle: Inhale 4s • Hold 4s • Exhale 4s • Hold 4s';
-  document.getElementById('breathPrompt').textContent='Follow the breathing block: inhale, hold, exhale, then hold again.';
+  document.getElementById('breathPrompt').textContent='Breathe in sync. Watch the block grow and shrink with each step.';
+  document.getElementById('holdLabel').textContent='HOLD:';
+  document.getElementById('holdNum').textContent='4';
   document.getElementById('bigBlock').classList.remove('paused');
   document.getElementById('startBreath').disabled=false;
 }
@@ -2081,7 +2095,14 @@ function startBreathing(){
   block.classList.remove('paused');
   function renderPhase(){
     const phase=breathPhases[phaseIndex];
-    prompt.textContent=`${phase.label}: ${remaining}`; block.className='big-block '+phase.label.toLowerCase();
+    const button=document.getElementById('breathPhaseButton');
+    const label=document.getElementById('holdLabel');
+    const num=document.getElementById('holdNum');
+    prompt.textContent='Breathe in sync. Watch the block grow and shrink with each step.';
+    if(label) label.textContent=phase.label + ':';
+    if(num) num.textContent=remaining;
+    if(button) button.setAttribute('aria-label', `${phase.label}: ${remaining}`);
+    block.className='big-block '+phase.label.toLowerCase();
     round.textContent=`Round ${currentRound} of 5 · ${phase.label.toLowerCase()}`;
     const base=(currentRound-1)/5*100;
     const phasePortion=(phase.progress/5)*100;
