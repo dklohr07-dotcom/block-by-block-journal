@@ -263,11 +263,13 @@ nav{
 .nav-brand-sub{font-size:.5rem !important;}
 
 .mc-side-menu{
-  position:fixed;
+  position:absolute;
   top:76px;
   left:14px;
-  bottom:14px;
+  bottom:auto;
   width:var(--mc2-side-width);
+  max-height:calc(100vh - 90px);
+  overflow-y:auto;
   z-index:260;
   padding:14px;
   color:#fff;
@@ -381,10 +383,11 @@ nav{
   transform:translateX(4px) !important;
 }
 .mc-side-footer{
-  position:absolute;
-  left:14px;
-  right:14px;
-  bottom:14px;
+  position:relative;
+  left:auto;
+  right:auto;
+  bottom:auto;
+  margin-top:12px;
   z-index:1;
   padding:.65rem;
   background:rgba(0,0,0,.56);
@@ -456,6 +459,7 @@ textarea{min-height:132px;}
   .nav-brand-sub{display:none;}
   .nav-cta{font-size:.5rem !important;}
   .mc-side-menu{
+    position:fixed;
     top:auto;
     left:0;
     right:0;

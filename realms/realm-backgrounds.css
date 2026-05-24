@@ -5,8 +5,9 @@
     linear-gradient(0deg, rgba(20,8,2,.45) 0%, transparent 35%),
     linear-gradient(rgba(5,8,18,.12), rgba(5,8,18,.24)),
     url("../custom-backgrounds/rain-room.jpg") !important;
-  background-size: cover !important;
+  background-size: contain !important;
   background-position: center center !important;
+  background-color: #06101c !important;
   background-repeat: no-repeat !important;
 }
 
@@ -47,7 +48,7 @@
 }
 
 /* Hub card thumbnails */
-.thumb.rain { background: url("../custom-backgrounds/rain-room.jpg") center / cover no-repeat !important; }
+.thumb.rain { background: #06101c url("../custom-backgrounds/rain-room.jpg") center / contain no-repeat !important; }
 .thumb.miner { background: url("../custom-backgrounds/miner.jpg") center / cover no-repeat !important; }
 .thumb.camp { background: url("../custom-backgrounds/campfire.jpg") center / cover no-repeat !important; }
 .thumb.biome { background: url("../custom-backgrounds/biome.jpg") center / cover no-repeat !important; }
