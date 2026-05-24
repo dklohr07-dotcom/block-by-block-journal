@@ -1202,6 +1202,12 @@ textarea::placeholder{color:#d8d1de}
   #breathPrompt{font-size:clamp(1.05rem,5.2vw,1.45rem);}
 }
 
+
+.breath-cycle-grid{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;margin:1rem 0;}
+.breath-side{text-align:center;font-weight:700}.breath-side .num{font-size:3rem;display:block}
+.breath-bottom{text-align:center;color:#55ffaa;margin-top:.5rem}.breath-stage{display:flex;justify-content:center}.big-block{transition:transform 1s ease-in-out}.big-block.inhale{transform:scale(1.18)}.big-block.hold{transform:scale(1.18)}.big-block.exhale{transform:scale(.88)}
+.rain-scene .scene-bg-img{object-fit:cover;width:100%;height:100%}
+
 </style>
 <style id="mind-reset-header-separation-fix">
 
@@ -1729,7 +1735,7 @@ textarea::placeholder{color:#d8d1de}
     <div class="card-grid">
       <button class="realm-card art-card" style="--img:url('custom-backgrounds/card-diamond.png')" onclick="openScene('diamond')" aria-label="Open Diamond Mind Reset"></button>
       <button class="realm-card art-card breathing-card" style="--img:url('custom-backgrounds/card-breathing.png')" onclick="openScene('breathe')" aria-label="Open Breathing Blocks"></button>
-      <button class="realm-card" style="--img:url('custom-backgrounds/card-rain.png')" onclick="openScene('rain')" aria-label="Open Rain Room Realm"><span class="locked-badge">🔒</span><span class="card-text"><h2>Rain Room Realm</h2><p>Let rain carry heavy thoughts.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/rain-room-villager-card.jpg')" onclick="openScene('rain')" aria-label="Open Rain Room Realm"><span class="locked-badge">🔒</span><span class="card-text"><h2>Rain Room Realm</h2><p>Let rain carry heavy thoughts.</p></span></button>
       <button class="realm-card" style="--img:url('custom-backgrounds/card-miner.png')" onclick="openScene('miner')" aria-label="Open Thought Miner Cave"><span class="locked-badge">🔒</span><span class="card-text"><h2>Thought Miner Cave</h2><p>Mine worries into reframes.</p></span></button>
       <button class="realm-card" style="--img:url('custom-backgrounds/card-campfire.png')" onclick="openScene('campfire')" aria-label="Open Campfire Reflection"><span class="locked-badge">🔒</span><span class="card-text"><h2>Campfire Reflection</h2><p>Release it into the fire.</p></span></button>
       <button class="realm-card" style="--img:url('custom-backgrounds/card-biome.png')" onclick="openScene('biome')" aria-label="Open Biome Shift Portal"><span class="locked-badge">🔒</span><span class="card-text"><h2>Biome Shift Portal</h2><p>Choose a calm place.</p></span></button>
@@ -1756,10 +1762,10 @@ textarea::placeholder{color:#d8d1de}
   <div class="star-bg"></div><button class="back-hub" onclick="backHub()">← Hub</button>
   <div class="scene-panel">
     <h1 class="scene-title">Breathing Blocks</h1>
-    <p class="scene-copy" id="breathPrompt">Follow the breathing block: inhale, hold, exhale, then hold again.</p>
-    <div class="breath-stage"><img class="big-block" id="bigBlock" src="custom-backgrounds/breathing-block-big.png" alt="Glowing Minecraft-style breathing block"/></div>
+    <p class="scene-copy" id="breathPrompt">Breathe in sync. Find calm. Reset. Repeat.</p>
+    <div class="breath-cycle-grid"><div class="breath-side"><span id="inhaleLabel">INHALE</span><span class="num" id="inhaleNum">4</span><small>seconds</small></div><div class="breath-stage"><img class="big-block" id="bigBlock" src="custom-backgrounds/breathing-block-big.png" alt="Glowing Minecraft-style breathing block"/></div><div class="breath-side"><span id="exhaleLabel">EXHALE</span><span class="num" id="exhaleNum">4</span><small>seconds</small></div></div><div class="breath-bottom"><strong id="holdLabel">HOLD</strong> <span class="num" id="holdNum">4</span> seconds</div>
     <div class="progress"><i id="breathProgress"></i></div>
-    <p class="scene-copy" id="breathRound">Ready for five slow rounds.</p>
+    <p class="scene-copy" id="breathRound">Cycle: Inhale 4s • Hold 4s • Exhale 4s • Hold 4s</p>
     <button id="startBreath" class="primary" onclick="startBreathing()">Start Breathing</button>
   </div>
 </section>
@@ -2052,13 +2058,13 @@ let breathTimer=null,breathRound=0;
 const breathPhases=[
   {label:'INHALE', seconds:4, progress:.25},
   {label:'HOLD', seconds:4, progress:.50},
-  {label:'EXHALE', seconds:6, progress:.80},
-  {label:'HOLD', seconds:2, progress:1}
+  {label:'EXHALE', seconds:4, progress:.75},
+  {label:'HOLD', seconds:4, progress:1}
 ];
 function resetBreathing(){
   clearInterval(breathTimer); breathTimer=null; breathRound=0;
   document.getElementById('breathProgress').style.width='0%';
-  document.getElementById('breathRound').textContent='Ready for five slow rounds.';
+  document.getElementById('breathRound').textContent='Cycle: Inhale 4s • Hold 4s • Exhale 4s • Hold 4s';
   document.getElementById('breathPrompt').textContent='Follow the breathing block: inhale, hold, exhale, then hold again.';
   document.getElementById('bigBlock').classList.remove('paused');
   document.getElementById('startBreath').disabled=false;
@@ -2075,7 +2081,7 @@ function startBreathing(){
   block.classList.remove('paused');
   function renderPhase(){
     const phase=breathPhases[phaseIndex];
-    prompt.textContent=`${phase.label}: ${remaining}`;
+    prompt.textContent=`${phase.label}: ${remaining}`; block.className='big-block '+phase.label.toLowerCase();
     round.textContent=`Round ${currentRound} of 5 · ${phase.label.toLowerCase()}`;
     const base=(currentRound-1)/5*100;
     const phasePortion=(phase.progress/5)*100;
