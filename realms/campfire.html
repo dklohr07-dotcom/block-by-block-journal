@@ -230,7 +230,31 @@
     #sparks { position:absolute; inset:0; pointer-events:none; z-index:8; }
     .spark { position:absolute; color:#ffb94a; pointer-events:none; animation:sparkUp 1.4s linear forwards; font-size:10px; }
     @keyframes sparkUp { to { transform:translateY(-200px) translateX(var(--dx)); opacity:0; } }
-  </style>
+  
+/* Final asset update: show full Rain Room image and standalone breathing block */
+.rain-clean-bg,
+.rain-scene .scene-bg-img.rain-clean-bg{
+  object-fit: contain !important;
+  background: #000 !important;
+}
+.realm-card[aria-label="Open Rain Room Realm"]::before{
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-color: #000 !important;
+}
+.breath-stage{
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.big-block{
+  object-fit: contain !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+</style>
   <link rel="stylesheet" href="./realm-backgrounds.css">
 <link rel="stylesheet" href="../shared/minecraft-v2-theme.css"/>
 </head>
