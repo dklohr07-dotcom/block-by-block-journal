@@ -345,7 +345,7 @@ textarea::placeholder{color:#d8d1de}
 .realm-card.breathing-card:hover::before,.realm-card.breathing-card:focus-visible::before{transform:scale(1.03)}
 .realm-card[aria-label="Open Rain Room Realm"]::before{
   background-image:url('custom-backgrounds/card-rain.png');
-  background-size:contain;
+  background-size:cover;
   background-position:center center;
   background-repeat:no-repeat;
   background-color:#06101c;
@@ -1125,9 +1125,9 @@ textarea::placeholder{color:#d8d1de}
   background: #000 !important;
 }
 .realm-card[aria-label="Open Rain Room Realm"]::before{
-  background-size: contain !important;
+  background-size: cover !important;
   background-repeat: no-repeat !important;
-  background-color: #000 !important;
+  background-color: #06101c !important;
 }
 .breath-stage{
   background: transparent !important;
@@ -1747,7 +1747,7 @@ textarea::placeholder{color:#d8d1de}
     <div class="card-grid">
       <button class="realm-card art-card" style="--img:url('custom-backgrounds/card-diamond.png')" onclick="openScene('diamond')" aria-label="Open Diamond Mind Reset"></button>
       <button class="realm-card art-card breathing-card" style="--img:url('custom-backgrounds/card-breathing.png')" onclick="openScene('breathe')" aria-label="Open Breathing Blocks"></button>
-      <button class="realm-card" style="--img:url('custom-backgrounds/rain-room-villager-card.jpg')" onclick="openScene('rain')" aria-label="Open Rain Room Realm"><span class="locked-badge">🔒</span><span class="card-text"><h2>Rain Room Realm</h2><p>Let rain carry heavy thoughts.</p></span></button>
+      <button class="realm-card" style="--img:url('custom-backgrounds/card-rain.png')" onclick="openScene('rain')" aria-label="Open Rain Room Realm"><span class="locked-badge">🔒</span><span class="card-text"><h2>Rain Room Realm</h2><p>Let rain carry heavy thoughts.</p></span></button>
       <button class="realm-card" style="--img:url('custom-backgrounds/card-miner.png')" onclick="openScene('miner')" aria-label="Open Thought Miner Cave"><span class="locked-badge">🔒</span><span class="card-text"><h2>Thought Miner Cave</h2><p>Mine worries into reframes.</p></span></button>
       <button class="realm-card" style="--img:url('custom-backgrounds/card-campfire.png')" onclick="openScene('campfire')" aria-label="Open Campfire Reflection"><span class="locked-badge">🔒</span><span class="card-text"><h2>Campfire Reflection</h2><p>Release it into the fire.</p></span></button>
       <button class="realm-card" style="--img:url('custom-backgrounds/card-biome.png')" onclick="openScene('biome')" aria-label="Open Biome Shift Portal"><span class="locked-badge">🔒</span><span class="card-text"><h2>Biome Shift Portal</h2><p>Choose a calm place.</p></span></button>
