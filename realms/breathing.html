@@ -275,7 +275,7 @@
       height:min(64vh,760px)!important;
       object-fit:contain!important;
       animation:none!important;
-      transform:scale(.86);
+      transform:scale(.9);
       transform-origin:center center;
       transition:none!important;
       will-change:transform,filter;
@@ -284,6 +284,45 @@
     .count-display{top:calc(41% + min(35vh,360px));}
     .start-prompt{top:calc(41% + min(35vh,360px));}
     .cycles-wrap{top:calc(41% + min(46vh,470px));}
+
+    /* FIX: force the uploaded block image to be visible and animated by the breathing script */
+    .block-wrap{
+      top:42%!important;
+      left:50%!important;
+      z-index:12!important;
+      cursor:pointer!important;
+      pointer-events:auto!important;
+    }
+    .breath-block{display:none!important;}
+    .breath-block-img#breathBlock{
+      display:block!important;
+      visibility:visible!important;
+      opacity:1!important;
+      width:min(72vw,560px)!important;
+      height:auto!important;
+      max-height:58vh!important;
+      object-fit:contain!important;
+      object-position:center!important;
+      background:transparent!important;
+      border:0!important;
+      clip-path:none!important;
+      transform-origin:center center!important;
+      transition:none!important;
+      animation:none!important;
+      will-change:transform,filter!important;
+      position:relative!important;
+      z-index:13!important;
+    }
+    .block-aura{
+      z-index:11!important;
+      width:min(76vw,620px)!important;
+      height:min(76vw,620px)!important;
+      animation:none!important;
+      opacity:.85!important;
+    }
+    .count-display{z-index:14!important;}
+    .breath-instruction{z-index:15!important;}
+    .start-prompt{z-index:15!important;}
 
   </style>
 <link rel="stylesheet" href="../shared/minecraft-v2-theme.css"/>
@@ -300,7 +339,7 @@
   <!-- Breathing block -->
   <div class="block-wrap" onclick="startBreathing()">
     <div class="block-aura"></div>
-    <img class="breath-block-img" id="breathBlock" src="../custom-backgrounds/breathing-room-user-block.png" alt="Purple and blue breathing block">
+    <img class="breath-block-img" id="breathBlock" src="../custom-backgrounds/provided-breathing-block.png?v=breathing-room-block-fix-2" alt="Purple and blue breathing block">
   </div>
 
   <!-- Instruction text -->
@@ -354,8 +393,8 @@
   let running = false, cycle = 0, phaseFrame = null;
 
   const CYCLE_MS = 4000;
-  const MIN_SCALE = 0.86;
-  const MAX_SCALE = 1.26;
+  const MIN_SCALE = 0.92;
+  const MAX_SCALE = 1.34;
 
   function easeInOut(t) {
     return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
@@ -376,18 +415,17 @@
     document.getElementById('startPrompt').style.opacity = '0';
     document.querySelectorAll('.cycle-dot').forEach(dot => dot.classList.remove('done'));
     setCubeScale(MIN_SCALE, 0.55);
-    BBBRealms.sound.chime();
+    if (window.BBBRealms && BBBRealms.sound) BBBRealms.sound.chime();
     runCycle();
   }
 
-  // The block grows during inhale, holds its size during hold, and shrinks during exhale.
   function runCycle() {
     if (cycle >= 4) {
       cancelAnimationFrame(phaseFrame);
       document.getElementById('instruction').textContent = 'Well done! 🌟';
       document.getElementById('countDisplay').textContent = '';
       setCubeScale(1.05, 0.9);
-      BBBRealms.addDiamonds(10); // PLACEHOLDER: COMPLETE_CHIME
+      if (window.BBBRealms && BBBRealms.addDiamonds) BBBRealms.addDiamonds(10); // COMPLETE_CHIME
       running = false; cycle = 0;
       setTimeout(() => {
         document.getElementById('startPrompt').style.opacity='1';
