@@ -324,8 +324,49 @@
     .breath-instruction{z-index:15!important;}
     .start-prompt{z-index:15!important;}
 
+
+    /* Large-screen readability fix: keep desktop/tablet text comfortably sized.
+       Mobile-specific reductions only apply in the max-width media queries below. */
+    @media (min-width: 701px) {
+      .breath-instruction{
+        font-size: clamp(32px, 4.8vw, 60px) !important;
+        line-height: 1.12 !important;
+        padding: 16px 24px !important;
+        max-width: min(92vw, 1100px) !important;
+        white-space: nowrap !important;
+      }
+      .count-display{
+        font-size: clamp(78px, 9vw, 128px) !important;
+      }
+      .start-prompt{
+        font-size: clamp(20px, 2.4vw, 30px) !important;
+        line-height: 1.25 !important;
+        padding: 12px 18px !important;
+      }
+      .top-title h1{
+        font-size: clamp(24px, 2.6vw, 42px) !important;
+        line-height: 1.1 !important;
+      }
+      .top-title p{
+        font-size: clamp(16px, 1.25vw, 22px) !important;
+        line-height: 1.35 !important;
+      }
+      .gem-count{
+        font-size: clamp(18px, 1.4vw, 24px) !important;
+        padding: 12px 16px !important;
+      }
+      .info-panel{
+        max-width: min(760px, calc(100vw - 48px)) !important;
+        padding: 18px 24px !important;
+      }
+      .info-title{ font-size: 15px !important; }
+      .info-text{ font-size: 17px !important; line-height: 1.5 !important; }
+      .info-reward{ font-size: 17px !important; }
+      .nav a{ font-size: clamp(14px, 1.1vw, 18px) !important; }
+    }
+
     /* Mobile-friendly layout revision: keeps the breathing block centered and controls reachable */
-    @media (max-width: 700px), (max-height: 760px) {
+    @media (max-width: 700px) {
       body, html { width: 100%; min-height: 100%; overflow: hidden; }
       .scene { min-height: 100svh; overflow: hidden; }
 
@@ -434,7 +475,7 @@
       }
     }
 
-    @media (max-width: 390px), (max-height: 650px) {
+    @media (max-width: 390px) {
       .top-title p { display: none !important; }
       .breath-instruction { top: 13svh !important; }
       .block-wrap { top: 39svh !important; width: min(68vw, 48svh, 340px) !important; height: min(68vw, 48svh, 340px) !important; }
@@ -463,7 +504,7 @@
   <!-- Breathing block -->
   <div class="block-wrap" onclick="startBreathing()">
     <div class="block-aura"></div>
-    <img class="breath-block-img" id="breathBlock" src="../custom-backgrounds/provided-breathing-block.png?v=mobile-friendly-transparent-3" alt="Purple and blue breathing block">
+    <img class="breath-block-img" id="breathBlock" src="../custom-backgrounds/provided-breathing-block.png?v=desktop-text-readable-4" alt="Purple and blue breathing block">
   </div>
 
   <!-- Instruction text -->
