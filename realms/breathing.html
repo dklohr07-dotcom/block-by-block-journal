@@ -324,6 +324,130 @@
     .breath-instruction{z-index:15!important;}
     .start-prompt{z-index:15!important;}
 
+    /* Mobile-friendly layout revision: keeps the breathing block centered and controls reachable */
+    @media (max-width: 700px), (max-height: 760px) {
+      body, html { width: 100%; min-height: 100%; overflow: hidden; }
+      .scene { min-height: 100svh; overflow: hidden; }
+
+      .top-bar {
+        padding: max(10px, env(safe-area-inset-top)) 12px 8px !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+      }
+      .top-title h1 {
+        font-size: clamp(14px, 4.4vw, 18px) !important;
+        line-height: 1.1 !important;
+      }
+      .top-title p {
+        font-size: clamp(10px, 3.1vw, 12px) !important;
+        line-height: 1.25 !important;
+        max-width: 62vw !important;
+      }
+      .gem-count {
+        font-size: 13px !important;
+        padding: 7px 9px !important;
+        border-radius: 10px !important;
+        flex: 0 0 auto !important;
+      }
+
+      .breath-instruction {
+        top: 15svh !important;
+        width: calc(100vw - 24px) !important;
+        white-space: normal !important;
+        font-size: clamp(18px, 6vw, 28px) !important;
+        line-height: 1.15 !important;
+        min-height: 38px !important;
+        padding: 0 8px !important;
+      }
+
+      .block-wrap {
+        top: 43svh !important;
+        left: 50% !important;
+        width: min(74vw, 54svh, 420px) !important;
+        height: min(74vw, 54svh, 420px) !important;
+        display: grid !important;
+        place-items: center !important;
+        touch-action: manipulation !important;
+      }
+      .breath-block-img#breathBlock {
+        width: min(74vw, 54svh, 420px) !important;
+        max-width: 420px !important;
+        max-height: 54svh !important;
+        height: auto !important;
+      }
+      .block-aura {
+        width: min(82vw, 60svh, 480px) !important;
+        height: min(82vw, 60svh, 480px) !important;
+      }
+
+      .count-display {
+        top: calc(43svh + min(24vw, 18svh, 130px)) !important;
+        font-size: clamp(42px, 14vw, 64px) !important;
+        min-height: 56px !important;
+      }
+
+      .start-prompt {
+        top: calc(43svh + min(30vw, 21svh, 155px)) !important;
+        width: calc(100vw - 32px) !important;
+        max-width: 360px !important;
+        white-space: normal !important;
+        text-align: center !important;
+        font-size: clamp(14px, 4vw, 18px) !important;
+        line-height: 1.25 !important;
+        padding: 9px 12px !important;
+      }
+
+      .cycles-wrap {
+        top: calc(43svh + min(42vw, 29svh, 220px)) !important;
+        gap: 9px !important;
+      }
+      .cycle-dot {
+        width: 14px !important;
+        height: 14px !important;
+      }
+
+      .info-panel {
+        left: 12px !important;
+        right: 12px !important;
+        bottom: calc(56px + env(safe-area-inset-bottom)) !important;
+        transform: none !important;
+        width: auto !important;
+        max-width: none !important;
+        padding: 10px 12px !important;
+        border-radius: 12px !important;
+      }
+      .info-title { font-size: 10px !important; margin-bottom: 4px !important; }
+      .info-text { font-size: 11px !important; line-height: 1.35 !important; }
+      .info-reward { font-size: 11px !important; margin-top: 5px !important; }
+
+      .nav {
+        position: fixed !important;
+        bottom: 0 !important;
+        padding-bottom: env(safe-area-inset-bottom) !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+      }
+      .nav a {
+        min-width: max-content !important;
+        font-size: clamp(10px, 3vw, 12px) !important;
+        padding: 10px 9px !important;
+      }
+    }
+
+    @media (max-width: 390px), (max-height: 650px) {
+      .top-title p { display: none !important; }
+      .breath-instruction { top: 13svh !important; }
+      .block-wrap { top: 39svh !important; width: min(68vw, 48svh, 340px) !important; height: min(68vw, 48svh, 340px) !important; }
+      .breath-block-img#breathBlock { width: min(68vw, 48svh, 340px) !important; max-height: 48svh !important; }
+      .block-aura { width: min(76vw, 54svh, 390px) !important; height: min(76vw, 54svh, 390px) !important; }
+      .info-panel { padding: 8px 10px !important; }
+      .info-text { display: none !important; }
+      .info-reward { margin-top: 0 !important; }
+      .cycles-wrap { top: calc(39svh + min(40vw, 27svh, 180px)) !important; }
+      .start-prompt { top: calc(39svh + min(30vw, 20svh, 135px)) !important; }
+      .count-display { top: calc(39svh + min(23vw, 16svh, 105px)) !important; }
+    }
+
   </style>
 <link rel="stylesheet" href="../shared/minecraft-v2-theme.css"/>
 </head>
@@ -339,7 +463,7 @@
   <!-- Breathing block -->
   <div class="block-wrap" onclick="startBreathing()">
     <div class="block-aura"></div>
-    <img class="breath-block-img" id="breathBlock" src="../custom-backgrounds/provided-breathing-block.png?v=breathing-room-block-fix-2" alt="Purple and blue breathing block">
+    <img class="breath-block-img" id="breathBlock" src="../custom-backgrounds/provided-breathing-block.png?v=mobile-friendly-transparent-3" alt="Purple and blue breathing block">
   </div>
 
   <!-- Instruction text -->
