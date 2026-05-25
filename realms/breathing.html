@@ -215,19 +215,32 @@
     .block-aura{width:min(72vw,620px);height:min(72vw,620px);}
     .breath-block{display:none!important;}
     .breath-block-img{
-      width:min(82vw,620px);
-      height:min(62vh,620px);
+      width:min(90vw,760px);
+      height:min(70vh,760px);
       object-fit:contain;
       border:0;
       background:transparent;
-      filter:drop-shadow(0 0 52px rgba(56,231,255,.9)) drop-shadow(0 30px 38px rgba(0,0,0,.72));
+      filter:drop-shadow(0 0 58px rgba(56,231,255,.95)) drop-shadow(0 34px 44px rgba(0,0,0,.72));
       animation:blockIdle 4s ease-in-out infinite;
       transform-origin:center center;
+      will-change:transform,filter;
     }
-    .breath-block-img.inhale{animation:blockInhale 4s ease-in-out forwards;}
-    .breath-block-img.hold{animation:blockHold 4s ease-in-out forwards;}
-    .breath-block-img.exhale{animation:blockExhale 6s ease-in-out forwards;}
-    @keyframes blockIdle{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+    .breath-block-img.inhale{animation:blockImageInhale 4s ease-in-out forwards;}
+    .breath-block-img.hold{animation:blockImageHold 4s ease-in-out forwards;}
+    .breath-block-img.exhale{animation:blockImageExhale 4s ease-in-out forwards;}
+    @keyframes blockIdle{0%,100%{transform:scale(1.08)}50%{transform:scale(1.15)}}
+    @keyframes blockImageInhale{
+      from{transform:scale(1.08);filter:drop-shadow(0 0 42px rgba(56,231,255,.68)) drop-shadow(0 28px 38px rgba(0,0,0,.72));}
+      to{transform:scale(1.42);filter:drop-shadow(0 0 84px rgba(56,231,255,1)) drop-shadow(0 38px 54px rgba(0,0,0,.75));}
+    }
+    @keyframes blockImageHold{
+      0%,100%{transform:scale(1.42);filter:drop-shadow(0 0 84px rgba(56,231,255,1)) drop-shadow(0 38px 54px rgba(0,0,0,.75));}
+      50%{transform:scale(1.47);filter:drop-shadow(0 0 105px rgba(56,231,255,1)) drop-shadow(0 42px 60px rgba(0,0,0,.78));}
+    }
+    @keyframes blockImageExhale{
+      from{transform:scale(1.42);filter:drop-shadow(0 0 84px rgba(56,231,255,1)) drop-shadow(0 38px 54px rgba(0,0,0,.75));}
+      to{transform:scale(.94);filter:drop-shadow(0 0 34px rgba(56,231,255,.55)) drop-shadow(0 24px 34px rgba(0,0,0,.7));}
+    }
     .breath-instruction{
       top:12%;
       padding:16px 22px;
@@ -237,9 +250,9 @@
       font-size:clamp(28px,5vw,56px);
       box-shadow:0 0 30px rgba(56,231,255,.22);
     }
-    .count-display{top:calc(42% + min(32vh,300px));font-size:clamp(70px,9vw,120px);}
+    .count-display{top:calc(42% + min(34vh,340px));font-size:clamp(70px,9vw,120px);}
     .start-prompt{
-      top:calc(42% + min(32vh,300px));
+      top:calc(42% + min(34vh,340px));
       font-size:clamp(18px,3vw,28px);
       padding:10px 16px;
       border:2px solid rgba(255,255,255,.22);
@@ -247,7 +260,7 @@
       background:rgba(0,0,0,.62);
       color:#fff;
     }
-    .cycles-wrap{top:calc(42% + min(44vh,430px));}
+    .cycles-wrap{top:calc(42% + min(46vh,470px));}
 
   </style>
 <link rel="stylesheet" href="../shared/minecraft-v2-theme.css"/>
@@ -349,7 +362,7 @@
   function phase(label, cls, secs, cb) {
     const block = document.getElementById('breathBlock');
     document.getElementById('instruction').textContent = label;
-    block.className = 'breath-block ' + cls;
+    block.className = 'breath-block-img ' + cls;
     // PLACEHOLDER: play inhale or exhale tone based on cls
     let t = secs;
     document.getElementById('countDisplay').textContent = t;
